@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | JobPortal</title>
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Inter, Arial, sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 20%,
+                    rgba(37, 99, 235, 0.30),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 80%,
+                    rgba(124, 58, 237, 0.28),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #0f172a 50%,
+                    #111827
+                );
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            padding: 25px;
+
+            overflow-x: hidden;
+            position: relative;
+        }
+
+
+        /* =========================
+           BACKGROUND ORBS
+        ========================== */
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            filter: blur(2px);
+            z-index: 0;
+
+            animation: floatOrb 7s ease-in-out infinite;
+        }
+
+        .orb-one {
+            width: 240px;
+            height: 240px;
+
+            background: rgba(37, 99, 235, 0.15);
+
+            top: -80px;
+            left: -80px;
+        }
+
+        .orb-two {
+            width: 300px;
+            height: 300px;
+
+            background: rgba(124, 58, 237, 0.14);
+
+            right: -120px;
+            bottom: -120px;
+
+            animation-delay: 1.5s;
+        }
+
+        .orb-three {
+            width: 120px;
+            height: 120px;
+
+            background: rgba(59, 130, 246, 0.10);
+
+            right: 25%;
+            top: 8%;
+
+            animation-delay: 3s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-20px) translateX(10px);
+            }
+        }
+
+
+        /* =========================
+           MAIN WRAPPER
+        ========================== */
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 1050px;
+
+            min-height: 610px;
+
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+
+            background: rgba(255, 255, 255, 0.97);
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            position: relative;
+            z-index: 2;
+
+            box-shadow:
+                0 35px 90px rgba(0, 0, 0, 0.45),
+                0 10px 35px rgba(37, 99, 235, 0.12);
+
+            animation: cardAppear 0.7s ease;
+        }
+
+        @keyframes cardAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px) scale(0.97);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+
+        /* =========================
+           LEFT BRAND PANEL
+        ========================== */
+
+        .brand-panel {
+            position: relative;
+
+            padding: 55px;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 20% 20%,
+                    rgba(96, 165, 250, 0.30),
+                    transparent 27%
+                ),
+                radial-gradient(
+                    circle at 80% 80%,
+                    rgba(167, 139, 250, 0.25),
+                    transparent 30%
+                ),
+                linear-gradient(
+                    145deg,
+                    #1d4ed8,
+                    #312e81
+                );
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        .brand-panel::before {
+            content: "";
+
+            position: absolute;
+
+            width: 280px;
+            height: 280px;
+
+            border: 1px solid rgba(255, 255, 255, 0.13);
+
+            border-radius: 50%;
+
+            right: -120px;
+            top: -100px;
+        }
+
+        .brand-panel::after {
+            content: "";
+
+            position: absolute;
+
+            width: 220px;
+            height: 220px;
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+
+            border-radius: 50%;
+
+            left: -100px;
+            bottom: -100px;
+        }
+
+
+        /* =========================
+           BRAND LOGO
+        ========================== */
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 40px;
+
+            position: relative;
+            z-index: 2;
+        }
+
+        .logo-icon {
+            width: 54px;
+            height: 54px;
+
+            border-radius: 17px;
+
+            background: rgba(255, 255, 255, 0.15);
+
+            border: 1px solid rgba(255, 255, 255, 0.22);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+
+            backdrop-filter: blur(12px);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .brand-name {
+            font-size: 26px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+
+        /* =========================
+           BRAND CONTENT
+        ========================== */
+
+        .brand-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .brand-content h1 {
+            font-size: 40px;
+            line-height: 1.15;
+
+            margin-bottom: 20px;
+
+            font-weight: 800;
+
+            letter-spacing: -1px;
+        }
+
+        .brand-content p {
+            max-width: 400px;
+
+            color: rgba(255, 255, 255, 0.78);
+
+            font-size: 15px;
+            line-height: 1.8;
+
+            margin-bottom: 32px;
+        }
+
+
+        /* =========================
+           FEATURES
+        ========================== */
+
+        .feature {
+            display: flex;
+            align-items: center;
+
+            gap: 12px;
+
+            margin-bottom: 16px;
+
+            color: rgba(255, 255, 255, 0.92);
+
+            font-size: 14px;
+        }
+
+        .feature i {
+            width: 32px;
+            height: 32px;
+
+            border-radius: 9px;
+
+            background: rgba(255, 255, 255, 0.13);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            flex-shrink: 0;
+        }
+
+
+        /* =========================
+           RIGHT LOGIN PANEL
+        ========================== */
+
+        .login-panel {
+            padding: 55px;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+
+            background: #ffffff;
+        }
+
+
+        /* =========================
+           HEADING
+        ========================== */
+
+        .login-heading {
+            margin-bottom: 28px;
+        }
+
+        .login-heading h2 {
+            color: #111827;
+
+            font-size: 31px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        .login-heading p {
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           DJANGO MESSAGES
+        ========================== */
+
+        .message {
+            padding: 12px 14px;
+
+            border-radius: 11px;
+
+            margin-bottom: 18px;
+
+            font-size: 13px;
+
+            background: #fee2e2;
+
+            color: #b91c1c;
+
+            border: 1px solid #fecaca;
+
+            display: flex;
+            align-items: center;
+
+            gap: 9px;
+
+            animation: messageAppear 0.3s ease;
+        }
+
+        @keyframes messageAppear {
+
+            from {
+                opacity: 0;
+                transform: translateY(-5px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        /* =========================
+           FORM
+        ========================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+
+            color: #334155;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            margin-bottom: 8px;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        .input-icon {
+            position: absolute;
+
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #94a3b8;
+
+            font-size: 17px;
+
+            pointer-events: none;
+
+            transition: color 0.25s ease;
+        }
+
+        input {
+            width: 100%;
+
+            height: 52px;
+
+            border: 1px solid #dbe2ea;
+
+            border-radius: 13px;
+
+            padding: 0 46px;
+
+            color: #111827;
+
+            background: #f8fafc;
+
+            font-size: 14px;
+
+            outline: none;
+
+            transition: all 0.25s ease;
+        }
+
+        input::placeholder {
+            color: #94a3b8;
+        }
+
+        input:hover {
+            border-color: #bfdbfe;
+        }
+
+        input:focus {
+            background: #ffffff;
+
+            border-color: #2563eb;
+
+            box-shadow:
+                0 0 0 4px rgba(37, 99, 235, 0.10);
+        }
+
+        .input-wrapper:focus-within .input-icon {
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           PASSWORD TOGGLE
+        ========================== */
+
+        .password-toggle {
+            position: absolute;
+
+            right: 14px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #94a3b8;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            padding: 4px;
+
+            transition: 0.2s ease;
+        }
+
+        .password-toggle:hover {
+            color: #2563eb;
+
+            transform: translateY(-50%) scale(1.08);
+        }
+
+
+        /* =========================
+           LOGIN BUTTON
+        ========================== */
+
+        .btn-login {
+            width: 100%;
+
+            height: 53px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            transition: all 0.25s ease;
+
+            box-shadow:
+                0 10px 24px rgba(37, 99, 235, 0.24);
+
+            margin-top: 4px;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 15px 30px rgba(37, 99, 235, 0.34);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .btn-login i {
+            margin-left: 7px;
+
+            transition: transform 0.25s ease;
+        }
+
+        .btn-login:hover i {
+            transform: translateX(4px);
+        }
+
+
+        /* =========================
+           REGISTER
+        ========================== */
+
+        .register-link {
+            text-align: center;
+
+            margin-top: 25px;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        .register-link a {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-weight: 800;
+
+            transition: 0.2s ease;
+        }
+
+        .register-link a:hover {
+            color: #1d4ed8;
+
+            text-decoration: underline;
+        }
+
+
+        /* =========================
+           SECURITY NOTE
+        ========================== */
+
+        .security-note {
+            margin-top: 25px;
+
+            padding-top: 18px;
+
+            border-top: 1px solid #edf1f5;
+
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+        .security-note i {
+            color: #16a34a;
+
+            margin-right: 4px;
+        }
+
+
+        /* =========================
+           RESPONSIVE
+        ========================== */
+
+        @media (max-width: 900px) {
+
+            .login-wrapper {
+                max-width: 650px;
+
+                grid-template-columns: 1fr;
+            }
+
+            .brand-panel {
+                min-height: 340px;
+
+                padding: 40px;
+            }
+
+            .brand-content h1 {
+                font-size: 32px;
+            }
+
+            .brand-content p {
+                margin-bottom: 22px;
+            }
+
+            .login-panel {
+                padding: 42px;
+            }
+        }
+
+
+        @media (max-width: 600px) {
+
+            body {
+                padding: 12px;
+            }
+
+            .login-wrapper {
+                border-radius: 22px;
+            }
+
+            .brand-panel {
+                padding: 30px 25px;
+
+                min-height: 270px;
+            }
+
+            .brand-logo {
+                margin-bottom: 25px;
+            }
+
+            .logo-icon {
+                width: 46px;
+                height: 46px;
+
+                font-size: 21px;
+            }
+
+            .brand-name {
+                font-size: 22px;
+            }
+
+            .brand-content h1 {
+                font-size: 27px;
+            }
+
+            .brand-content p {
+                font-size: 13px;
+
+                margin-bottom: 0;
+            }
+
+            .feature {
+                display: none;
+            }
+
+            .login-panel {
+                padding: 30px 24px;
+            }
+
+            .login-heading h2 {
+                font-size: 26px;
+            }
+        }
+
+
+        @media (max-width: 380px) {
+
+            .brand-panel {
+                padding: 25px 20px;
+            }
+
+            .login-panel {
+                padding: 25px 20px;
+            }
+
+            .brand-content h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+
+<body>
+
+    <!-- Background -->
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+
+
+    <!-- Main Login Wrapper -->
+    <div class="login-wrapper">
+
+
+        <!-- =========================
+             BRAND PANEL
+        ========================== -->
+
+        <div class="brand-panel">
+
+            <div class="brand-logo">
+
+                <div class="logo-icon">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+
+                <div class="brand-name">
+                    JobPortal
+                </div>
+
+            </div>
+
+
+            <div class="brand-content">
+
+                <h1>
+                    Build your career.<br>
+                    Find your opportunity.
+                </h1>
+
+                <p>
+                    Connect with companies, discover meaningful jobs,
+                    and take the next step in your professional journey.
+                </p>
+
+
+                <div class="feature">
+
+                    <i class="bi bi-search"></i>
+
+                    <span>
+                        Discover relevant job opportunities
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <i class="bi bi-file-earmark-person"></i>
+
+                    <span>
+                        Manage your professional profile
+                    </span>
+
+                </div>
+
+
+                <div class="feature">
+
+                    <i class="bi bi-graph-up-arrow"></i>
+
+                    <span>
+                        Track your applications
+                    </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =========================
+             LOGIN PANEL
+        ========================== -->
+
+        <div class="login-panel">
+
+
+            <div class="login-heading">
+
+                <h2>
+                    Welcome back 👋
+                </h2>
+
+                <p>
+                    Login to continue to your JobPortal account.
+                </p>
+
+            </div>
+
+
+            <!-- Django Messages -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        <i class="bi bi-exclamation-circle-fill"></i>
+
+                        <span>
+                            {{ message }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+
+            <!-- LOGIN FORM -->
+
+            <form method="POST">
+
+                {% csrf_token %}
+
+
+                <!-- Username -->
+
+                <div class="form-group">
+
+                    <label for="username">
+                        Username
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-person input-icon"></i>
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter your username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Password -->
+
+                <div class="form-group">
+
+                    <label for="password">
+                        Password
+                    </label>
+
+                    <div class="input-wrapper">
+
+                        <i class="bi bi-lock input-icon"></i>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Enter your password"
+                            autocomplete="current-password"
+                            required
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
+                            <i class="bi bi-eye"></i>
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- Login Button -->
+
+                <button
+                    type="submit"
+                    class="btn-login"
+                >
+
+                    Login
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </button>
+
+            </form>
+
+
+
+            <!-- Register -->
+
+            <div class="register-link">
+
+                Don't have an account?
+
+                <a href="{% url 'register' %}">
+                    Create Account
+                </a>
+
+            </div>
+
+
+
+            <!-- Security -->
+
+            <div class="security-note">
+
+                <i class="bi bi-shield-check"></i>
+
+                Your login information is securely protected.
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =========================
+         PASSWORD SCRIPT
+    ========================== -->
+
+    <script>
+
+        const passwordInput =
+            document.getElementById("password");
+
+        const togglePassword =
+            document.getElementById("togglePassword");
+
+
+        togglePassword.addEventListener("click", function () {
+
+            if (passwordInput.type === "password") {
+
+                passwordInput.type = "text";
+
+                this.innerHTML =
+                    '<i class="bi bi-eye-slash"></i>';
+
+                this.setAttribute(
+                    "aria-label",
+                    "Hide password"
+                );
+
+            } else {
+
+                passwordInput.type = "password";
+
+                this.innerHTML =
+                    '<i class="bi bi-eye"></i>';
+
+                this.setAttribute(
+                    "aria-label",
+                    "Show password"
+                );
+            }
+
+        });
+
+    </script>
+
+</body>
+
+</html>

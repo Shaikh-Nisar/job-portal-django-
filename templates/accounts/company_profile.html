@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Company Profile | JobPortal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(38,118,255,0.08), transparent 25%),
+                radial-gradient(circle at 90% 20%, rgba(102,76,255,0.08), transparent 25%),
+                #f5f8ff;
+            color: #18243b;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar-custom {
+            background: linear-gradient(135deg, #07132f, #10295a);
+            padding: 15px 0;
+            box-shadow: 0 8px 30px rgba(10, 30, 70, 0.18);
+        }
+
+        .brand {
+            color: white !important;
+            text-decoration: none;
+            font-size: 24px;
+            font-weight: 800;
+        }
+
+        .brand i {
+            color: #55b7ff;
+            margin-right: 8px;
+        }
+
+        .nav-btn {
+            color: #dbe7ff;
+            text-decoration: none;
+            padding: 9px 15px;
+            border-radius: 9px;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+
+        .logout-btn {
+            color: white;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            padding: 9px 16px;
+            border-radius: 9px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #ef4444;
+            color: white;
+        }
+
+        /* =========================
+           BACKGROUND ORBS
+        ========================= */
+
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.25;
+            z-index: -1;
+            animation: float 7s ease-in-out infinite;
+        }
+
+        .orb-one {
+            width: 180px;
+            height: 180px;
+            background: #367cff;
+            top: 150px;
+            left: -70px;
+        }
+
+        .orb-two {
+            width: 140px;
+            height: 140px;
+            background: #7650ff;
+            right: -50px;
+            bottom: 120px;
+            animation-delay: 2s;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .page-wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 45px 20px 70px;
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .page-hero {
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 85% 20%, rgba(90,170,255,0.3), transparent 28%),
+                linear-gradient(135deg, #081532, #17376f);
+            border-radius: 25px;
+            padding: 42px;
+            color: white;
+            margin-bottom: 30px;
+            box-shadow: 0 25px 60px rgba(20, 53, 110, 0.2);
+            animation: fadeUp 0.7s ease;
+        }
+
+        .page-hero::after {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+            right: -70px;
+            top: -80px;
+        }
+
+        .hero-icon {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.13);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
+        .page-hero h1 {
+            font-size: 38px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+
+        .page-hero p {
+            color: #c9d8f3;
+            margin: 0;
+            max-width: 650px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           MESSAGE
+        ========================= */
+
+        .message {
+            border: none;
+            border-radius: 13px;
+            padding: 14px 18px;
+            margin-bottom: 20px;
+            background: #dcfce7;
+            color: #166534;
+            box-shadow: 0 8px 20px rgba(22,101,52,0.08);
+            animation: fadeUp 0.5s ease;
+        }
+
+        /* =========================
+           FORM CARD
+        ========================= */
+
+        .form-card {
+            background: rgba(255,255,255,0.95);
+            border: 1px solid #e5ebf5;
+            border-radius: 22px;
+            padding: 35px;
+            box-shadow: 0 18px 45px rgba(28,55,105,0.08);
+            animation: fadeUp 0.9s ease;
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .section-heading-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: #eaf2ff;
+            color: #216cf4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .section-heading h3 {
+            margin: 0;
+            font-size: 21px;
+            font-weight: 750;
+        }
+
+        .section-heading p {
+            margin: 3px 0 0;
+            color: #7b879b;
+            font-size: 13px;
+        }
+
+        /* =========================
+           FORM
+        ========================= */
+
+        .form-group {
+            margin-bottom: 21px;
+        }
+
+        .form-label-custom {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-weight: 700;
+            color: #27344d;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .form-label-custom i {
+            color: #367cff;
+        }
+
+        .form-control-custom {
+            width: 100%;
+            padding: 13px 15px;
+            border: 1px solid #dfe6f1;
+            border-radius: 11px;
+            background: #f9fbfe;
+            color: #1b2942;
+            font-size: 15px;
+            outline: none;
+            transition: 0.25s;
+        }
+
+        .form-control-custom:focus {
+            border-color: #367cff;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(54,124,255,0.10);
+        }
+
+        textarea.form-control-custom {
+            min-height: 145px;
+            resize: vertical;
+        }
+
+        .form-help {
+            color: #8a95a7;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        /* =========================
+           LOGO UPLOAD
+        ========================= */
+
+        .upload-box {
+            border: 2px dashed #cbd7eb;
+            border-radius: 15px;
+            padding: 22px;
+            background: #f8faff;
+            transition: 0.3s;
+        }
+
+        .upload-box:hover {
+            border-color: #367cff;
+            background: #f1f6ff;
+        }
+
+        .upload-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: #e7f0ff;
+            color: #367cff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .upload-box input[type="file"] {
+            width: 100%;
+        }
+
+        .current-logo {
+            margin-top: 18px;
+            padding: 15px;
+            background: white;
+            border: 1px solid #e4eaf3;
+            border-radius: 13px;
+        }
+
+        .current-logo img {
+            width: 110px;
+            height: 110px;
+            object-fit: contain;
+            border-radius: 14px;
+            border: 1px solid #e3e8f1;
+            padding: 8px;
+            background: white;
+        }
+
+        /* =========================
+           BUTTON
+        ========================= */
+
+        .save-btn {
+            width: 100%;
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2676ff, #654eff);
+            color: white;
+            font-size: 16px;
+            font-weight: 750;
+            cursor: pointer;
+            box-shadow: 0 12px 28px rgba(39,105,255,0.25);
+            transition: 0.35s;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 35px rgba(39,105,255,0.35);
+        }
+
+        /* =========================
+           SIDE INFO
+        ========================= */
+
+        .side-card {
+            background: white;
+            border: 1px solid #e5ebf4;
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 12px 30px rgba(25,55,105,0.06);
+            animation: fadeUp 1s ease;
+        }
+
+        .side-card h4 {
+            font-size: 18px;
+            font-weight: 750;
+            margin-bottom: 20px;
+        }
+
+        .tip {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .tip-icon {
+            flex-shrink: 0;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: #eef4ff;
+            color: #2874ff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tip strong {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 4px;
+        }
+
+        .tip span {
+            color: #7c8799;
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        /* =========================
+           BACK LINK
+        ========================= */
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 25px;
+            color: #216cf4;
+            text-decoration: none;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .back-link:hover {
+            color: #0d4fbd;
+            transform: translateX(-4px);
+        }
+
+        /* =========================
+           ANIMATION
+        ========================= */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-25px);
+            }
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 768px) {
+
+            .page-wrapper {
+                padding: 25px 15px 50px;
+            }
+
+            .page-hero {
+                padding: 30px 22px;
+                border-radius: 20px;
+            }
+
+            .page-hero h1 {
+                font-size: 30px;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .nav-btn,
+            .logout-btn {
+                display: inline-block;
+                margin-top: 8px;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- BACKGROUND -->
+<div class="orb orb-one"></div>
+<div class="orb orb-two"></div>
+
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar-custom">
+
+    <div class="container">
+
+        <div class="d-flex justify-content-between align-items-center flex-wrap">
+
+            <a
+                href="{% url 'recruiter_dashboard' %}"
+                class="brand"
+            >
+                <i class="bi bi-briefcase-fill"></i>
+                JobPortal
+            </a>
+
+            <div class="d-flex align-items-center flex-wrap">
+
+                <a
+                    href="{% url 'recruiter_dashboard' %}"
+                    class="nav-btn"
+                >
+                    <i class="bi bi-speedometer2"></i>
+                    Dashboard
+                </a>
+
+                <a
+                    href="{% url 'my_jobs' %}"
+                    class="nav-btn"
+                >
+                    <i class="bi bi-briefcase"></i>
+                    My Jobs
+                </a>
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="logout-btn"
+                >
+                    <i class="bi bi-box-arrow-right"></i>
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<div class="page-wrapper">
+
+    <!-- HERO -->
+
+    <div class="page-hero">
+
+        <div class="hero-icon">
+            <i class="bi bi-building"></i>
+        </div>
+
+        <h1>Company Profile</h1>
+
+        <p>
+            Build a professional company profile to help candidates
+            understand your organization and discover your job opportunities.
+        </p>
+
+    </div>
+
+
+    <!-- MESSAGES -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="message">
+                <i class="bi bi-check-circle-fill me-2"></i>
+                {{ message }}
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <div class="row g-4">
+
+        <!-- =========================
+             FORM
+        ========================= -->
+
+        <div class="col-lg-8">
+
+            <div class="form-card">
+
+                <div class="section-heading">
+
+                    <div class="section-heading-icon">
+                        <i class="bi bi-pencil-square"></i>
+                    </div>
+
+                    <div>
+
+                        <h3>Company Information</h3>
+
+                        <p>
+                            Keep your company information accurate and professional.
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <form
+                    method="POST"
+                    enctype="multipart/form-data"
+                >
+
+                    {% csrf_token %}
+
+
+                    <!-- COMPANY NAME -->
+
+                    <div class="form-group">
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-building"></i>
+                            Company Name
+                        </label>
+
+                        <input
+                            type="text"
+                            name="company_name"
+                            value="{{ company.company_name }}"
+                            placeholder="Enter company name"
+                            class="form-control-custom"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- EMAIL + PHONE -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label-custom">
+                                    <i class="bi bi-envelope"></i>
+                                    Company Email
+                                </label>
+
+                                <input
+                                    type="email"
+                                    name="company_email"
+                                    value="{{ company.company_email }}"
+                                    placeholder="company@example.com"
+                                    class="form-control-custom"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label-custom">
+                                    <i class="bi bi-telephone"></i>
+                                    Company Phone
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="company_phone"
+                                    value="{{ company.company_phone }}"
+                                    placeholder="+91 XXXXX XXXXX"
+                                    class="form-control-custom"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- WEBSITE -->
+
+                    <div class="form-group">
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-globe"></i>
+                            Website
+                        </label>
+
+                        <input
+                            type="url"
+                            name="website"
+                            value="{{ company.website }}"
+                            placeholder="https://example.com"
+                            class="form-control-custom"
+                        >
+
+                        <div class="form-help">
+                            Add your official company website.
+                        </div>
+
+                    </div>
+
+
+                    <!-- INDUSTRY + SIZE -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label-custom">
+                                    <i class="bi bi-diagram-3"></i>
+                                    Industry
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="industry"
+                                    value="{{ company.industry }}"
+                                    placeholder="Information Technology"
+                                    class="form-control-custom"
+                                >
+
+                            </div>
+
+                        </div>
+
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label-custom">
+                                    <i class="bi bi-people"></i>
+                                    Company Size
+                                </label>
+
+                                <input
+                                    type="text"
+                                    name="company_size"
+                                    value="{{ company.company_size }}"
+                                    placeholder="51-200 employees"
+                                    class="form-control-custom"
+                                >
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOCATION -->
+
+                    <div class="form-group">
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-geo-alt"></i>
+                            Location
+                        </label>
+
+                        <input
+                            type="text"
+                            name="location"
+                            value="{{ company.location }}"
+                            placeholder="Pune, Maharashtra"
+                            class="form-control-custom"
+                        >
+
+                    </div>
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="form-group">
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-file-text"></i>
+                            Company Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            placeholder="Write about your company..."
+                            class="form-control-custom"
+                        >{{ company.description }}</textarea>
+
+                        <div class="form-help">
+                            Describe your company, culture, services and work environment.
+                        </div>
+
+                    </div>
+
+
+                    <!-- LOGO -->
+
+                    <div class="form-group">
+
+                        <label class="form-label-custom">
+                            <i class="bi bi-image"></i>
+                            Company Logo
+                        </label>
+
+                        <div class="upload-box">
+
+                            <div class="upload-icon">
+                                <i class="bi bi-cloud-arrow-up"></i>
+                            </div>
+
+                            <strong>
+                                Upload company logo
+                            </strong>
+
+                            <div class="form-help mb-3">
+                                Use a clear company logo image.
+                            </div>
+
+                            <input
+                                type="file"
+                                name="company_logo"
+                                accept="image/*"
+                                class="form-control"
+                            >
+
+                        </div>
+
+
+                        {% if company.company_logo %}
+
+                            <div class="current-logo">
+
+                                <div class="small text-muted mb-2">
+                                    Current Company Logo
+                                </div>
+
+                                <img
+                                    src="{{ company.company_logo.url }}"
+                                    alt="Company Logo"
+                                >
+
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- SAVE -->
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                    >
+                        <i class="bi bi-check-circle me-2"></i>
+                        Save Company Profile
+                    </button>
+
+                </form>
+
+
+                <a
+                    href="{% url 'recruiter_dashboard' %}"
+                    class="back-link"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                    Back to Recruiter Dashboard
+                </a>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             SIDEBAR
+        ========================= -->
+
+        <div class="col-lg-4">
+
+            <div class="side-card">
+
+                <h4>
+                    <i class="bi bi-lightbulb text-warning me-2"></i>
+                    Profile Tips
+                </h4>
+
+
+                <div class="tip">
+
+                    <div class="tip-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <div>
+                        <strong>Use your real company name</strong>
+                        <span>
+                            A clear company identity builds candidate trust.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="tip">
+
+                    <div class="tip-icon">
+                        <i class="bi bi-image"></i>
+                    </div>
+
+                    <div>
+                        <strong>Add a professional logo</strong>
+                        <span>
+                            A recognizable logo makes your job postings look professional.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="tip">
+
+                    <div class="tip-icon">
+                        <i class="bi bi-globe"></i>
+                    </div>
+
+                    <div>
+                        <strong>Add your website</strong>
+                        <span>
+                            Give candidates an easy way to learn more about your company.
+                        </span>
+                    </div>
+
+                </div>
+
+
+                <div class="tip">
+
+                    <div class="tip-icon">
+                        <i class="bi bi-file-text"></i>
+                    </div>
+
+                    <div>
+                        <strong>Write a strong description</strong>
+                        <span>
+                            Explain your company, services, culture and opportunities.
+                        </span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="side-card">
+
+                <h4>
+                    <i class="bi bi-shield-check text-success me-2"></i>
+                    Professional Profile
+                </h4>
+
+                <p class="text-muted small mb-0">
+                    Keep your company profile updated so candidates
+                    can understand your organization before applying.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+</body>
+</html>

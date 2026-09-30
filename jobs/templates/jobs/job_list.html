@@ -1,0 +1,3013 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Jobs | JobPortal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #08111f;
+            --dark-2: #101d35;
+            --text: #172033;
+            --muted: #64748b;
+            --border: #e5eaf2;
+            --success: #16a34a;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            color: var(--text);
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(37, 99, 235, 0.07),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 90% 30%,
+                    rgba(99, 102, 241, 0.06),
+                    transparent 25%
+                ),
+                #f6f8fc;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .main-navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    #050b16,
+                    #0b1730,
+                    #123477,
+                    #0f2c66
+                );
+
+            background-size: 300% 300%;
+
+            animation: navbarGradient 12s ease infinite;
+
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+
+            box-shadow:
+                0 10px 40px rgba(3, 12, 30, 0.28);
+        }
+
+        @keyframes navbarGradient {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .navbar-brand {
+            color: white !important;
+            font-size: 23px;
+            font-weight: 850;
+            letter-spacing: -0.7px;
+        }
+
+        .brand-icon {
+            position: relative;
+
+            width: 40px;
+            height: 40px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-right: 9px;
+
+            border-radius: 12px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(96,165,250,0.5),
+                    rgba(37,99,235,0.25)
+                );
+
+            border: 1px solid rgba(255,255,255,0.18);
+
+            box-shadow:
+                0 8px 25px rgba(37,99,235,0.3);
+
+            transform: translateZ(0);
+
+            animation: brandFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes brandFloat {
+            0%,100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-3px) rotate(2deg);
+            }
+        }
+
+        .nav-desktop-links {
+            gap: 5px;
+        }
+
+        .nav-link-custom {
+            position: relative;
+
+            color: rgba(255,255,255,0.78);
+
+            font-size: 14px;
+            font-weight: 600;
+
+            padding: 9px 13px;
+
+            border-radius: 10px;
+
+            transition:
+                color 0.25s ease,
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .nav-link-custom:hover {
+            color: white;
+
+            background: rgba(255,255,255,0.09);
+
+            transform: translateY(-2px);
+        }
+
+        .nav-btn {
+            border-radius: 10px;
+            font-weight: 700;
+        }
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .page-wrapper {
+            position: relative;
+            padding-bottom: 70px;
+        }
+
+        /* =====================================================
+           FLOATING BACKGROUND ORBS
+        ===================================================== */
+
+        .page-wrapper::before,
+        .page-wrapper::after {
+            content: "";
+            position: fixed;
+
+            width: 220px;
+            height: 220px;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            filter: blur(2px);
+
+            z-index: -1;
+        }
+
+        .page-wrapper::before {
+            top: 180px;
+            left: -130px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,99,235,0.12),
+                    transparent 70%
+                );
+
+            animation: orbMove1 9s ease-in-out infinite;
+        }
+
+        .page-wrapper::after {
+            right: -130px;
+            top: 650px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(99,102,241,0.12),
+                    transparent 70%
+                );
+
+            animation: orbMove2 11s ease-in-out infinite;
+        }
+
+        @keyframes orbMove1 {
+            0%,100% {
+                transform: translate(0,0);
+            }
+
+            50% {
+                transform: translate(40px,70px);
+            }
+        }
+
+        @keyframes orbMove2 {
+            0%,100% {
+                transform: translate(0,0);
+            }
+
+            50% {
+                transform: translate(-45px,-60px);
+            }
+        }
+
+        /* =====================================================
+           HERO
+        ===================================================== */
+
+        .hero-section {
+            position: relative;
+
+            overflow: hidden;
+
+            margin-top: 32px;
+
+            padding: 58px 48px;
+
+            min-height: 300px;
+
+            display: flex;
+            align-items: center;
+
+            border-radius: 28px;
+
+            color: white;
+
+            background:
+                radial-gradient(
+                    circle at 85% 20%,
+                    rgba(96,165,250,0.30),
+                    transparent 22%
+                ),
+                radial-gradient(
+                    circle at 70% 90%,
+                    rgba(99,102,241,0.25),
+                    transparent 25%
+                ),
+                linear-gradient(
+                    135deg,
+                    #050b16 0%,
+                    #0d1b35 40%,
+                    #173b86 75%,
+                    #2563eb 100%
+                );
+
+            box-shadow:
+                0 25px 70px rgba(30,64,175,0.25);
+
+            transform-style: preserve-3d;
+
+            animation: heroEntrance 0.9s ease both;
+        }
+
+        @keyframes heroEntrance {
+            from {
+                opacity: 0;
+                transform:
+                    translateY(25px)
+                    scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        /* glowing border */
+
+        .hero-section::before {
+            content: "";
+
+            position: absolute;
+
+            inset: -2px;
+
+            border-radius: 30px;
+
+            background:
+                linear-gradient(
+                    120deg,
+                    transparent,
+                    rgba(96,165,250,0.65),
+                    transparent,
+                    rgba(129,140,248,0.55),
+                    transparent
+                );
+
+            background-size: 300% 300%;
+
+            animation: borderGlow 7s linear infinite;
+
+            z-index: 0;
+
+            opacity: 0.45;
+        }
+
+        @keyframes borderGlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            100% {
+                background-position: 300% 50%;
+            }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+
+            max-width: 760px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 14px;
+
+            margin-bottom: 17px;
+
+            border-radius: 50px;
+
+            background: rgba(255,255,255,0.10);
+
+            border:
+                1px solid
+                rgba(255,255,255,0.18);
+
+            backdrop-filter: blur(12px);
+
+            font-size: 12px;
+            font-weight: 700;
+
+            box-shadow:
+                inset 0 1px rgba(255,255,255,0.12);
+
+            animation: badgePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes badgePulse {
+            0%,100% {
+                box-shadow:
+                    0 0 0 rgba(96,165,250,0);
+            }
+
+            50% {
+                box-shadow:
+                    0 0 25px rgba(96,165,250,0.25);
+            }
+        }
+
+        .hero-title {
+            margin: 0 0 13px;
+
+            font-size: clamp(32px, 5vw, 52px);
+
+            line-height: 1.08;
+
+            font-weight: 900;
+
+            letter-spacing: -2px;
+
+            text-shadow:
+                0 5px 25px rgba(0,0,0,0.22);
+        }
+
+        .hero-title span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #93c5fd,
+                    #c7d2fe
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            max-width: 690px;
+
+            margin: 0;
+
+            color: rgba(255,255,255,0.76);
+
+            font-size: 15px;
+
+            line-height: 1.8;
+        }
+
+        /* floating 3D shapes */
+
+        .hero-shape {
+            position: absolute;
+
+            border-radius: 28px;
+
+            border:
+                1px solid
+                rgba(255,255,255,0.14);
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255,255,255,0.14),
+                    rgba(255,255,255,0.025)
+                );
+
+            backdrop-filter: blur(10px);
+
+            box-shadow:
+                inset 0 1px rgba(255,255,255,0.10),
+                0 25px 70px rgba(0,0,0,0.18);
+
+            transform-style: preserve-3d;
+
+            pointer-events: none;
+        }
+
+        .shape-one {
+            width: 130px;
+            height: 130px;
+
+            right: 80px;
+            top: 35px;
+
+            transform:
+                rotate(25deg)
+                perspective(500px)
+                rotateX(25deg);
+
+            animation:
+                shapeFloat1 6s ease-in-out infinite;
+        }
+
+        .shape-two {
+            width: 75px;
+            height: 75px;
+
+            right: 230px;
+            bottom: 25px;
+
+            border-radius: 22px;
+
+            transform:
+                rotate(-25deg)
+                perspective(500px)
+                rotateY(25deg);
+
+            animation:
+                shapeFloat2 5s ease-in-out infinite;
+        }
+
+        .shape-three {
+            width: 35px;
+            height: 35px;
+
+            right: 50px;
+            bottom: 35px;
+
+            border-radius: 10px;
+
+            animation:
+                shapeFloat3 4s ease-in-out infinite;
+        }
+
+        @keyframes shapeFloat1 {
+            0%,100% {
+                transform:
+                    translateY(0)
+                    rotate(25deg)
+                    perspective(500px)
+                    rotateX(25deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-22px)
+                    rotate(35deg)
+                    perspective(500px)
+                    rotateX(35deg);
+            }
+        }
+
+        @keyframes shapeFloat2 {
+            0%,100% {
+                transform:
+                    translateY(0)
+                    rotate(-25deg)
+                    perspective(500px)
+                    rotateY(25deg);
+            }
+
+            50% {
+                transform:
+                    translateY(18px)
+                    rotate(-10deg)
+                    perspective(500px)
+                    rotateY(45deg);
+            }
+        }
+
+        @keyframes shapeFloat3 {
+            0%,100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform:
+                    translateY(-18px)
+                    rotate(180deg);
+            }
+        }
+
+        /* =====================================================
+           ALERT
+        ===================================================== */
+
+        .custom-alert {
+            margin-top: 22px;
+
+            border: none;
+
+            border-radius: 14px;
+
+            box-shadow:
+                0 12px 30px rgba(15,23,42,0.07);
+
+            animation:
+                alertEntrance 0.5s ease both;
+        }
+
+        @keyframes alertEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* =====================================================
+           SEARCH PANEL
+        ===================================================== */
+
+        .search-panel {
+            position: relative;
+
+            margin-top: 27px;
+
+            padding: 30px;
+
+            border-radius: 23px;
+
+            background:
+                rgba(255,255,255,0.88);
+
+            border:
+                1px solid
+                rgba(226,232,240,0.85);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 20px 55px rgba(15,23,42,0.08);
+
+            animation:
+                panelEntrance 0.8s ease both;
+        }
+
+        @keyframes panelEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .panel-heading {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 24px;
+        }
+
+        .panel-title {
+            margin: 0;
+
+            font-size: 19px;
+
+            font-weight: 850;
+        }
+
+        .panel-subtitle {
+            color: #7a8495;
+
+            font-size: 13px;
+
+            margin: 5px 0 0;
+        }
+
+        .search-field {
+            position: relative;
+        }
+
+        .search-field .field-icon {
+            position: absolute;
+
+            left: 15px;
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            color: #7c8799;
+
+            z-index: 3;
+
+            transition:
+                color 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .search-field:focus-within .field-icon {
+            color: var(--primary);
+
+            transform:
+                translateY(-50%)
+                scale(1.12);
+        }
+
+        .form-label {
+            font-size: 12px;
+
+            font-weight: 750;
+
+            color: #4b5563;
+
+            margin-bottom: 7px;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 47px;
+
+            border:
+                1px solid
+                #dfe5ee;
+
+            border-radius: 11px;
+
+            font-size: 14px;
+
+            color: #263247;
+
+            transition:
+                border 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .search-field .form-control {
+            padding-left: 44px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #60a5fa;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,0.09);
+
+            transform: translateY(-1px);
+        }
+
+        .filter-actions {
+            display: flex;
+
+            align-items: end;
+
+            gap: 10px;
+
+            height: 100%;
+        }
+
+        .btn-search {
+            min-height: 47px;
+
+            border: none;
+
+            border-radius: 11px;
+
+            padding: 0 21px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            font-weight: 750;
+
+            font-size: 14px;
+
+            box-shadow:
+                0 10px 25px
+                rgba(37,99,235,0.24);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .btn-search:hover {
+            transform:
+                translateY(-3px)
+                scale(1.01);
+
+            box-shadow:
+                0 15px 32px
+                rgba(37,99,235,0.34);
+        }
+
+        .btn-clear {
+            min-height: 47px;
+
+            border-radius: 11px;
+
+            font-weight: 650;
+
+            font-size: 14px;
+        }
+
+        /* =====================================================
+           RESULTS
+        ===================================================== */
+
+        .results-header {
+            margin-top: 34px;
+            margin-bottom: 18px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 15px;
+        }
+
+        .results-count {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        .results-count strong {
+            color: #172033;
+        }
+
+        .results-label {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 8px 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef4ff,
+                    #f4f3ff
+                );
+
+            color: #2563eb;
+
+            border:
+                1px solid
+                #dbeafe;
+
+            border-radius: 50px;
+
+            font-size: 12px;
+
+            font-weight: 750;
+        }
+
+        /* =====================================================
+           JOB CARD
+        ===================================================== */
+
+        .job-card {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                rgba(255,255,255,0.94);
+
+            border:
+                1px solid
+                rgba(226,232,240,0.9);
+
+            border-radius: 22px;
+
+            padding: 27px;
+
+            margin-bottom: 18px;
+
+            box-shadow:
+                0 9px 30px
+                rgba(15,23,42,0.055);
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 0.35s cubic-bezier(.2,.8,.2,1),
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+
+            animation:
+                cardEntrance 0.7s ease both;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform:
+                    translateY(25px)
+                    scale(0.98);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    scale(1);
+            }
+        }
+
+        .job-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            right: -110px;
+            top: -110px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,99,235,0.12),
+                    transparent 68%
+                );
+
+            transition:
+                transform 0.45s ease;
+        }
+
+        .job-card::after {
+            content: "";
+
+            position: absolute;
+
+            left: 0;
+            top: 0;
+
+            width: 4px;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #2563eb,
+                    #6366f1
+                );
+
+            transform:
+                scaleY(0);
+
+            transform-origin: bottom;
+
+            transition:
+                transform 0.35s ease;
+        }
+
+        .job-card:hover {
+            transform:
+                perspective(1100px)
+                translateY(-8px)
+                rotateX(1deg)
+                rotateY(-1deg);
+
+            border-color:
+                rgba(147,197,253,0.9);
+
+            box-shadow:
+                0 25px 55px
+                rgba(15,23,42,0.13),
+                0 5px 20px
+                rgba(37,99,235,0.08);
+        }
+
+        .job-card:hover::before {
+            transform:
+                scale(1.35)
+                translate(-20px,20px);
+        }
+
+        .job-card:hover::after {
+            transform:
+                scaleY(1);
+        }
+
+        .job-top {
+            position: relative;
+
+            z-index: 2;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: flex-start;
+
+            gap: 20px;
+        }
+
+        .job-main-info {
+            display: flex;
+
+            gap: 15px;
+
+            flex: 1;
+        }
+
+        /* =====================================================
+           COMPANY LOGO 3D
+        ===================================================== */
+
+        .company-logo {
+            position: relative;
+
+            width: 57px;
+            height: 57px;
+
+            min-width: 57px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 16px;
+
+            color: #2563eb;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #e8f0ff
+                );
+
+            border:
+                1px solid
+                #dbeafe;
+
+            font-size: 24px;
+
+            box-shadow:
+                0 10px 22px
+                rgba(37,99,235,0.13);
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+        .company-logo::after {
+            content: "";
+
+            position: absolute;
+
+            inset: 4px;
+
+            border-radius: 12px;
+
+            border:
+                1px solid
+                rgba(37,99,235,0.10);
+
+            pointer-events: none;
+        }
+
+        .job-card:hover .company-logo {
+            transform:
+                translateZ(18px)
+                rotateY(12deg)
+                rotateX(5deg);
+
+            box-shadow:
+                0 17px 30px
+                rgba(37,99,235,0.20);
+        }
+
+        .job-title {
+            display: inline-block;
+
+            color: #172033;
+
+            font-size: 20px;
+
+            font-weight: 850;
+
+            line-height: 1.3;
+
+            margin-bottom: 4px;
+
+            transition:
+                color 0.2s ease,
+                transform 0.2s ease;
+        }
+
+        .job-title:hover {
+            color: #2563eb;
+
+            transform: translateX(3px);
+        }
+
+        .company-name {
+            color: #64748b;
+
+            font-size: 14px;
+
+            font-weight: 600;
+        }
+
+        .job-type-badge {
+            white-space: nowrap;
+
+            padding: 7px 12px;
+
+            border-radius: 50px;
+
+            color: #2563eb;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #eef2ff
+                );
+
+            border:
+                1px solid
+                #dbeafe;
+
+            font-size: 11px;
+
+            font-weight: 750;
+
+            box-shadow:
+                0 5px 14px
+                rgba(37,99,235,0.07);
+        }
+
+        /* =====================================================
+           META
+        ===================================================== */
+
+        .job-meta-grid {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 23px;
+
+            padding: 16px 0;
+
+            border-top:
+                1px solid
+                #eef1f5;
+
+            border-bottom:
+                1px solid
+                #eef1f5;
+        }
+
+        .meta-item {
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            color: #667085;
+
+            font-size: 13px;
+        }
+
+        .meta-item i {
+            color: #2563eb;
+
+            font-size: 15px;
+
+            transition:
+                transform 0.25s ease;
+        }
+
+        .job-card:hover .meta-item i {
+            transform:
+                scale(1.12)
+                rotate(-5deg);
+        }
+
+        .meta-label {
+            font-weight: 750;
+            color: #374151;
+        }
+
+        /* =====================================================
+           SALARY
+        ===================================================== */
+
+        .salary-row {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+
+            margin-top: 18px;
+        }
+
+        .salary {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding: 7px 12px;
+
+            border-radius: 9px;
+
+            color: #15803d;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f0fdf4,
+                    #ecfdf5
+                );
+
+            border:
+                1px solid
+                #bbf7d0;
+
+            font-size: 14px;
+
+            font-weight: 850;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .job-card:hover .salary {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 18px
+                rgba(22,163,74,0.12);
+        }
+
+        /* =====================================================
+           SKILLS
+        ===================================================== */
+
+        .skills-section {
+            position: relative;
+            z-index: 2;
+
+            margin-top: 18px;
+        }
+
+        .skills-label {
+            display: block;
+
+            color: #374151;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            margin-bottom: 9px;
+        }
+
+        .skill-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eef2f7
+                );
+
+            color: #475569;
+
+            border:
+                1px solid
+                #e2e8f0;
+
+            padding: 6px 10px;
+
+            border-radius: 8px;
+
+            margin:
+                0 5px 6px 0;
+
+            font-size: 11px;
+
+            font-weight: 650;
+
+            transition:
+                transform 0.2s ease,
+                border-color 0.2s ease,
+                background 0.2s ease;
+        }
+
+        .skill-badge:hover {
+            transform:
+                translateY(-2px);
+
+            color: #2563eb;
+
+            background: #eff6ff;
+
+            border-color: #bfdbfe;
+        }
+
+        /* =====================================================
+           DESCRIPTION
+        ===================================================== */
+
+        .job-description {
+            position: relative;
+            z-index: 2;
+
+            color: #687386;
+
+            font-size: 13px;
+
+            line-height: 1.75;
+
+            margin-top: 13px;
+
+            margin-bottom: 0;
+        }
+
+        /* =====================================================
+           DEADLINE
+        ===================================================== */
+
+        .deadline-box {
+            position: relative;
+            z-index: 2;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            margin-top: 16px;
+
+            padding: 7px 11px;
+
+            border-radius: 9px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #fff5f5,
+                    #fff1f2
+                );
+
+            border:
+                1px solid
+                #fecdd3;
+
+            color: #dc3545;
+
+            font-size: 12px;
+
+            font-weight: 650;
+        }
+
+        /* =====================================================
+           ACTION BUTTONS
+        ===================================================== */
+
+        .job-actions {
+            position: relative;
+            z-index: 3;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 9px;
+
+            margin-top: 21px;
+        }
+
+        .job-actions .btn {
+            min-height: 41px;
+
+            border-radius: 10px;
+
+            font-size: 13px;
+
+            font-weight: 750;
+
+            padding:
+                8px 15px;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .job-actions .btn:hover {
+            transform:
+                translateY(-3px);
+        }
+
+        .btn-details {
+            color: white;
+
+            border:
+                1px solid
+                #172033;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #172033,
+                    #0f172a
+                );
+
+            box-shadow:
+                0 7px 17px
+                rgba(15,23,42,0.14);
+        }
+
+        .btn-details:hover {
+            color: white;
+
+            box-shadow:
+                0 12px 25px
+                rgba(15,23,42,0.20);
+        }
+
+        .btn-apply {
+            position: relative;
+
+            overflow: hidden;
+
+            color: white;
+
+            border-color:
+                #16a34a;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #16a34a,
+                    #15803d
+                );
+
+            box-shadow:
+                0 7px 18px
+                rgba(22,163,74,0.20);
+        }
+
+        .btn-apply::after {
+            content: "";
+
+            position: absolute;
+
+            top: 0;
+            left: -100%;
+
+            width: 70%;
+            height: 100%;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255,255,255,0.30),
+                    transparent
+                );
+
+            transform:
+                skewX(-20deg);
+
+            transition:
+                left 0.6s ease;
+        }
+
+        .btn-apply:hover::after {
+            left: 140%;
+        }
+
+        .btn-apply:hover {
+            color: white;
+
+            box-shadow:
+                0 12px 28px
+                rgba(22,163,74,0.30);
+        }
+
+        .btn-save {
+            transition:
+                all 0.25s ease;
+        }
+
+        .btn-save:hover {
+            box-shadow:
+                0 10px 22px
+                rgba(245,158,11,0.18);
+        }
+
+        /* =====================================================
+           EMPTY STATE
+        ===================================================== */
+
+        .empty-state {
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+                rgba(255,255,255,0.92);
+
+            border:
+                1px solid
+                #e5eaf2;
+
+            border-radius: 23px;
+
+            padding: 75px 25px;
+
+            text-align: center;
+
+            box-shadow:
+                0 15px 45px
+                rgba(15,23,42,0.07);
+
+            animation:
+                cardEntrance 0.7s ease both;
+        }
+
+        .empty-icon {
+            width: 82px;
+            height: 82px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 19px;
+
+            border-radius: 24px;
+
+            color: #2563eb;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #e0e7ff
+                );
+
+            border:
+                1px solid
+                #dbeafe;
+
+            font-size: 33px;
+
+            box-shadow:
+                0 15px 30px
+                rgba(37,99,235,0.12);
+
+            animation:
+                emptyFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes emptyFloat {
+            0%,100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-8px);
+            }
+        }
+
+        .empty-state h4 {
+            font-weight: 850;
+        }
+
+        .empty-state p {
+            max-width: 480px;
+
+            margin:
+                0 auto 23px;
+
+            color: #7a8495;
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        /* =====================================================
+           PAGINATION
+        ===================================================== */
+
+        .pagination {
+            margin-top: 37px;
+            margin-bottom: 15px;
+        }
+
+        .page-link {
+            border: none;
+
+            margin: 0 3px;
+
+            min-width: 41px;
+            height: 41px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px !important;
+
+            color: #475569;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            background: white;
+
+            box-shadow:
+                0 4px 13px
+                rgba(15,23,42,0.05);
+
+            transition:
+                transform 0.2s ease,
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .page-link:hover {
+            background: #eef4ff;
+
+            color: #2563eb;
+
+            transform:
+                translateY(-2px);
+        }
+
+        .page-item.active .page-link {
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            color: white;
+
+            box-shadow:
+                0 8px 20px
+                rgba(37,99,235,0.24);
+        }
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .page-footer {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            padding:
+                28px 0 5px;
+        }
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 991px) {
+
+            .nav-desktop-links {
+                margin-top: 12px;
+            }
+
+            .hero-section {
+                padding: 42px 30px;
+            }
+
+            .shape-one {
+                right: 20px;
+            }
+
+            .shape-two {
+                right: 150px;
+            }
+
+            .filter-actions {
+                align-items: stretch;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            .main-navbar .container {
+                padding-left: 18px;
+                padding-right: 18px;
+            }
+
+            .nav-desktop-links {
+                width: 100%;
+
+                display: flex;
+
+                flex-wrap: wrap;
+
+                gap: 4px;
+            }
+
+            .nav-link-custom {
+                font-size: 12px;
+
+                padding:
+                    7px 9px;
+            }
+
+            .hero-section {
+                margin-top: 18px;
+
+                padding:
+                    35px 22px;
+
+                min-height: 270px;
+
+                border-radius: 21px;
+            }
+
+            .hero-title {
+                font-size: 32px;
+
+                letter-spacing:
+                    -1.2px;
+            }
+
+            .hero-subtitle {
+                font-size: 14px;
+            }
+
+            .shape-one {
+                width: 90px;
+                height: 90px;
+
+                right: -10px;
+                top: 25px;
+            }
+
+            .shape-two {
+                width: 55px;
+                height: 55px;
+
+                right: 90px;
+            }
+
+            .shape-three {
+                right: 20px;
+            }
+
+            .search-panel {
+                padding: 21px;
+
+                border-radius: 18px;
+            }
+
+            .panel-heading {
+                display: block;
+            }
+
+            .job-card {
+                padding: 21px;
+
+                border-radius: 18px;
+            }
+
+            .job-top {
+                display: block;
+            }
+
+            .job-main-info {
+                margin-bottom: 15px;
+            }
+
+            .job-type-badge {
+                display: inline-block;
+            }
+
+            .meta-item {
+                margin-bottom: 10px;
+            }
+
+            .meta-item:last-child {
+                margin-bottom: 0;
+            }
+
+            .results-header {
+                align-items: flex-start;
+
+                flex-direction: column;
+            }
+
+            .job-title {
+                font-size: 18px;
+            }
+
+            .company-logo {
+                width: 49px;
+                height: 49px;
+                min-width: 49px;
+
+                font-size: 21px;
+            }
+
+            .job-actions .btn {
+                flex:
+                    1 1 auto;
+            }
+
+            .filter-actions {
+                flex-direction: column;
+            }
+
+            .btn-search,
+            .btn-clear {
+                width: 100%;
+            }
+        }
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+                scroll-behavior: auto !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<nav class="navbar navbar-expand-lg main-navbar navbar-dark">
+
+    <div class="container py-2">
+
+        <a
+            class="navbar-brand d-flex align-items-center"
+            href="{% url 'candidate_dashboard' %}"
+        >
+            <span class="brand-icon">
+                <i class="bi bi-briefcase-fill"></i>
+            </span>
+
+            JobPortal
+        </a>
+
+        <div
+            class="nav-desktop-links
+                   d-flex
+                   align-items-center
+                   justify-content-lg-end"
+        >
+
+            <a
+                href="{% url 'candidate_dashboard' %}"
+                class="nav-link-custom"
+            >
+                <i class="bi bi-grid me-1"></i>
+                Dashboard
+            </a>
+
+            <a
+                href="{% url 'saved_jobs' %}"
+                class="nav-link-custom"
+            >
+                <i class="bi bi-bookmark me-1"></i>
+                Saved Jobs
+            </a>
+
+            <a
+                href="{% url 'my_applications' %}"
+                class="nav-link-custom"
+            >
+                <i class="bi bi-file-earmark-text me-1"></i>
+                Applications
+            </a>
+
+           <form
+    method="POST"
+    action="{% url 'logout' %}"
+    class="d-inline"
+>
+    {% csrf_token %}
+
+    <button
+        type="submit"
+        class="btn btn-outline-light btn-sm nav-btn ms-lg-2 px-3"
+    >
+        <i class="bi bi-box-arrow-right me-1"></i>
+        Logout
+    </button>
+
+</form>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- =========================================================
+     MAIN
+========================================================= -->
+
+<div class="container page-wrapper">
+
+
+    <!-- =====================================================
+         HERO
+    ====================================================== -->
+
+    <section class="hero-section">
+
+        <!-- 3D floating shapes -->
+
+        <div class="hero-shape shape-one"></div>
+
+        <div class="hero-shape shape-two"></div>
+
+        <div class="hero-shape shape-three"></div>
+
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                <i class="bi bi-stars"></i>
+
+                Explore career opportunities
+            </span>
+
+            <h1 class="hero-title">
+                Find Your <span>Dream Job</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Discover opportunities that match your skills,
+                experience and career goals. Search thousands of
+                opportunities and take the next step in your career.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         MESSAGES
+    ====================================================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div
+                class="alert
+                       alert-{{ message.tags|default:'info' }}
+                       alert-dismissible
+                       fade
+                       show
+                       custom-alert"
+                role="alert"
+            >
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                ></button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         SEARCH & FILTER
+    ====================================================== -->
+
+    <section class="search-panel">
+
+        <div class="panel-heading">
+
+            <div>
+
+                <h5 class="panel-title">
+
+                    <i
+                        class="bi
+                               bi-sliders2-vertical
+                               text-primary
+                               me-2"
+                    ></i>
+
+                    Search & Filter Jobs
+
+                </h5>
+
+                <p class="panel-subtitle">
+                    Refine your search to find the right opportunity.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <form
+            method="GET"
+            action="{% url 'job_list' %}"
+        >
+
+            <div class="row g-3">
+
+
+                <!-- SEARCH -->
+
+                <div class="col-lg-6">
+
+                    <label class="form-label">
+                        Search jobs
+                    </label>
+
+                    <div class="search-field">
+
+                        <i class="bi bi-search field-icon"></i>
+
+                        <input
+                            type="text"
+                            name="search"
+                            class="form-control"
+                            placeholder="Job title, company, skills..."
+                            value="{{ search }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- LOCATION -->
+
+                <div class="col-lg-6">
+
+                    <label class="form-label">
+                        Location
+                    </label>
+
+                    <div class="search-field">
+
+                        <i
+                            class="bi
+                                   bi-geo-alt
+                                   field-icon"
+                        ></i>
+
+                        <input
+                            type="text"
+                            name="location"
+                            class="form-control"
+                            placeholder="Pune, Mumbai, Hyderabad..."
+                            value="{{ location }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOB TYPE -->
+
+                <div class="col-md-6 col-lg-3">
+
+                    <label class="form-label">
+                        Job Type
+                    </label>
+
+                    <select
+                        name="job_type"
+                        class="form-select"
+                    >
+
+                        <option value="">
+                            All Job Types
+                        </option>
+
+                        <option
+                            value="full_time"
+                            {% if job_type == "full_time" %}selected{% endif %}
+                        >
+                            Full Time
+                        </option>
+
+                        <option
+                            value="part_time"
+                            {% if job_type == "part_time" %}selected{% endif %}
+                        >
+                            Part Time
+                        </option>
+
+                        <option
+                            value="internship"
+                            {% if job_type == "internship" %}selected{% endif %}
+                        >
+                            Internship
+                        </option>
+
+                        <option
+                            value="contract"
+                            {% if job_type == "contract" %}selected{% endif %}
+                        >
+                            Contract
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <!-- EXPERIENCE -->
+
+                <div class="col-md-6 col-lg-3">
+
+                    <label class="form-label">
+                        Experience
+                    </label>
+
+                    <div class="search-field">
+
+                        <i
+                            class="bi
+                                   bi-person-workspace
+                                   field-icon"
+                        ></i>
+
+                        <input
+                            type="text"
+                            name="experience"
+                            class="form-control"
+                            placeholder="Fresher, 1-2 years..."
+                            value="{{ experience }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- MIN SALARY -->
+
+                <div class="col-md-6 col-lg-3">
+
+                    <label class="form-label">
+                        Minimum Salary
+                    </label>
+
+                    <div class="search-field">
+
+                        <i
+                            class="bi
+                                   bi-currency-rupee
+                                   field-icon"
+                        ></i>
+
+                        <input
+                            type="number"
+                            name="min_salary"
+                            class="form-control"
+                            placeholder="20000"
+                            value="{{ min_salary }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- MAX SALARY -->
+
+                <div class="col-md-6 col-lg-3">
+
+                    <label class="form-label">
+                        Maximum Salary
+                    </label>
+
+                    <div class="search-field">
+
+                        <i
+                            class="bi
+                                   bi-currency-rupee
+                                   field-icon"
+                        ></i>
+
+                        <input
+                            type="number"
+                            name="max_salary"
+                            class="form-control"
+                            placeholder="80000"
+                            value="{{ max_salary }}"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="col-12">
+
+                    <div class="filter-actions">
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary btn-search"
+                        >
+
+                            <i class="bi bi-search me-1"></i>
+
+                            Search Jobs
+
+                        </button>
+
+
+                        <a
+                            href="{% url 'job_list' %}"
+                            class="btn btn-outline-secondary btn-clear"
+                        >
+
+                            <i
+                                class="bi
+                                       bi-arrow-counterclockwise
+                                       me-1"
+                            ></i>
+
+                            Clear
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </form>
+
+    </section>
+
+
+    <!-- =====================================================
+         RESULTS HEADER
+    ====================================================== -->
+
+    {% if page_obj.paginator.count > 0 %}
+
+        <div class="results-header">
+
+            <div class="results-count">
+
+                Showing
+
+                <strong>
+                    {{ page_obj.start_index }}
+                </strong>
+
+                -
+
+                <strong>
+                    {{ page_obj.end_index }}
+                </strong>
+
+                of
+
+                <strong>
+                    {{ page_obj.paginator.count }}
+                </strong>
+
+                jobs
+
+            </div>
+
+
+            <div class="results-label">
+
+                <i class="bi bi-check-circle-fill"></i>
+
+                Latest opportunities
+
+            </div>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         JOB LIST
+    ====================================================== -->
+
+    {% if jobs %}
+
+        {% for job in jobs %}
+
+            <article class="job-card">
+
+
+                <!-- JOB TOP -->
+
+                <div class="job-top">
+
+                    <div class="job-main-info">
+
+
+                        <div class="company-logo">
+
+                            <i class="bi bi-building"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <a
+                                href="{% url 'job_detail' job.id %}"
+                                class="job-title"
+                            >
+
+                                {{ job.title }}
+
+                            </a>
+
+
+                            <div class="company-name">
+
+                                <i
+                                    class="bi
+                                           bi-building
+                                           me-1"
+                                ></i>
+
+                                {{ job.company_name }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <span class="job-type-badge">
+
+                        <i
+                            class="bi
+                                   bi-briefcase
+                                   me-1"
+                        ></i>
+
+                        {{ job.get_job_type_display }}
+
+                    </span>
+
+                </div>
+
+
+                <!-- JOB META -->
+
+                <div class="row job-meta-grid g-3">
+
+                    <div class="col-md-4">
+
+                        <div class="meta-item">
+
+                            <i
+                                class="bi
+                                       bi-geo-alt-fill"
+                            ></i>
+
+                            <span>
+
+                                <span class="meta-label">
+                                    Location:
+                                </span>
+
+                                {{ job.location }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="meta-item">
+
+                            <i
+                                class="bi
+                                       bi-person-workspace"
+                            ></i>
+
+                            <span>
+
+                                <span class="meta-label">
+                                    Experience:
+                                </span>
+
+                                {% if job.experience %}
+
+                                    {{ job.experience }}
+
+                                {% else %}
+
+                                    Not specified
+
+                                {% endif %}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="col-md-4">
+
+                        <div class="meta-item">
+
+                            <i
+                                class="bi
+                                       bi-people-fill"
+                            ></i>
+
+                            <span>
+
+                                <span class="meta-label">
+                                    Vacancies:
+                                </span>
+
+                                {{ job.vacancies }}
+
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SALARY -->
+
+                <div class="salary-row">
+
+                    <span class="salary">
+
+                        <i class="bi bi-cash-stack"></i>
+
+                        {% if job.salary_min and job.salary_max %}
+
+                            ₹{{ job.salary_min }}
+                            -
+                            ₹{{ job.salary_max }}
+
+                        {% elif job.salary_min %}
+
+                            ₹{{ job.salary_min }}+
+
+                        {% elif job.salary_max %}
+
+                            Up to ₹{{ job.salary_max }}
+
+                        {% else %}
+
+                            Not disclosed
+
+                        {% endif %}
+
+                    </span>
+
+                </div>
+
+
+                <!-- SKILLS -->
+
+                <div class="skills-section">
+
+                    <span class="skills-label">
+                        Required Skills
+                    </span>
+
+
+                    {% if job.skills %}
+
+                        {% for skill in job.skills.split %}
+
+                            <span class="skill-badge">
+                                {{ skill }}
+                            </span>
+
+                        {% endfor %}
+
+                    {% else %}
+
+                        <span class="text-muted small">
+                            Not specified
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- DESCRIPTION -->
+
+                <p class="job-description">
+
+                    {% if job.description|length > 180 %}
+
+                        {{ job.description|slice:":180" }}...
+
+                    {% else %}
+
+                        {{ job.description }}
+
+                    {% endif %}
+
+                </p>
+
+
+                <!-- DEADLINE -->
+
+                {% if job.application_deadline %}
+
+                    <div class="deadline-box">
+
+                        <i
+                            class="bi
+                                   bi-calendar-event"
+                        ></i>
+
+                        Application Deadline:
+
+                        {{ job.application_deadline }}
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- ACTIONS -->
+
+                <div class="job-actions">
+
+
+                    <!-- DETAILS -->
+
+                    <a
+                        href="{% url 'job_detail' job.id %}"
+                        class="btn btn-details"
+                    >
+
+                        <i class="bi bi-eye me-1"></i>
+
+                        View Details
+
+                    </a>
+
+
+                    {% if user.role == "candidate" %}
+
+
+                        <!-- APPLY -->
+
+                        <a
+                            href="{% url 'apply_job' job.id %}"
+                            class="btn btn-apply"
+                        >
+
+                            <i class="bi bi-send me-1"></i>
+
+                            Apply Now
+
+                        </a>
+
+
+                        <!-- SAVE -->
+
+                        <form
+                            method="POST"
+                            action="{% url 'save_job' job.id %}"
+                            class="d-inline"
+                        >
+
+                            {% csrf_token %}
+
+                            {% if job.id in saved_job_ids %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-warning btn-save"
+                                >
+
+                                    <i
+                                        class="bi
+                                               bi-bookmark-fill
+                                               me-1"
+                                    ></i>
+
+                                    Saved
+
+                                </button>
+
+                            {% else %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-outline-warning btn-save"
+                                >
+
+                                    <i
+                                        class="bi
+                                               bi-bookmark
+                                               me-1"
+                                    ></i>
+
+                                    Save Job
+
+                                </button>
+
+                            {% endif %}
+
+                        </form>
+
+                    {% endif %}
+
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+
+    {% else %}
+
+
+        <!-- =================================================
+             EMPTY STATE
+        ================================================== -->
+
+        <div class="empty-state">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-search"></i>
+
+            </div>
+
+            <h4>
+                No Jobs Found
+            </h4>
+
+            <p>
+                We couldn't find any jobs matching your
+                current search criteria. Try changing your
+                keywords or clearing the filters.
+            </p>
+
+            <a
+                href="{% url 'job_list' %}"
+                class="btn btn-primary px-4"
+            >
+
+                <i class="bi bi-grid me-1"></i>
+
+                View All Jobs
+
+            </a>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         PAGINATION
+    ====================================================== -->
+
+    {% if page_obj.paginator.num_pages > 1 %}
+
+        <nav
+            aria-label="Job pagination"
+            class="mt-4"
+        >
+
+            <ul class="pagination justify-content-center">
+
+
+                {% if page_obj.has_previous %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="{% querystring page=page_obj.previous_page_number %}"
+                            aria-label="Previous"
+                        >
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </a>
+
+                    </li>
+
+                {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            <i class="bi bi-chevron-left"></i>
+
+                        </span>
+
+                    </li>
+
+                {% endif %}
+
+
+                {% for num in page_obj.paginator.page_range %}
+
+                    {% if page_obj.number == num %}
+
+                        <li class="page-item active">
+
+                            <span class="page-link">
+
+                                {{ num }}
+
+                            </span>
+
+                        </li>
+
+                    {% else %}
+
+                        <li class="page-item">
+
+                            <a
+                                class="page-link"
+                                href="{% querystring page=num %}"
+                            >
+
+                                {{ num }}
+
+                            </a>
+
+                        </li>
+
+                    {% endif %}
+
+                {% endfor %}
+
+
+                {% if page_obj.has_next %}
+
+                    <li class="page-item">
+
+                        <a
+                            class="page-link"
+                            href="{% querystring page=page_obj.next_page_number %}"
+                            aria-label="Next"
+                        >
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </a>
+
+                    </li>
+
+                {% else %}
+
+                    <li class="page-item disabled">
+
+                        <span class="page-link">
+
+                            <i class="bi bi-chevron-right"></i>
+
+                        </span>
+
+                    </li>
+
+                {% endif %}
+
+            </ul>
+
+        </nav>
+
+    {% endif %}
+
+
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
+
+    <div class="page-footer">
+
+        JobPortal · Find opportunities. Build your career.
+
+    </div>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- =========================================================
+     3D MOUSE TILT
+========================================================= -->
+
+<script>
+
+    /*
+       Subtle 3D effect for desktop job cards.
+       It does NOT affect Django/backend functionality.
+    */
+
+    const cards = document.querySelectorAll(".job-card");
+
+    cards.forEach((card) => {
+
+        card.addEventListener("mousemove", (event) => {
+
+            if (window.innerWidth < 768) {
+                return;
+            }
+
+            const rect = card.getBoundingClientRect();
+
+            const x =
+                event.clientX - rect.left;
+
+            const y =
+                event.clientY - rect.top;
+
+            const centerX =
+                rect.width / 2;
+
+            const centerY =
+                rect.height / 2;
+
+            const rotateY =
+                ((x - centerX) / centerX) * 1.8;
+
+            const rotateX =
+                ((centerY - y) / centerY) * 1.8;
+
+            card.style.transform =
+                `perspective(1100px)
+                 translateY(-8px)
+                 rotateX(${rotateX}deg)
+                 rotateY(${rotateY}deg)`;
+        });
+
+
+        card.addEventListener("mouseleave", () => {
+
+            card.style.transform = "";
+
+        });
+
+    });
+
+
+    /*
+       Small parallax effect for hero 3D shapes.
+    */
+
+    const hero =
+        document.querySelector(".hero-section");
+
+    const shapes =
+        document.querySelectorAll(".hero-shape");
+
+    if (hero && window.innerWidth >= 768) {
+
+        hero.addEventListener("mousemove", (event) => {
+
+            const rect =
+                hero.getBoundingClientRect();
+
+            const x =
+                (event.clientX - rect.left)
+                / rect.width
+                - 0.5;
+
+            const y =
+                (event.clientY - rect.top)
+                / rect.height
+                - 0.5;
+
+            shapes.forEach((shape, index) => {
+
+                const strength =
+                    (index + 1) * 8;
+
+                shape.style.marginLeft =
+                    `${x * strength}px`;
+
+                shape.style.marginTop =
+                    `${y * strength}px`;
+
+            });
+
+        });
+
+
+        hero.addEventListener("mouseleave", () => {
+
+            shapes.forEach((shape) => {
+
+                shape.style.marginLeft = "";
+
+                shape.style.marginTop = "";
+
+            });
+
+        });
+
+    }
+ 
+</script>
+
+</body>
+</html>

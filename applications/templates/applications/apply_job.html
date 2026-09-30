@@ -1,0 +1,1882 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Apply for {{ job.title }} | JobPortal
+    </title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                system-ui,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            color: #0f172a;
+
+            background:
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(59, 130, 246, 0.20),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at 90% 15%,
+                    rgba(124, 58, 237, 0.18),
+                    transparent 28%
+                ),
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(14, 165, 233, 0.14),
+                    transparent 35%
+                ),
+                linear-gradient(
+                    135deg,
+                    #f8fbff 0%,
+                    #eef4ff 45%,
+                    #f8faff 100%
+                );
+
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =====================================================
+           ANIMATED BACKGROUND
+        ===================================================== */
+
+        .page-bg {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.55;
+            animation: floatOrb 9s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 220px;
+            height: 220px;
+
+            top: 8%;
+            left: -80px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #60a5fa,
+                    #4f46e5
+                );
+        }
+
+        .orb-2 {
+            width: 260px;
+            height: 260px;
+
+            right: -100px;
+            top: 38%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #8b5cf6,
+                    #ec4899
+                );
+
+            animation-delay: -3s;
+        }
+
+        .orb-3 {
+            width: 170px;
+            height: 170px;
+
+            left: 35%;
+            bottom: -70px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #38bdf8,
+                    #2563eb
+                );
+
+            animation-delay: -6s;
+        }
+
+        @keyframes floatOrb {
+
+            0%,
+            100% {
+                transform:
+                    translate3d(0, 0, 0)
+                    scale(1);
+            }
+
+            50% {
+                transform:
+                    translate3d(0, -28px, 0)
+                    scale(1.08);
+            }
+
+        }
+
+
+        /* =====================================================
+           NAVBAR
+        ===================================================== */
+
+        .navbar-custom {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+
+            padding: 15px 0;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(15, 23, 42, 0.96),
+                    rgba(30, 41, 59, 0.94),
+                    rgba(49, 46, 129, 0.94)
+                );
+
+            backdrop-filter: blur(16px);
+
+            box-shadow:
+                0 12px 35px rgba(15, 23, 42, 0.18);
+
+            border-bottom:
+                1px solid rgba(255, 255, 255, 0.10);
+        }
+
+        .brand {
+            color: #ffffff;
+            font-size: 25px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .brand span {
+            color: #60a5fa;
+        }
+
+        .nav-btn {
+            border-radius: 12px;
+            padding: 9px 15px;
+            font-weight: 700;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 22px rgba(0, 0, 0, 0.18);
+        }
+
+
+        /* =====================================================
+           MAIN WRAPPER
+        ===================================================== */
+
+        .main-wrapper {
+            width: min(1120px, calc(100% - 32px));
+            margin: 48px auto 70px;
+        }
+
+
+        /* =====================================================
+           PAGE HEADER
+        ===================================================== */
+
+        .page-header {
+            position: relative;
+
+            padding: 34px 34px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.86),
+                    rgba(239, 246, 255, 0.80)
+                );
+
+            border:
+                1px solid rgba(148, 163, 184, 0.16);
+
+            backdrop-filter: blur(16px);
+
+            box-shadow:
+                0 25px 60px rgba(15, 23, 42, 0.08);
+
+            overflow: hidden;
+
+            margin-bottom: 28px;
+        }
+
+        .page-header::before {
+            content: "";
+
+            position: absolute;
+
+            width: 190px;
+            height: 190px;
+
+            right: -55px;
+            top: -70px;
+
+            border-radius: 50%;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(96, 165, 250, 0.28),
+                    rgba(124, 58, 237, 0.18)
+                );
+
+            filter: blur(5px);
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+
+            padding: 8px 13px;
+
+            border-radius: 999px;
+
+            background:
+                rgba(37, 99, 235, 0.08);
+
+            color: #2563eb;
+
+            font-size: 12px;
+            font-weight: 800;
+
+            text-transform: uppercase;
+            letter-spacing: 0.9px;
+        }
+
+        .page-header h1 {
+            position: relative;
+
+            margin:
+                14px 0 8px;
+
+            font-size:
+                clamp(28px, 5vw, 44px);
+
+            line-height: 1.12;
+
+            font-weight: 900;
+
+            letter-spacing: -1.1px;
+        }
+
+        .page-header h1 span {
+            background:
+                linear-gradient(
+                    90deg,
+                    #2563eb,
+                    #4f46e5,
+                    #9333ea
+                );
+
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .page-header p {
+            position: relative;
+
+            margin: 0;
+
+            max-width: 700px;
+
+            color: #64748b;
+
+            font-size: 16px;
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           JOB CARD
+        ===================================================== */
+
+        .job-card {
+            position: relative;
+
+            padding: 30px;
+
+            border-radius: 26px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.94),
+                    rgba(248, 250, 252, 0.88)
+                );
+
+            border:
+                1px solid rgba(148, 163, 184, 0.15);
+
+            box-shadow:
+                0 18px 45px rgba(15, 23, 42, 0.08),
+                0 4px 15px rgba(37, 99, 235, 0.05);
+
+            backdrop-filter: blur(16px);
+
+            overflow: hidden;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+        .job-card:hover {
+            transform:
+                translateY(-7px)
+                rotateX(1deg);
+
+            box-shadow:
+                0 30px 70px rgba(15, 23, 42, 0.13),
+                0 10px 25px rgba(37, 99, 235, 0.08);
+        }
+
+        .job-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 250px;
+            height: 250px;
+
+            right: -130px;
+            bottom: -140px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(96, 165, 250, 0.14),
+                    transparent 65%
+                );
+        }
+
+        .job-icon {
+            width: 74px;
+            height: 74px;
+
+            flex: 0 0 74px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 21px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #2563eb,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            color: white;
+
+            font-size: 30px;
+
+            box-shadow:
+                0 16px 30px rgba(37, 99, 235, 0.25);
+
+            transform:
+                translateZ(20px);
+
+            transition:
+                transform 0.35s ease;
+        }
+
+        .job-card:hover .job-icon {
+            transform:
+                translateY(-5px)
+                rotateY(8deg)
+                rotateX(-4deg);
+        }
+
+        .job-title {
+            margin: 0;
+
+            font-size:
+                clamp(22px, 4vw, 30px);
+
+            font-weight: 850;
+
+            line-height: 1.2;
+
+            color: #0f172a;
+        }
+
+        .company-name {
+            margin-top: 7px;
+
+            color: #64748b;
+
+            font-size: 15px;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+            margin-top: 22px;
+        }
+
+        .meta-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 9px 12px;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            border:
+                1px solid #e2e8f0;
+
+            color: #475569;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            transition:
+                transform 0.25s ease,
+                border-color 0.25s ease;
+        }
+
+        .meta-badge:hover {
+            transform: translateY(-2px);
+
+            border-color: #bfdbfe;
+        }
+
+
+        /* =====================================================
+           APPLICATION CARD
+        ===================================================== */
+
+        .application-card {
+            margin-top: 25px;
+
+            padding: 34px;
+
+            border-radius: 28px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.97),
+                    rgba(248, 250, 252, 0.93)
+                );
+
+            border:
+                1px solid rgba(148, 163, 184, 0.14);
+
+            backdrop-filter: blur(18px);
+
+            box-shadow:
+                0 22px 60px rgba(15, 23, 42, 0.09);
+        }
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            margin-bottom: 8px;
+        }
+
+        .section-heading-icon {
+            width: 48px;
+            height: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #ede9fe
+                );
+
+            color: #4f46e5;
+
+            font-size: 22px;
+        }
+
+        .section-heading h2 {
+            margin: 0;
+
+            font-size: 24px;
+
+            font-weight: 850;
+        }
+
+        .section-subtitle {
+            color: #64748b;
+
+            margin:
+                0 0 28px 62px;
+
+            font-size: 14px;
+        }
+
+
+        /* =====================================================
+           FORM
+        ===================================================== */
+
+        .field-group {
+            margin-bottom: 27px;
+        }
+
+        .form-label {
+            font-weight: 800;
+            color: #1e293b;
+
+            margin-bottom: 9px;
+        }
+
+        .required-star {
+            color: #ef4444;
+        }
+
+        .form-control {
+            border-radius: 15px;
+
+            border:
+                1px solid #dbe3ef;
+
+            padding:
+                13px 15px;
+
+            color: #0f172a;
+
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            transition:
+                border-color 0.25s ease,
+                box-shadow 0.25s ease,
+                transform 0.25s ease;
+        }
+
+        .form-control:hover {
+            border-color: #bfdbfe;
+        }
+
+        .form-control:focus {
+            border-color: #6366f1;
+
+            box-shadow:
+                0 0 0 4px rgba(99, 102, 241, 0.10);
+
+            transform:
+                translateY(-1px);
+        }
+
+        textarea.form-control {
+            min-height: 205px;
+
+            resize: vertical;
+
+            line-height: 1.7;
+        }
+
+
+        /* =====================================================
+           CHARACTER COUNTER
+        ===================================================== */
+
+        .field-footer {
+            display: flex;
+            justify-content: space-between;
+            gap: 12px;
+
+            margin-top: 8px;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+        }
+
+        .counter {
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           RESUME UPLOAD
+        ===================================================== */
+
+        .resume-upload {
+            position: relative;
+
+            padding: 24px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #f8fbff,
+                    #f5f3ff
+                );
+
+            border:
+                2px dashed #a5bff5;
+
+            transition:
+                border-color 0.3s ease,
+                transform 0.3s ease,
+                box-shadow 0.3s ease;
+        }
+
+        .resume-upload:hover {
+            border-color: #6366f1;
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 16px 35px rgba(79, 70, 229, 0.08);
+        }
+
+        .resume-upload.drag-active {
+            border-color: #2563eb;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #eff6ff,
+                    #eef2ff
+                );
+
+            box-shadow:
+                0 18px 45px rgba(37, 99, 235, 0.12);
+        }
+
+        .resume-top {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .resume-icon {
+            width: 58px;
+            height: 58px;
+
+            flex: 0 0 58px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 17px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #dbeafe,
+                    #e0e7ff
+                );
+
+            color: #2563eb;
+
+            font-size: 26px;
+        }
+
+        .resume-text h4 {
+            margin: 0 0 5px;
+
+            font-size: 18px;
+
+            font-weight: 850;
+        }
+
+        .resume-text p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .resume-input {
+            margin-top: 18px;
+
+            background:
+                #ffffff;
+
+            border-radius: 13px;
+
+            padding: 11px;
+
+            cursor: pointer;
+        }
+
+        .resume-note {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+
+            margin-top: 10px;
+
+            color: #64748b;
+
+            font-size: 12px;
+        }
+
+        .selected-file {
+            display: none;
+
+            margin-top: 13px;
+
+            padding: 11px 13px;
+
+            border-radius: 12px;
+
+            background:
+                #ecfdf5;
+
+            color: #166534;
+
+            font-size: 13px;
+
+            font-weight: 700;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+
+        .action-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            gap: 14px;
+
+            padding-top: 8px;
+        }
+
+        .btn-modern {
+            min-height: 50px;
+
+            border-radius: 14px;
+
+            padding:
+                12px 20px;
+
+            font-weight: 800;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .btn-back {
+            border:
+                1px solid #cbd5e1;
+
+            color: #334155;
+
+            background:
+                rgba(255, 255, 255, 0.85);
+        }
+
+        .btn-back:hover {
+            color: #0f172a;
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 12px 25px rgba(15, 23, 42, 0.08);
+        }
+
+        .btn-submit {
+            min-width: 220px;
+
+            border: none;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 14px 30px rgba(79, 70, 229, 0.26);
+        }
+
+        .btn-submit:hover {
+            color: white;
+
+            transform:
+                translateY(-4px);
+
+            box-shadow:
+                0 18px 38px rgba(79, 70, 229, 0.34);
+        }
+
+        .btn-submit:active,
+        .btn-back:active {
+            transform:
+                translateY(0);
+        }
+
+
+        /* =====================================================
+           SECURITY / TIP BOX
+        ===================================================== */
+
+        .tip-box {
+            margin-top: 24px;
+
+            padding: 17px 18px;
+
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #f8fafc,
+                    #eff6ff
+                );
+
+            border:
+                1px solid #dbeafe;
+        }
+
+        .tip-icon {
+            color: #2563eb;
+
+            font-size: 19px;
+        }
+
+        .tip-box strong {
+            display: block;
+
+            margin-bottom: 3px;
+
+            color: #1e293b;
+        }
+
+        .tip-box p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+
+        /* =====================================================
+           ALERTS
+        ===================================================== */
+
+        .custom-alert {
+            border-radius: 15px;
+
+            border: none;
+
+            box-shadow:
+                0 12px 30px rgba(15, 23, 42, 0.08);
+        }
+
+
+        /* =====================================================
+           FOOTER
+        ===================================================== */
+
+        .footer-note {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            margin-top: 22px;
+        }
+
+
+        /* =====================================================
+           RESPONSIVE
+        ===================================================== */
+
+        @media (max-width: 900px) {
+
+            .main-wrapper {
+                width: min(100% - 24px, 760px);
+                margin-top: 30px;
+            }
+
+            .navbar-custom .container {
+                gap: 12px;
+            }
+
+            .page-header {
+                padding: 28px 24px;
+            }
+
+            .job-card,
+            .application-card {
+                padding: 24px;
+            }
+
+        }
+
+
+        @media (max-width: 700px) {
+
+            .navbar-custom {
+                padding: 12px 0;
+            }
+
+            .navbar-custom .container {
+                flex-direction: column;
+                align-items: stretch !important;
+            }
+
+            .navbar-actions {
+                width: 100%;
+                display: flex;
+            }
+
+            .navbar-actions .nav-btn {
+                flex: 1;
+            }
+
+            .main-wrapper {
+                width: calc(100% - 20px);
+                margin:
+                    20px auto
+                    45px;
+            }
+
+            .page-header {
+                border-radius: 21px;
+                padding: 24px 19px;
+            }
+
+            .page-header h1 {
+                font-size: 30px;
+                letter-spacing: -0.7px;
+            }
+
+            .page-header p {
+                font-size: 14px;
+            }
+
+            .job-card,
+            .application-card {
+                border-radius: 20px;
+                padding: 20px;
+            }
+
+            .job-top {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+
+            .job-icon {
+                width: 60px;
+                height: 60px;
+                flex-basis: 60px;
+                font-size: 24px;
+            }
+
+            .job-title {
+                font-size: 22px;
+            }
+
+            .job-meta {
+                gap: 7px;
+            }
+
+            .meta-badge {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .section-heading {
+                align-items: flex-start;
+            }
+
+            .section-heading-icon {
+                width: 44px;
+                height: 44px;
+                flex-basis: 44px;
+            }
+
+            .section-heading h2 {
+                font-size: 20px;
+            }
+
+            .section-subtitle {
+                margin-left: 0;
+                margin-top: 12px;
+            }
+
+            .resume-upload {
+                padding: 18px;
+            }
+
+            .action-row {
+                flex-direction: column-reverse;
+                align-items: stretch;
+            }
+
+            .action-row .btn {
+                width: 100%;
+            }
+
+            .btn-submit {
+                min-width: 0;
+            }
+
+        }
+
+
+        @media (max-width: 420px) {
+
+            .brand {
+                font-size: 21px;
+            }
+
+            .nav-btn {
+                font-size: 12px;
+                padding:
+                    8px 10px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .eyebrow {
+                font-size: 10px;
+            }
+
+            .job-card,
+            .application-card {
+                padding: 17px;
+            }
+
+            .resume-top {
+                gap: 12px;
+            }
+
+            .resume-icon {
+                width: 50px;
+                height: 50px;
+                flex-basis: 50px;
+                font-size: 22px;
+            }
+
+        }
+
+
+        /* =====================================================
+           REDUCED MOTION
+        ===================================================== */
+
+        @media (prefers-reduced-motion: reduce) {
+
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================================
+         BACKGROUND
+    ====================================================== -->
+
+    <div class="page-bg">
+
+        <div class="orb orb-1"></div>
+
+        <div class="orb orb-2"></div>
+
+        <div class="orb orb-3"></div>
+
+    </div>
+
+
+    <!-- =====================================================
+         NAVBAR
+    ====================================================== -->
+
+    <nav class="navbar-custom">
+
+        <div
+            class="container d-flex
+                   justify-content-between
+                   align-items-center"
+        >
+
+            <a
+                href="{% url 'candidate_dashboard' %}"
+                class="brand"
+            >
+                Job<span>Portal</span>
+            </a>
+
+
+            <div class="navbar-actions d-flex gap-2">
+
+                <a
+                    href="{% url 'job_list' %}"
+                    class="btn btn-light nav-btn"
+                >
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Find Jobs
+
+                </a>
+
+
+                <a
+                    href="{% url 'logout' %}"
+                    class="btn btn-outline-light nav-btn"
+                >
+
+                    <i class="bi bi-box-arrow-right me-1"></i>
+
+                    Logout
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main class="main-wrapper">
+
+
+        <!-- =================================================
+             PAGE HEADER
+        ================================================== -->
+
+        <section class="page-header">
+
+            <div class="eyebrow">
+
+                <i class="bi bi-rocket-takeoff-fill"></i>
+
+                Career opportunity
+
+            </div>
+
+
+            <h1>
+
+                Apply for
+                <span>{{ job.title }}</span>
+
+            </h1>
+
+
+            <p>
+
+                Take the next step in your career.
+                Complete your application carefully and
+                upload your latest resume.
+
+            </p>
+
+        </section>
+
+
+        <!-- =================================================
+             MESSAGES
+        ================================================== -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="alert
+                           alert-{{ message.tags|default:'info' }}
+                           alert-dismissible
+                           fade
+                           show
+                           custom-alert
+                           mb-4"
+                    role="alert"
+                >
+
+                    <i class="bi bi-info-circle-fill me-2"></i>
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+        <!-- =================================================
+             JOB INFORMATION
+        ================================================== -->
+
+        <section class="job-card">
+
+            <div class="job-top d-flex align-items-center gap-3">
+
+                <div class="job-icon">
+
+                    <i class="bi bi-briefcase-fill"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="job-title">
+
+                        {{ job.title }}
+
+                    </h2>
+
+
+                    <div class="company-name">
+
+                        <i class="bi bi-building me-1"></i>
+
+                        {{ job.company_name }}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="job-meta">
+
+                <span class="meta-badge">
+
+                    <i class="bi bi-geo-alt-fill"></i>
+
+                    {{ job.location }}
+
+                </span>
+
+
+                <span class="meta-badge">
+
+                    <i class="bi bi-clock-fill"></i>
+
+                    {{ job.get_job_type_display }}
+
+                </span>
+
+
+                {% if job.experience %}
+
+                    <span class="meta-badge">
+
+                        <i class="bi bi-person-workspace"></i>
+
+                        {{ job.experience }}
+
+                    </span>
+
+                {% endif %}
+
+
+                {% if job.application_deadline %}
+
+                    <span class="meta-badge">
+
+                        <i class="bi bi-calendar-event-fill"></i>
+
+                        Deadline:
+                        {{ job.application_deadline }}
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+        </section>
+
+
+        <!-- =================================================
+             APPLICATION FORM
+        ================================================== -->
+
+        <section class="application-card">
+
+
+            <div class="section-heading">
+
+                <div class="section-heading-icon">
+
+                    <i class="bi bi-file-earmark-text-fill"></i>
+
+                </div>
+
+
+                <div>
+
+                    <h2>
+                        Submit Your Application
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <p class="section-subtitle">
+
+                Your resume and cover letter will be shared
+                with the recruiter for this job.
+
+            </p>
+
+
+            <form
+                method="POST"
+                enctype="multipart/form-data"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- =========================================
+                     COVER LETTER
+                ========================================== -->
+
+                <div class="field-group">
+
+                    <label
+                        for="cover_letter"
+                        class="form-label"
+                    >
+
+                        Cover Letter
+                        <span class="required-star">*</span>
+
+                    </label>
+
+
+                    <textarea
+                        id="cover_letter"
+                        name="cover_letter"
+                        class="form-control"
+                        minlength="20"
+                        required
+                        placeholder="Write a short cover letter explaining why you are suitable for this job..."
+                    ></textarea>
+
+
+                    <div class="field-footer">
+
+                        <span>
+                            Minimum 20 characters
+                        </span>
+
+                        <span class="counter">
+
+                            <span id="charCount">
+                                0
+                            </span>
+
+                            characters
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     RESUME
+                ========================================== -->
+
+                <div class="field-group">
+
+                    <label
+                        for="resume"
+                        class="form-label"
+                    >
+
+                        Upload Resume
+                        <span class="required-star">*</span>
+
+                    </label>
+
+
+                    <div
+                        class="resume-upload"
+                        id="resumeUploadBox"
+                    >
+
+                        <div class="resume-top">
+
+                            <div class="resume-icon">
+
+                                <i class="bi bi-cloud-arrow-up-fill"></i>
+
+                            </div>
+
+
+                            <div class="resume-text">
+
+                                <h4>
+                                    Upload your latest resume
+                                </h4>
+
+                                <p>
+
+                                    Keep your resume updated so
+                                    recruiters can quickly review
+                                    your profile.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+
+                        <input
+                            type="file"
+                            id="resume"
+                            name="resume"
+                            class="form-control resume-input"
+                            accept=".pdf,.doc,.docx"
+                            required
+                        >
+
+
+                        <div class="resume-note">
+
+                            <i class="bi bi-shield-check"></i>
+
+                            PDF, DOC and DOCX only • Maximum 5 MB
+
+                        </div>
+
+
+                        <div
+                            class="selected-file"
+                            id="selectedFile"
+                        >
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                            <span id="selectedFileName">
+                                Resume selected
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =========================================
+                     ACTIONS
+                ========================================== -->
+
+                <div class="action-row">
+
+
+                    <a
+                        href="{% url 'job_detail' job.id %}"
+                        class="btn btn-modern btn-back"
+                    >
+
+                        <i class="bi bi-arrow-left me-1"></i>
+
+                        Back to Job
+
+                    </a>
+
+
+                    <button
+                        type="submit"
+                        class="btn btn-modern btn-submit"
+                    >
+
+                        <i class="bi bi-send-fill me-2"></i>
+
+                        Submit Application
+
+                    </button>
+
+                </div>
+
+
+                <!-- =========================================
+                     TIP
+                ========================================== -->
+
+                <div class="tip-box">
+
+                    <div class="tip-icon">
+
+                        <i class="bi bi-lightbulb-fill"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <strong>
+                            Application tip
+                        </strong>
+
+
+                        <p>
+
+                            Mention your relevant skills,
+                            projects and experience in the
+                            cover letter. A clear and focused
+                            application is easier to review.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+            </form>
+
+        </section>
+
+
+        <div class="footer-note">
+
+            <i class="bi bi-lock-fill me-1"></i>
+
+            Your application details are submitted securely.
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         BOOTSTRAP JS
+    ====================================================== -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+    </script>
+
+
+    <!-- =====================================================
+         PAGE JS
+    ====================================================== -->
+
+    <script>
+
+        /* ==============================================
+           CHARACTER COUNTER
+        ============================================== */
+
+        const coverLetter =
+            document.getElementById("cover_letter");
+
+        const charCount =
+            document.getElementById("charCount");
+
+
+        if (coverLetter && charCount) {
+
+            const updateCount = () => {
+
+                charCount.textContent =
+                    coverLetter.value.length;
+
+            };
+
+            coverLetter.addEventListener(
+                "input",
+                updateCount
+            );
+
+            updateCount();
+
+        }
+
+
+        /* ==============================================
+           RESUME FILE NAME
+        ============================================== */
+
+        const resumeInput =
+            document.getElementById("resume");
+
+        const selectedFile =
+            document.getElementById("selectedFile");
+
+        const selectedFileName =
+            document.getElementById("selectedFileName");
+
+
+        if (
+            resumeInput &&
+            selectedFile &&
+            selectedFileName
+        ) {
+
+            resumeInput.addEventListener(
+                "change",
+                function () {
+
+                    if (this.files.length > 0) {
+
+                        selectedFileName.textContent =
+                            this.files[0].name;
+
+                        selectedFile.style.display =
+                            "block";
+
+                    } else {
+
+                        selectedFile.style.display =
+                            "none";
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        /* ==============================================
+           DRAG & DROP VISUAL EFFECT
+        ============================================== */
+
+        const resumeBox =
+            document.getElementById(
+                "resumeUploadBox"
+            );
+
+
+        if (resumeBox && resumeInput) {
+
+            [
+                "dragenter",
+                "dragover"
+            ].forEach(
+                eventName => {
+
+                    resumeBox.addEventListener(
+                        eventName,
+                        function (event) {
+
+                            event.preventDefault();
+
+                            resumeBox.classList.add(
+                                "drag-active"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            [
+                "dragleave",
+                "drop"
+            ].forEach(
+                eventName => {
+
+                    resumeBox.addEventListener(
+                        eventName,
+                        function (event) {
+
+                            event.preventDefault();
+
+                            resumeBox.classList.remove(
+                                "drag-active"
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+            resumeBox.addEventListener(
+                "drop",
+                function (event) {
+
+                    if (
+                        event.dataTransfer &&
+                        event.dataTransfer.files.length
+                    ) {
+
+                        try {
+
+                            resumeInput.files =
+                                event.dataTransfer.files;
+
+                            resumeInput.dispatchEvent(
+                                new Event(
+                                    "change",
+                                    {
+                                        bubbles: true
+                                    }
+                                )
+                            );
+
+                        } catch (error) {
+
+                            console.log(
+                                "File selection handled by browser."
+                            );
+
+                        }
+
+                    }
+
+                }
+            );
+
+        }
+
+    </script>
+
+
+</body>
+
+</html>

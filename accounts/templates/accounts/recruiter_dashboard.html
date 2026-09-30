@@ -1,0 +1,2252 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Recruiter Dashboard | Job Portal</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"
+        rel="stylesheet"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+    <style>
+
+        /* =========================================================
+           GLOBAL
+           ========================================================= */
+
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-main: #08111f;
+            --bg-secondary: #0d1b2f;
+            --sidebar: rgba(7, 16, 30, 0.92);
+            --card: rgba(255, 255, 255, 0.075);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --text-main: #f8fafc;
+            --text-soft: #94a3b8;
+            --primary: #3b82f6;
+            --secondary: #6366f1;
+            --cyan: #06b6d4;
+            --green: #22c55e;
+            --yellow: #f59e0b;
+            --red: #ef4444;
+            --shadow: 0 20px 50px rgba(0, 0, 0, 0.30);
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            color: var(--text-main);
+            background:
+                radial-gradient(circle at 10% 10%, rgba(59, 130, 246, 0.18), transparent 30%),
+                radial-gradient(circle at 90% 20%, rgba(99, 102, 241, 0.16), transparent 28%),
+                radial-gradient(circle at 70% 90%, rgba(6, 182, 212, 0.10), transparent 30%),
+                linear-gradient(135deg, #06101d 0%, #0a1628 45%, #07111f 100%);
+            overflow-x: hidden;
+        }
+
+
+        body::before,
+        body::after {
+            content: "";
+            position: fixed;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            filter: blur(90px);
+            opacity: 0.16;
+            pointer-events: none;
+            z-index: 0;
+            animation: floatGlow 8s ease-in-out infinite;
+        }
+
+
+        body::before {
+            background: #2563eb;
+            top: -100px;
+            left: -80px;
+        }
+
+
+        body::after {
+            background: #06b6d4;
+            bottom: -100px;
+            right: -80px;
+            animation-delay: 2s;
+        }
+
+
+        @keyframes floatGlow {
+
+            0%,
+            100% {
+                transform: translate3d(0, 0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate3d(25px, -20px, 0) scale(1.1);
+            }
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+
+        /* =========================================================
+           SIDEBAR
+           ========================================================= */
+
+        .sidebar {
+            position: fixed;
+            top: 18px;
+            left: 18px;
+            bottom: 18px;
+            width: 250px;
+            padding: 22px 14px;
+            z-index: 1000;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    rgba(15, 27, 48, 0.96),
+                    rgba(6, 15, 29, 0.94)
+                );
+
+            border: 1px solid rgba(255, 255, 255, 0.10);
+            border-radius: 24px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(18px);
+
+            overflow-y: auto;
+
+            animation: sidebarIn 0.7s ease both;
+        }
+
+
+        @keyframes sidebarIn {
+
+            from {
+                opacity: 0;
+                transform: translateX(-40px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+
+        .brand {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+
+            margin-bottom: 28px;
+            padding: 10px 12px 20px;
+
+            color: white;
+            font-size: 23px;
+            font-weight: 800;
+
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #7c3aed
+                );
+
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.35);
+
+            animation: pulseBrand 3s ease-in-out infinite;
+        }
+
+
+        @keyframes pulseBrand {
+
+            0%,
+            100% {
+                box-shadow:
+                    0 10px 25px rgba(37, 99, 235, 0.25);
+            }
+
+            50% {
+                box-shadow:
+                    0 12px 35px rgba(99, 102, 241, 0.55);
+            }
+        }
+
+
+        .sidebar a {
+            position: relative;
+
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            margin-bottom: 8px;
+            padding: 13px 14px;
+
+            color: #cbd5e1;
+            font-size: 14px;
+            font-weight: 600;
+
+            border: 1px solid transparent;
+            border-radius: 13px;
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                color 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .sidebar a:hover {
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(59, 130, 246, 0.18),
+                    rgba(99, 102, 241, 0.12)
+                );
+
+            border-color:
+                rgba(96, 165, 250, 0.18);
+
+            transform:
+                translateX(6px)
+                translateY(-1px);
+
+            box-shadow:
+                0 10px 25px rgba(0, 0, 0, 0.18);
+        }
+
+
+        .sidebar a::before {
+            content: "";
+            position: absolute;
+
+            left: -1px;
+            top: 50%;
+
+            width: 3px;
+            height: 0;
+
+            border-radius: 10px;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #3b82f6,
+                    #8b5cf6
+                );
+
+            transform: translateY(-50%);
+
+            transition: 0.25s ease;
+        }
+
+
+        .sidebar a:hover::before {
+            height: 55%;
+        }
+
+
+        /* =========================================================
+           LOGOUT
+           ========================================================= */
+
+        .logout-form {
+            margin: 0;
+        }
+
+
+        .sidebar .logout {
+            position: relative;
+
+            width: 100%;
+
+            display: flex;
+            align-items: center;
+            gap: 11px;
+
+            padding: 13px 14px;
+
+            color: #fca5a5;
+            background: transparent;
+
+            border: 1px solid transparent;
+            border-radius: 13px;
+
+            text-align: left;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+
+            cursor: pointer;
+
+            transition:
+                transform 0.25s ease,
+                background 0.25s ease,
+                color 0.25s ease;
+        }
+
+
+        .sidebar .logout:hover {
+            color: #fff;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(239, 68, 68, 0.18),
+                    rgba(127, 29, 29, 0.12)
+                );
+
+            transform: translateX(6px);
+        }
+
+
+        /* =========================================================
+           MAIN
+           ========================================================= */
+
+        .main {
+            position: relative;
+            z-index: 1;
+
+            margin-left: 286px;
+            min-height: 100vh;
+            padding: 18px 18px 30px 0;
+        }
+
+
+        /* =========================================================
+           TOPBAR
+           ========================================================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            min-height: 74px;
+            padding: 18px 24px;
+
+            background:
+                rgba(255, 255, 255, 0.055);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 12px 35px rgba(0, 0, 0, 0.16);
+
+            backdrop-filter: blur(18px);
+
+            animation: fadeDown 0.7s ease both;
+        }
+
+
+        @keyframes fadeDown {
+
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .welcome {
+            color: #e2e8f0;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+
+        .welcome span {
+            color: #60a5fa;
+        }
+
+
+        .role-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+
+            padding: 9px 15px;
+
+            color: white;
+            font-size: 13px;
+            font-weight: 700;
+
+            border: 1px solid rgba(96, 165, 250, 0.25);
+            border-radius: 50px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(37, 99, 235, 0.90),
+                    rgba(124, 58, 237, 0.85)
+                );
+
+            box-shadow:
+                0 10px 25px rgba(37, 99, 235, 0.20);
+        }
+
+
+        /* =========================================================
+           CONTENT
+           ========================================================= */
+
+        .content {
+            padding: 32px 10px 10px;
+        }
+
+
+        .page-title {
+            margin-bottom: 8px;
+
+            font-size: clamp(32px, 4vw, 52px);
+            line-height: 1.08;
+            font-weight: 900;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #ffffff,
+                    #93c5fd,
+                    #c4b5fd
+                );
+
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+
+            animation: titleIn 0.8s ease both;
+        }
+
+
+        @keyframes titleIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(25px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .page-subtitle {
+            margin-bottom: 30px;
+
+            color: var(--text-soft);
+            font-size: 15px;
+            line-height: 1.7;
+
+            animation: titleIn 1s ease both;
+        }
+
+
+        /* =========================================================
+           STAT CARDS
+           ========================================================= */
+
+        .stat-card {
+            position: relative;
+            isolation: isolate;
+
+            height: 100%;
+            padding: 23px;
+
+            overflow: hidden;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.095),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border:
+                1px solid var(--card-border);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 18px 35px rgba(0, 0, 0, 0.22),
+                inset 0 1px rgba(255, 255, 255, 0.05);
+
+            backdrop-filter: blur(18px);
+
+            transform-style: preserve-3d;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease,
+                border-color 0.35s ease;
+
+            animation: cardIn 0.7s ease both;
+        }
+
+
+        @keyframes cardIn {
+
+            from {
+                opacity: 0;
+                transform:
+                    translateY(35px)
+                    rotateX(6deg);
+            }
+
+            to {
+                opacity: 1;
+                transform:
+                    translateY(0)
+                    rotateX(0);
+            }
+        }
+
+
+        .stat-card::before {
+            content: "";
+            position: absolute;
+
+            width: 140px;
+            height: 140px;
+
+            right: -65px;
+            top: -70px;
+
+            border-radius: 50%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(59, 130, 246, 0.30),
+                    transparent 70%
+                );
+
+            z-index: -1;
+        }
+
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 55%;
+            height: 1px;
+
+            left: 18%;
+            bottom: 0;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(96, 165, 250, 0.65),
+                    transparent
+                );
+
+            opacity: 0.65;
+        }
+
+
+        .stat-card:hover {
+            transform:
+                translateY(-10px)
+                rotateX(4deg)
+                rotateY(-3deg);
+
+            border-color:
+                rgba(96, 165, 250, 0.30);
+
+            box-shadow:
+                0 28px 55px rgba(0, 0, 0, 0.34),
+                0 0 35px rgba(59, 130, 246, 0.10);
+        }
+
+
+        .stat-icon {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin-bottom: 17px;
+
+            font-size: 25px;
+
+            border-radius: 16px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(59, 130, 246, 0.24),
+                    rgba(99, 102, 241, 0.14)
+                );
+
+            border:
+                1px solid rgba(96, 165, 250, 0.18);
+
+            box-shadow:
+                0 12px 25px rgba(0, 0, 0, 0.16);
+
+            transform: translateZ(20px);
+        }
+
+
+        .stat-title {
+            margin-bottom: 6px;
+
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+
+        .stat-number {
+            color: white;
+
+            font-size: 36px;
+            font-weight: 900;
+
+            transform: translateZ(15px);
+        }
+
+
+        /* =========================================================
+           DASHBOARD CARDS
+           ========================================================= */
+
+        .dashboard-card,
+        .table-card,
+        .quick-card {
+            position: relative;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(255, 255, 255, 0.085),
+                    rgba(255, 255, 255, 0.035)
+                );
+
+            border:
+                1px solid rgba(255, 255, 255, 0.10);
+
+            border-radius: 22px;
+
+            box-shadow:
+                0 18px 42px rgba(0, 0, 0, 0.22),
+                inset 0 1px rgba(255, 255, 255, 0.04);
+
+            backdrop-filter: blur(18px);
+        }
+
+
+        .dashboard-card {
+            height: 100%;
+            padding: 25px;
+            overflow: hidden;
+        }
+
+
+        .dashboard-card:hover,
+        .table-card:hover,
+        .quick-card:hover {
+            border-color:
+                rgba(96, 165, 250, 0.22);
+        }
+
+
+        .dashboard-card h5,
+        .table-card h5,
+        .quick-card h6 {
+            color: #f8fafc;
+            font-weight: 800;
+        }
+
+
+        .dashboard-card h5 {
+            margin-bottom: 22px;
+        }
+
+
+        /* =========================================================
+           CHART
+           ========================================================= */
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            height: 320px;
+        }
+
+
+        /* =========================================================
+           STATUS SUMMARY
+           ========================================================= */
+
+        .summary-box {
+            position: relative;
+
+            min-height: 110px;
+            padding: 18px;
+
+            overflow: hidden;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.08);
+
+            border-radius: 17px;
+
+            transition:
+                transform 0.28s ease,
+                background 0.28s ease,
+                border-color 0.28s ease;
+        }
+
+
+        .summary-box:hover {
+            transform: translateY(-5px) scale(1.015);
+
+            background:
+                rgba(255, 255, 255, 0.075);
+
+            border-color:
+                rgba(96, 165, 250, 0.20);
+        }
+
+
+        .summary-label {
+            margin-bottom: 8px;
+
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+
+        .summary-number {
+            margin: 0;
+
+            font-size: 30px;
+            font-weight: 900;
+        }
+
+
+        /* =========================================================
+           TABLE
+           ========================================================= */
+
+        .table-card {
+            padding: 25px;
+            overflow: hidden;
+        }
+
+
+        .table-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+
+        .jobs-count {
+            padding: 7px 12px;
+
+            color: #bfdbfe;
+            font-size: 12px;
+            font-weight: 700;
+
+            background:
+                rgba(59, 130, 246, 0.13);
+
+            border:
+                1px solid rgba(96, 165, 250, 0.15);
+
+            border-radius: 50px;
+        }
+
+
+        .table-responsive {
+            border-radius: 14px;
+        }
+
+
+        .premium-table {
+            margin: 0;
+
+            color: #e2e8f0;
+
+            --bs-table-bg: transparent;
+            --bs-table-border-color:
+                rgba(255, 255, 255, 0.07);
+        }
+
+
+        .premium-table thead th {
+            padding: 14px 13px;
+
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+
+            background:
+                rgba(255, 255, 255, 0.035);
+
+            white-space: nowrap;
+        }
+
+
+        .premium-table tbody td {
+            padding: 15px 13px;
+
+            color: #cbd5e1;
+            vertical-align: middle;
+        }
+
+
+        .premium-table tbody tr {
+            transition:
+                background 0.25s ease,
+                transform 0.25s ease;
+        }
+
+
+        .premium-table tbody tr:hover {
+            background:
+                rgba(59, 130, 246, 0.065);
+
+            transform: translateX(3px);
+        }
+
+
+        .job-name {
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+
+        .location-text {
+            color: #94a3b8;
+        }
+
+
+        .application-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            min-width: 32px;
+            min-height: 32px;
+
+            padding: 6px 10px;
+
+            border-radius: 10px;
+        }
+
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+
+            padding: 7px 10px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            border-radius: 50px;
+        }
+
+
+        .status-active {
+            color: #86efac;
+
+            background:
+                rgba(34, 197, 94, 0.12);
+
+            border:
+                1px solid rgba(34, 197, 94, 0.18);
+        }
+
+
+        .status-inactive {
+            color: #cbd5e1;
+
+            background:
+                rgba(148, 163, 184, 0.10);
+
+            border:
+                1px solid rgba(148, 163, 184, 0.13);
+        }
+
+
+        .view-btn {
+            border-radius: 10px;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 10px 20px rgba(59, 130, 246, 0.18);
+        }
+
+
+        /* =========================================================
+           QUICK ACTIONS
+           ========================================================= */
+
+        .quick-card {
+            height: 100%;
+            padding: 27px;
+
+            text-align: center;
+
+            overflow: hidden;
+
+            transition:
+                transform 0.35s ease,
+                box-shadow 0.35s ease;
+        }
+
+
+        .quick-card:hover {
+            transform:
+                translateY(-9px)
+                rotateX(3deg);
+
+            box-shadow:
+                0 25px 50px rgba(0, 0, 0, 0.30);
+        }
+
+
+        .quick-icon {
+            width: 70px;
+            height: 70px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 18px;
+
+            font-size: 30px;
+
+            border-radius: 20px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    rgba(59, 130, 246, 0.24),
+                    rgba(124, 58, 237, 0.18)
+                );
+
+            border:
+                1px solid rgba(96, 165, 250, 0.15);
+
+            box-shadow:
+                0 15px 30px rgba(0, 0, 0, 0.20);
+
+            transition:
+                transform 0.35s ease;
+        }
+
+
+        .quick-card:hover .quick-icon {
+            transform:
+                translateY(-4px)
+                rotate(4deg)
+                scale(1.05);
+        }
+
+
+        .quick-card h6 {
+            margin-bottom: 9px;
+            font-size: 17px;
+        }
+
+
+        .quick-card p {
+            min-height: 42px;
+            margin-bottom: 18px;
+
+            color: #94a3b8 !important;
+        }
+
+
+        .quick-card .btn {
+            border-radius: 10px;
+            font-weight: 700;
+
+            box-shadow:
+                0 8px 18px rgba(0, 0, 0, 0.16);
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+
+        .quick-card .btn:hover {
+            transform: translateY(-2px);
+
+            box-shadow:
+                0 12px 25px rgba(59, 130, 246, 0.20);
+        }
+
+
+        /* =========================================================
+           BUTTONS
+           ========================================================= */
+
+        .btn-primary {
+            border: none;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #6366f1
+                );
+        }
+
+
+        .btn-warning {
+            border: none;
+        }
+
+
+        /* =========================================================
+           EMPTY STATE
+           ========================================================= */
+
+        .empty-state {
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+
+        .empty-icon {
+            width: 75px;
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin: 0 auto 17px;
+
+            font-size: 30px;
+
+            border-radius: 22px;
+
+            background:
+                rgba(59, 130, 246, 0.12);
+
+            border:
+                1px solid rgba(96, 165, 250, 0.16);
+        }
+
+
+        .empty-state h5 {
+            color: white;
+            font-weight: 800;
+        }
+
+
+        .empty-state p {
+            color: #94a3b8;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+           ========================================================= */
+
+        @media (max-width: 1199.98px) {
+
+            .sidebar {
+                width: 225px;
+            }
+
+            .main {
+                margin-left: 258px;
+            }
+
+            .content {
+                padding-top: 26px;
+            }
+
+            .stat-card {
+                padding: 20px;
+            }
+
+            .stat-number {
+                font-size: 32px;
+            }
+        }
+
+
+        @media (max-width: 991.98px) {
+
+            .sidebar {
+                position: relative;
+
+                top: auto;
+                left: auto;
+                bottom: auto;
+
+                width: calc(100% - 30px);
+                height: auto;
+
+                margin: 15px;
+
+                border-radius: 22px;
+            }
+
+
+            .main {
+                margin-left: 0;
+                padding: 0 15px 25px;
+            }
+
+
+            .topbar {
+                margin-top: 4px;
+            }
+
+
+            .content {
+                padding: 25px 0 0;
+            }
+
+
+            .chart-container {
+                height: 290px;
+            }
+        }
+
+
+        @media (max-width: 767.98px) {
+
+            .sidebar {
+                padding: 18px 12px;
+            }
+
+
+            .brand {
+                justify-content: center;
+                margin-bottom: 18px;
+            }
+
+
+            .sidebar a,
+            .sidebar .logout {
+                font-size: 13px;
+                padding: 11px 12px;
+            }
+
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+
+                gap: 12px;
+
+                padding: 16px;
+            }
+
+
+            .topbar > div:last-child {
+                width: 100%;
+            }
+
+
+            .role-badge {
+                width: max-content;
+            }
+
+
+            .page-title {
+                font-size: 32px;
+            }
+
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+
+            .dashboard-card,
+            .table-card,
+            .quick-card {
+                padding: 18px;
+            }
+
+
+            .chart-container {
+                height: 250px;
+            }
+
+
+            .table {
+                min-width: 780px;
+            }
+
+
+            .quick-card .btn {
+                width: 100%;
+            }
+        }
+
+
+        @media (max-width: 575.98px) {
+
+            .sidebar {
+                margin: 10px;
+                width: calc(100% - 20px);
+            }
+
+
+            .main {
+                padding-left: 10px;
+                padding-right: 10px;
+            }
+
+
+            .page-title {
+                font-size: 28px;
+            }
+
+
+            .page-subtitle {
+                line-height: 1.6;
+            }
+
+
+            .stat-card {
+                padding: 18px;
+            }
+
+
+            .stat-icon {
+                width: 50px;
+                height: 50px;
+            }
+
+
+            .stat-number {
+                font-size: 30px;
+            }
+
+
+            .chart-container {
+                height: 220px;
+            }
+
+
+            .table-card-header {
+                align-items: flex-start;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     SIDEBAR
+     ========================================================= -->
+
+<div class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            <i class="bi bi-briefcase-fill"></i>
+        </div>
+
+        <span>Job Portal</span>
+
+    </div>
+
+
+    <a href="{% url 'recruiter_dashboard' %}">
+        <i class="bi bi-grid-1x2-fill"></i>
+        <span>Dashboard</span>
+    </a>
+
+
+    <a href="{% url 'create_job' %}">
+        <i class="bi bi-plus-square-fill"></i>
+        <span>Post New Job</span>
+    </a>
+
+
+    <a href="{% url 'my_jobs' %}">
+        <i class="bi bi-briefcase-fill"></i>
+        <span>My Posted Jobs</span>
+    </a>
+
+
+    <a href="{% url 'job_list' %}">
+        <i class="bi bi-search"></i>
+        <span>View Jobs</span>
+    </a>
+
+
+    <a href="{% url 'company_profile' %}">
+        <i class="bi bi-building-fill"></i>
+        <span>Company Profile</span>
+    </a>
+
+
+    <form
+        method="POST"
+        action="{% url 'logout' %}"
+        class="logout-form"
+    >
+
+        {% csrf_token %}
+
+        <button
+            type="submit"
+            class="logout"
+        >
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+        </button>
+
+    </form>
+
+</div>
+
+
+
+<!-- =========================================================
+     MAIN
+     ========================================================= -->
+
+<div class="main">
+
+
+    <!-- TOPBAR -->
+
+    <div class="topbar">
+
+        <div>
+
+            <span class="welcome">
+                Welcome,
+                <span>{{ user.username }}</span>
+            </span>
+
+        </div>
+
+
+        <div>
+
+            <span class="role-badge">
+                <i class="bi bi-person-badge-fill"></i>
+                Recruiter
+            </span>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+
+        <h1 class="page-title">
+            Recruiter Dashboard
+        </h1>
+
+
+        <p class="page-subtitle">
+            Monitor your jobs and recruitment activity using real database data.
+        </p>
+
+
+
+        <!-- =====================================================
+             KPI CARDS
+             ===================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <!-- TOTAL JOBS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-briefcase-fill"></i>
+                    </div>
+
+
+                    <div class="stat-title">
+                        Total Jobs
+                    </div>
+
+
+                    <div class="stat-number">
+                        {{ total_jobs }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ACTIVE JOBS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-circle-fill text-success"></i>
+                    </div>
+
+
+                    <div class="stat-title">
+                        Active Jobs
+                    </div>
+
+
+                    <div class="stat-number text-success">
+                        {{ active_jobs }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- APPLICATIONS -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-envelope-paper-fill"></i>
+                    </div>
+
+
+                    <div class="stat-title">
+                        Total Applications
+                    </div>
+
+
+                    <div class="stat-number text-primary">
+                        {{ total_applications }}
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- SELECTED -->
+
+            <div class="col-md-6 col-xl-3">
+
+                <div class="stat-card">
+
+                    <div class="stat-icon">
+                        <i class="bi bi-check-circle-fill text-success"></i>
+                    </div>
+
+
+                    <div class="stat-title">
+                        Selected
+                    </div>
+
+
+                    <div class="stat-number text-success">
+                        {{ selected_applications }}
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             APPLICATION STATUS
+             ===================================================== -->
+
+        <div class="row g-4 mb-4">
+
+
+            <!-- CHART -->
+
+            <div class="col-lg-6">
+
+                <div class="dashboard-card">
+
+                    <h5>
+                        <i class="bi bi-pie-chart-fill me-2 text-primary"></i>
+                        Application Status
+                    </h5>
+
+
+                    <div class="chart-container">
+
+                        <canvas id="statusChart"></canvas>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- STATUS SUMMARY -->
+
+            <div class="col-lg-6">
+
+                <div class="dashboard-card">
+
+                    <h5>
+                        <i class="bi bi-bar-chart-fill me-2 text-info"></i>
+                        Status Summary
+                    </h5>
+
+
+                    <div class="row g-3">
+
+
+                        <!-- APPLIED -->
+
+                        <div class="col-6">
+
+                            <div class="summary-box">
+
+                                <div class="summary-label">
+                                    <i class="bi bi-send-fill me-1"></i>
+                                    Applied
+                                </div>
+
+
+                                <h3 class="summary-number text-primary">
+                                    {{ applied_applications }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SHORTLISTED -->
+
+                        <div class="col-6">
+
+                            <div class="summary-box">
+
+                                <div class="summary-label">
+                                    <i class="bi bi-star-fill me-1"></i>
+                                    Shortlisted
+                                </div>
+
+
+                                <h3 class="summary-number text-warning">
+                                    {{ shortlisted_applications }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- REJECTED -->
+
+                        <div class="col-6">
+
+                            <div class="summary-box">
+
+                                <div class="summary-label">
+                                    <i class="bi bi-x-circle-fill me-1"></i>
+                                    Rejected
+                                </div>
+
+
+                                <h3 class="summary-number text-danger">
+                                    {{ rejected_applications }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- SELECTED -->
+
+                        <div class="col-6">
+
+                            <div class="summary-box">
+
+                                <div class="summary-label">
+                                    <i class="bi bi-check-circle-fill me-1"></i>
+                                    Selected
+                                </div>
+
+
+                                <h3 class="summary-number text-success">
+                                    {{ selected_applications }}
+                                </h3>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =====================================================
+             JOB PERFORMANCE
+             ===================================================== -->
+
+        <div class="table-card mb-4">
+
+
+            <div class="table-card-header">
+
+                <h5 class="mb-0">
+                    <i class="bi bi-graph-up-arrow me-2 text-primary"></i>
+                    Job Performance
+                </h5>
+
+
+                <span class="jobs-count">
+                    <i class="bi bi-briefcase me-1"></i>
+                    {{ total_jobs }} Jobs
+                </span>
+
+            </div>
+
+
+
+            {% if job_statistics %}
+
+
+            <div class="table-responsive">
+
+                <table class="table premium-table align-middle">
+
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Job
+                            </th>
+
+                            <th>
+                                Company
+                            </th>
+
+                            <th>
+                                Location
+                            </th>
+
+                            <th>
+                                Vacancies
+                            </th>
+
+                            <th>
+                                Applications
+                            </th>
+
+                            <th>
+                                Status
+                            </th>
+
+                            <th>
+                                Action
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+
+                    <tbody>
+
+
+                        {% for item in job_statistics %}
+
+                        <tr>
+
+
+                            <td>
+
+                                <span class="job-name">
+                                    {{ item.title }}
+                                </span>
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ item.company_name }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                <span class="location-text">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>
+                                    {{ item.location }}
+                                </span>
+
+                            </td>
+
+
+
+                            <td>
+
+                                {{ item.vacancies }}
+
+                            </td>
+
+
+
+                            <td>
+
+                                <span class="application-badge bg-primary bg-opacity-25 text-primary">
+
+                                    {{ item.application_count|default:0 }}
+
+                                </span>
+
+                            </td>
+
+
+
+                            <td>
+
+
+                                {% if item.is_active %}
+
+                                    <span class="status-pill status-active">
+
+                                        <i class="bi bi-circle-fill"></i>
+                                        Active
+
+                                    </span>
+
+                                {% else %}
+
+                                    <span class="status-pill status-inactive">
+
+                                        <i class="bi bi-circle-fill"></i>
+                                        Inactive
+
+                                    </span>
+
+                                {% endif %}
+
+                            </td>
+
+
+
+                            <td>
+
+                                <a
+                                    href="{% url 'job_applicants' item.id %}"
+                                    class="btn btn-sm btn-outline-primary view-btn"
+                                >
+
+                                    <i class="bi bi-people-fill me-1"></i>
+                                    View Applicants
+
+                                </a>
+
+                            </td>
+
+
+                        </tr>
+
+                        {% endfor %}
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+
+            {% else %}
+
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        <i class="bi bi-briefcase"></i>
+                    </div>
+
+
+                    <h5>
+                        No jobs posted yet
+                    </h5>
+
+
+                    <p>
+                        Create your first job to start receiving applications.
+                    </p>
+
+
+                    <a
+                        href="{% url 'create_job' %}"
+                        class="btn btn-primary px-4"
+                    >
+                        <i class="bi bi-plus-lg me-1"></i>
+                        Post Your First Job
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </div>
+
+
+
+        <!-- =====================================================
+             QUICK ACTIONS
+             ===================================================== -->
+
+        <h4 class="mb-3 fw-bold">
+
+            <i class="bi bi-lightning-charge-fill text-warning me-2"></i>
+
+            Quick Actions
+
+        </h4>
+
+
+
+        <div class="row g-4">
+
+
+            <!-- POST JOB -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon">
+
+                        <i class="bi bi-plus-square-fill"></i>
+
+                    </div>
+
+
+                    <h6>
+                        Post New Job
+                    </h6>
+
+
+                    <p class="small">
+                        Create and publish a new vacancy.
+                    </p>
+
+
+                    <a
+                        href="{% url 'create_job' %}"
+                        class="btn btn-primary btn-sm"
+                    >
+                        <i class="bi bi-plus-lg me-1"></i>
+                        Post Job
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MY JOBS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon">
+
+                        <i class="bi bi-briefcase-fill"></i>
+
+                    </div>
+
+
+                    <h6>
+                        My Jobs
+                    </h6>
+
+
+                    <p class="small">
+                        Manage your posted jobs.
+                    </p>
+
+
+                    <a
+                        href="{% url 'my_jobs' %}"
+                        class="btn btn-warning btn-sm"
+                    >
+                        <i class="bi bi-pencil-square me-1"></i>
+                        Manage Jobs
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- COMPANY PROFILE -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon">
+
+                        <i class="bi bi-building-fill"></i>
+
+                    </div>
+
+
+                    <h6>
+                        Company Profile
+                    </h6>
+
+
+                    <p class="small">
+                        Manage your company information.
+                    </p>
+
+
+                    <a
+                        href="{% url 'company_profile' %}"
+                        class="btn btn-info btn-sm text-white"
+                    >
+                        <i class="bi bi-building me-1"></i>
+                        Manage Profile
+                    </a>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- VIEW JOBS -->
+
+            <div class="col-md-6 col-lg-3">
+
+                <div class="quick-card">
+
+                    <div class="quick-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+
+                    <h6>
+                        View Jobs
+                    </h6>
+
+
+                    <p class="small">
+                        Browse available jobs.
+                    </p>
+
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn btn-success btn-sm"
+                    >
+                        <i class="bi bi-eye-fill me-1"></i>
+                        View Jobs
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================================================
+     CHART DATA
+     ========================================================= -->
+
+<div
+    id="chartData"
+
+    data-applied="{{ applied_applications|default:0 }}"
+
+    data-shortlisted="{{ shortlisted_applications|default:0 }}"
+
+    data-rejected="{{ rejected_applications|default:0 }}"
+
+    data-selected="{{ selected_applications|default:0 }}"
+
+    style="display: none;"
+>
+</div>
+
+
+
+<!-- =========================================================
+     CHART SCRIPT
+     ========================================================= -->
+
+<script>
+
+    const chartData =
+        document.getElementById("chartData");
+
+
+    const applied =
+        Number(chartData.dataset.applied || 0);
+
+
+    const shortlisted =
+        Number(chartData.dataset.shortlisted || 0);
+
+
+    const rejected =
+        Number(chartData.dataset.rejected || 0);
+
+
+    const selected =
+        Number(chartData.dataset.selected || 0);
+
+
+
+    const statusChart =
+        document.getElementById("statusChart");
+
+
+
+    new Chart(statusChart, {
+
+        type: "doughnut",
+
+
+        data: {
+
+            labels: [
+                "Applied",
+                "Shortlisted",
+                "Rejected",
+                "Selected"
+            ],
+
+
+            datasets: [{
+
+                data: [
+                    applied,
+                    shortlisted,
+                    rejected,
+                    selected
+                ],
+
+
+                borderWidth: 2,
+
+                hoverOffset: 8
+
+            }]
+
+        },
+
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+
+            cutout: "66%",
+
+
+            animation: {
+
+                animateRotate: true,
+
+                animateScale: true,
+
+                duration: 1200,
+
+                easing: "easeOutQuart"
+
+            },
+
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        color: "#cbd5e1",
+
+                        padding: 18,
+
+                        usePointStyle: true,
+
+                        font: {
+
+                            size: 12,
+
+                            weight: "600"
+
+                        }
+
+                    }
+
+                }
+
+            }
+
+        }
+
+    });
+
+</script>
+
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+</body>
+
+</html>

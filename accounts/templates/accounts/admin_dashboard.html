@@ -1,0 +1,1425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Job Portal</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f5f7fb;
+            font-family: Inter, Arial, sans-serif;
+            color: #111827;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+
+        .sidebar {
+            min-height: 100vh;
+            background:
+                radial-gradient(circle at top left, rgba(37, 99, 235, .25), transparent 30%),
+                linear-gradient(180deg, #0f172a 0%, #111827 100%);
+            color: white;
+            padding: 24px 16px;
+            position: sticky;
+            top: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 10px 28px;
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            margin-bottom: 25px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            box-shadow: 0 10px 25px rgba(37,99,235,.3);
+        }
+
+        .brand-title {
+            font-size: 19px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .brand-subtitle {
+            color: #94a3b8;
+            font-size: 11px;
+        }
+
+        .menu-title {
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .sidebar a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #cbd5e1;
+            text-decoration: none;
+            padding: 12px 14px;
+            border-radius: 12px;
+            margin-bottom: 7px;
+            transition: all .25s ease;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .sidebar a i {
+            font-size: 17px;
+            width: 20px;
+        }
+
+        .sidebar a:hover {
+            background: rgba(59,130,246,.15);
+            color: white;
+            transform: translateX(3px);
+        }
+
+        .sidebar a.active {
+            background: linear-gradient(
+                135deg,
+                rgba(37,99,235,.95),
+                rgba(79,70,229,.95)
+            );
+            color: white;
+            box-shadow: 0 10px 25px rgba(37,99,235,.25);
+        }
+
+        .sidebar-divider {
+            border-color: rgba(255,255,255,.08);
+            margin: 25px 5px;
+        }
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .main-content {
+            padding: 28px;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+
+        .topbar {
+            background: rgba(255,255,255,.9);
+            border: 1px solid #e5e7eb;
+            border-radius: 18px;
+            padding: 18px 22px;
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 8px 30px rgba(15,23,42,.05);
+            backdrop-filter: blur(10px);
+        }
+
+        .page-title {
+            font-size: 23px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .page-subtitle {
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .admin-avatar {
+            width: 43px;
+            height: 43px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            box-shadow: 0 8px 20px rgba(37,99,235,.25);
+        }
+
+        .admin-name {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .admin-role {
+            color: #64748b;
+            font-size: 11px;
+        }
+
+        /* =========================
+           STAT CARDS
+        ========================= */
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e8edf5;
+            border-radius: 18px;
+            padding: 22px;
+            height: 100%;
+            box-shadow: 0 8px 25px rgba(15,23,42,.05);
+            transition: all .3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            right: -45px;
+            top: -45px;
+            background: rgba(37,99,235,.06);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 35px rgba(15,23,42,.10);
+        }
+
+        .stat-title {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+        }
+
+        .stat-number {
+            font-size: 30px;
+            font-weight: 800;
+            color: #111827;
+        }
+
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .blue-icon {
+            background: #dbeafe;
+            color: #2563eb;
+        }
+
+        .purple-icon {
+            background: #ede9fe;
+            color: #7c3aed;
+        }
+
+        .green-icon {
+            background: #dcfce7;
+            color: #16a34a;
+        }
+
+        .orange-icon {
+            background: #ffedd5;
+            color: #ea580c;
+        }
+
+        .yellow-icon {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .red-icon {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        /* =========================
+           DASHBOARD CARDS
+        ========================= */
+
+        .dashboard-card {
+            background: white;
+            border: 1px solid #e8edf5;
+            border-radius: 18px;
+            padding: 23px;
+            height: 100%;
+            box-shadow: 0 8px 25px rgba(15,23,42,.05);
+            transition: all .3s ease;
+        }
+
+        .dashboard-card:hover {
+            box-shadow: 0 15px 35px rgba(15,23,42,.08);
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .card-heading h5 {
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .card-heading small {
+            color: #64748b;
+        }
+
+        /* =========================
+           APPLICATION SUMMARY
+        ========================= */
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 0;
+            border-bottom: 1px solid #edf0f5;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-size: 14px;
+            color: #475569;
+        }
+
+        .summary-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+        }
+
+        .dot-blue {
+            background: #2563eb;
+        }
+
+        .dot-yellow {
+            background: #f59e0b;
+        }
+
+        .dot-green {
+            background: #16a34a;
+        }
+
+        .dot-red {
+            background: #dc2626;
+        }
+
+        .summary-value {
+            font-weight: 800;
+            font-size: 15px;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+
+        .table {
+            margin-bottom: 0;
+        }
+
+        .table thead th {
+            background: #f8fafc;
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: .4px;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 13px;
+            white-space: nowrap;
+        }
+
+        .table tbody td {
+            padding: 14px 13px;
+            vertical-align: middle;
+            border-color: #f1f5f9;
+            font-size: 13px;
+        }
+
+        .table tbody tr {
+            transition: background .2s ease;
+        }
+
+        .table tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .user-name,
+        .job-name {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .muted-text {
+            color: #64748b;
+        }
+
+        /* =========================
+           BADGES
+        ========================= */
+
+        .badge-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 6px 10px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .badge-applied {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-shortlisted {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-selected {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-rejected {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .badge-active {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-inactive {
+            background: #e5e7eb;
+            color: #475569;
+        }
+
+        /* =========================
+           CHART
+        ========================= */
+
+        .chart-container {
+            position: relative;
+            height: 300px;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            margin-top: 30px;
+            padding: 20px 0 5px;
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+
+        @media (max-width: 991px) {
+
+            .sidebar {
+                position: relative;
+                min-height: auto;
+            }
+
+            .main-content {
+                padding: 20px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+
+        @media (max-width: 768px) {
+
+            .main-content {
+                padding: 15px;
+            }
+
+            .topbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .admin-profile {
+                width: 100%;
+            }
+
+            .chart-container {
+                height: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+    <div class="row">
+
+        <!-- =========================
+             SIDEBAR
+        ========================= -->
+
+        <div class="col-lg-2 sidebar">
+
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="bi bi-briefcase-fill"></i>
+                </div>
+
+                <div>
+                    <div class="brand-title">Job Portal</div>
+                    <div class="brand-subtitle">Admin Panel</div>
+                </div>
+            </div>
+
+            <div class="menu-title">
+                Main Menu
+            </div>
+
+            <a href="{% url 'admin_dashboard' %}" class="active">
+                <i class="bi bi-grid-1x2-fill"></i>
+                Dashboard
+            </a>
+
+            <a href="{% url 'admin_users' %}">
+                <i class="bi bi-people-fill"></i>
+                Users
+            </a>
+
+            <a href="{% url 'job_list' %}">
+                <i class="bi bi-briefcase-fill"></i>
+                Jobs
+            </a>
+
+            <hr class="sidebar-divider">
+
+            <div class="menu-title">
+                System
+            </div>
+
+            <a href="/admin/">
+                <i class="bi bi-gear-fill"></i>
+                Django Admin
+            </a>
+
+            <a href="{% url 'logout' %}">
+                <i class="bi bi-box-arrow-right"></i>
+                Logout
+            </a>
+
+        </div>
+
+
+        <!-- =========================
+             MAIN CONTENT
+        ========================= -->
+
+        <div class="col-lg-10 main-content">
+
+            <!-- TOPBAR -->
+
+            <div class="topbar">
+
+                <div>
+                    <h1 class="page-title">
+                        Admin Dashboard
+                    </h1>
+
+                    <div class="page-subtitle">
+                        Monitor and manage your Job Portal
+                    </div>
+                </div>
+
+                <div class="admin-profile">
+
+                    <div class="admin-avatar">
+                        {{ request.user.username|first|upper }}
+                    </div>
+
+                    <div>
+                        <div class="admin-name">
+                            {{ request.user.username }}
+                        </div>
+
+                        <div class="admin-role">
+                            Super Administrator
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 FIRST STAT ROW
+            ========================= -->
+
+            <div class="row g-4 mb-4">
+
+                <!-- USERS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Total Users
+                                </div>
+
+                                <div class="stat-number">
+                                    {{ total_users }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon blue-icon">
+                                <i class="bi bi-people-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- CANDIDATES -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Candidates
+                                </div>
+
+                                <div class="stat-number">
+                                    {{ total_candidates }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon purple-icon">
+                                <i class="bi bi-person-workspace"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECRUITERS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Recruiters
+                                </div>
+
+                                <div class="stat-number">
+                                    {{ total_recruiters }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon green-icon">
+                                <i class="bi bi-building"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- JOBS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Total Jobs
+                                </div>
+
+                                <div class="stat-number">
+                                    {{ total_jobs }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon orange-icon">
+                                <i class="bi bi-briefcase-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 SECOND STAT ROW
+            ========================= -->
+
+            <div class="row g-4 mb-4">
+
+                <!-- ACTIVE JOBS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Active Jobs
+                                </div>
+
+                                <div class="stat-number text-success">
+                                    {{ active_jobs }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon green-icon">
+                                <i class="bi bi-check-circle-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- APPLICATIONS -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Applications
+                                </div>
+
+                                <div class="stat-number">
+                                    {{ total_applications }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon blue-icon">
+                                <i class="bi bi-file-earmark-text-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SHORTLISTED -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Shortlisted
+                                </div>
+
+                                <div class="stat-number text-warning">
+                                    {{ shortlisted_applications }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon yellow-icon">
+                                <i class="bi bi-star-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SELECTED -->
+
+                <div class="col-xl-3 col-md-6">
+
+                    <div class="stat-card">
+
+                        <div class="d-flex justify-content-between align-items-start">
+
+                            <div>
+                                <div class="stat-title">
+                                    Selected
+                                </div>
+
+                                <div class="stat-number text-primary">
+                                    {{ selected_applications }}
+                                </div>
+                            </div>
+
+                            <div class="stat-icon purple-icon">
+                                <i class="bi bi-trophy-fill"></i>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 CHART + SUMMARY
+            ========================= -->
+
+            <div class="row g-4 mb-4">
+
+                <!-- CHART -->
+
+                <div class="col-xl-7">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h5>
+                                    Application Status Overview
+                                </h5>
+
+                                <small>
+                                    Current application distribution
+                                </small>
+                            </div>
+
+                            <i class="bi bi-bar-chart-line-fill text-primary fs-4"></i>
+
+                        </div>
+
+                        <div class="chart-container">
+
+                            <canvas id="applicationChart"></canvas>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUMMARY -->
+
+                <div class="col-xl-5">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h5>
+                                    Application Summary
+                                </h5>
+
+                                <small>
+                                    Recruitment pipeline
+                                </small>
+                            </div>
+
+                            <i class="bi bi-clipboard-data-fill text-primary fs-4"></i>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <div class="summary-label">
+                                <span class="summary-dot dot-blue"></span>
+                                Applied
+                            </div>
+
+                            <div class="summary-value">
+                                {{ applied_applications }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <div class="summary-label">
+                                <span class="summary-dot dot-yellow"></span>
+                                Shortlisted
+                            </div>
+
+                            <div class="summary-value">
+                                {{ shortlisted_applications }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <div class="summary-label">
+                                <span class="summary-dot dot-green"></span>
+                                Selected
+                            </div>
+
+                            <div class="summary-value">
+                                {{ selected_applications }}
+                            </div>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <div class="summary-label">
+                                <span class="summary-dot dot-red"></span>
+                                Rejected
+                            </div>
+
+                            <div class="summary-value">
+                                {{ rejected_applications }}
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 RECENT JOBS + USERS
+            ========================= -->
+
+            <div class="row g-4 mb-4">
+
+                <!-- RECENT JOBS -->
+
+                <div class="col-xl-6">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h5>
+                                    Recent Jobs
+                                </h5>
+
+                                <small>
+                                    Latest job postings
+                                </small>
+                            </div>
+
+                            <i class="bi bi-briefcase text-primary fs-4"></i>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Job</th>
+                                        <th>Company</th>
+                                        <th>Status</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                {% for job in recent_jobs %}
+
+                                    <tr>
+
+                                        <td>
+                                            <div class="job-name">
+                                                {{ job.title }}
+                                            </div>
+                                        </td>
+
+                                        <td class="muted-text">
+                                            {{ job.company_name }}
+                                        </td>
+
+                                        <td>
+
+                                            {% if job.is_active %}
+
+                                                <span class="badge-status badge-active">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    Active
+                                                </span>
+
+                                            {% else %}
+
+                                                <span class="badge-status badge-inactive">
+                                                    Inactive
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% empty %}
+
+                                    <tr>
+
+                                        <td colspan="3"
+                                            class="text-center text-muted py-4">
+
+                                            No jobs found.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT USERS -->
+
+                <div class="col-xl-6">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h5>
+                                    Recent Users
+                                </h5>
+
+                                <small>
+                                    Latest registered users
+                                </small>
+                            </div>
+
+                            <i class="bi bi-people text-primary fs-4"></i>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Username</th>
+                                        <th>Role</th>
+                                        <th>Email</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                {% for user in recent_users %}
+
+                                    <tr>
+
+                                        <td>
+                                            <div class="user-name">
+                                                {{ user.username }}
+                                            </div>
+                                        </td>
+
+                                        <td>
+
+                                            {% if user.is_superuser %}
+
+                                                <span class="badge-status badge-shortlisted">
+                                                    Admin
+                                                </span>
+
+                                            {% elif user.role == "candidate" %}
+
+                                                <span class="badge-status badge-applied">
+                                                    Candidate
+                                                </span>
+
+                                            {% elif user.role == "recruiter" %}
+
+                                                <span class="badge-status badge-selected">
+                                                    Recruiter
+                                                </span>
+
+                                            {% else %}
+
+                                                {{ user.role|title }}
+
+                                            {% endif %}
+
+                                        </td>
+
+                                        <td class="muted-text">
+                                            {{ user.email }}
+                                        </td>
+
+                                    </tr>
+
+                                {% empty %}
+
+                                    <tr>
+
+                                        <td colspan="3"
+                                            class="text-center text-muted py-4">
+
+                                            No users found.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- =========================
+                 RECENT APPLICATIONS
+            ========================= -->
+
+            <div class="row g-4">
+
+                <div class="col-12">
+
+                    <div class="dashboard-card">
+
+                        <div class="card-heading">
+
+                            <div>
+                                <h5>
+                                    Recent Applications
+                                </h5>
+
+                                <small>
+                                    Latest candidate applications
+                                </small>
+                            </div>
+
+                            <i class="bi bi-file-earmark-person-fill text-primary fs-4"></i>
+
+                        </div>
+
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Job</th>
+                                        <th>Status</th>
+                                        <th>Applied</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                {% for application in recent_applications %}
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="user-name">
+                                                {{ application.candidate.username }}
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            <div class="job-name">
+                                                {{ application.job.title }}
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {% if application.status == "applied" %}
+
+                                                <span class="badge-status badge-applied">
+                                                    <i class="bi bi-send-fill"></i>
+                                                    Applied
+                                                </span>
+
+                                            {% elif application.status == "shortlisted" %}
+
+                                                <span class="badge-status badge-shortlisted">
+                                                    <i class="bi bi-star-fill"></i>
+                                                    Shortlisted
+                                                </span>
+
+                                            {% elif application.status == "selected" %}
+
+                                                <span class="badge-status badge-selected">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    Selected
+                                                </span>
+
+                                            {% elif application.status == "rejected" %}
+
+                                                <span class="badge-status badge-rejected">
+                                                    <i class="bi bi-x-circle-fill"></i>
+                                                    Rejected
+                                                </span>
+
+                                            {% endif %}
+
+                                        </td>
+
+
+                                        <td class="muted-text">
+
+                                            {{ application.applied_at|date:"d M Y" }}
+
+                                        </td>
+
+                                    </tr>
+
+                                {% empty %}
+
+                                    <tr>
+
+                                        <td colspan="4"
+                                            class="text-center text-muted py-4">
+
+                                            No applications found.
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- FOOTER -->
+
+            <div class="footer">
+                Job Portal Admin Dashboard © 2026
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+<!-- =========================
+     CHART JS
+========================= -->
+
+<script>
+
+const ctx = document.getElementById("applicationChart");
+
+new Chart(ctx, {
+
+    type: "doughnut",
+
+    data: {
+
+        labels: [
+            "Applied",
+            "Shortlisted",
+            "Selected",
+            "Rejected"
+        ],
+
+        datasets: [{
+
+            data: [
+                {{ applied_applications }},
+                {{ shortlisted_applications }},
+                {{ selected_applications }},
+                {{ rejected_applications }}
+            ],
+
+            borderWidth: 0
+
+        }]
+
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false,
+
+        cutout: "68%",
+
+        plugins: {
+
+            legend: {
+                position: "bottom",
+
+                labels: {
+                    padding: 20,
+                    usePointStyle: true
+                }
+            }
+
+        }
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>

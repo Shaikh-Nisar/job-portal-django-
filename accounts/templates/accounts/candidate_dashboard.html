@@ -1,0 +1,1873 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Candidate Dashboard | JobPortal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background:
+                radial-gradient(
+                    circle at 5% 5%,
+                    rgba(37, 99, 235, 0.08),
+                    transparent 25%
+                ),
+                radial-gradient(
+                    circle at 95% 35%,
+                    rgba(124, 58, 237, 0.07),
+                    transparent 25%
+                ),
+                #f5f7fb;
+
+            color: #172033;
+
+            font-family:
+                Inter,
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                sans-serif;
+
+            overflow-x: hidden;
+        }
+
+
+        /* =========================================
+           BACKGROUND ORBS
+        ========================================== */
+
+        .background-orb {
+            position: fixed;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .orb-one {
+            width: 280px;
+            height: 280px;
+
+            background: rgba(37, 99, 235, 0.055);
+
+            left: -130px;
+            top: 180px;
+
+            animation: floatingOrb 9s ease-in-out infinite;
+        }
+
+        .orb-two {
+            width: 230px;
+            height: 230px;
+
+            background: rgba(124, 58, 237, 0.05);
+
+            right: -100px;
+            top: 600px;
+
+            animation: floatingOrb 11s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatingOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(20px, -25px);
+            }
+        }
+
+
+        /* =========================================
+           NAVBAR
+        ========================================== */
+
+        .main-navbar {
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a 0%,
+                    #172554 55%,
+                    #2563eb 100%
+                );
+
+            box-shadow:
+                0 10px 35px rgba(15, 23, 42, 0.18);
+        }
+
+        .navbar-brand {
+            color: white !important;
+
+            font-size: 23px;
+            font-weight: 850;
+
+            letter-spacing: -0.5px;
+        }
+
+        .brand-icon {
+            width: 41px;
+            height: 41px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            margin-right: 9px;
+
+            background:
+                rgba(255, 255, 255, 0.12);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            transition: 0.3s ease;
+        }
+
+        .navbar-brand:hover .brand-icon {
+            transform:
+                rotate(-8deg)
+                scale(1.08);
+        }
+
+        .nav-item-custom {
+            color: rgba(255, 255, 255, 0.78);
+
+            text-decoration: none;
+
+            padding: 9px 13px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: 650;
+
+            transition: 0.25s ease;
+        }
+
+        .nav-item-custom:hover {
+            color: white;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+        }
+
+        .logout-btn {
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: 700;
+
+            padding:
+                8px 15px;
+        }
+
+
+        /* =========================================
+           DASHBOARD CONTAINER
+        ========================================== */
+
+        .dashboard-container {
+            max-width: 1180px;
+
+            margin: 0 auto;
+
+            padding:
+                34px 18px 65px;
+        }
+
+
+        /* =========================================
+           WELCOME HERO
+        ========================================== */
+
+        .welcome-card {
+            position: relative;
+
+            overflow: hidden;
+
+            border-radius: 28px;
+
+            padding: 38px;
+
+            margin-bottom: 30px;
+
+            color: white;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #0f172a 0%,
+                    #172554 45%,
+                    #2563eb 100%
+                );
+
+            box-shadow:
+                0 25px 60px rgba(30, 64, 175, 0.20);
+
+            animation:
+                fadeUp 0.65s ease both;
+        }
+
+        .welcome-card::before {
+            content: "";
+
+            position: absolute;
+
+            width: 350px;
+            height: 350px;
+
+            border-radius: 50%;
+
+            right: -140px;
+            top: -190px;
+
+            background:
+                rgba(255, 255, 255, 0.07);
+
+            animation:
+                heroOrb 8s ease-in-out infinite;
+        }
+
+        .welcome-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 170px;
+            height: 170px;
+
+            border-radius: 50%;
+
+            right: 220px;
+            bottom: -125px;
+
+            background:
+                rgba(255, 255, 255, 0.045);
+
+            animation:
+                heroOrb 10s ease-in-out infinite reverse;
+        }
+
+        @keyframes heroOrb {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            50% {
+                transform: translate(-15px, 20px);
+            }
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .welcome-label {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 6px 11px;
+
+            border-radius: 50px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.13);
+
+            font-size: 11px;
+
+            font-weight: 700;
+
+            margin-bottom: 15px;
+        }
+
+        .welcome-card h2 {
+            font-size:
+                clamp(27px, 4vw, 39px);
+
+            font-weight: 850;
+
+            letter-spacing: -1.2px;
+
+            margin-bottom: 9px;
+        }
+
+        .welcome-card p {
+            max-width: 650px;
+
+            margin: 0;
+
+            color:
+                rgba(255, 255, 255, 0.76);
+
+            font-size: 14px;
+
+            line-height: 1.7;
+        }
+
+        .welcome-icon {
+            position: absolute;
+
+            right: 50px;
+            bottom: 28px;
+
+            width: 82px;
+            height: 82px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 24px;
+
+            background:
+                rgba(255, 255, 255, 0.10);
+
+            border:
+                1px solid rgba(255, 255, 255, 0.14);
+
+            font-size: 34px;
+
+            animation:
+                welcomeFloat 4s ease-in-out infinite;
+
+            z-index: 2;
+        }
+
+        @keyframes welcomeFloat {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0);
+            }
+
+            50% {
+                transform: translateY(-8px) rotate(2deg);
+            }
+        }
+
+
+        /* =========================================
+           SECTION TITLE
+        ========================================== */
+
+        .section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            margin-bottom: 18px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+
+            gap: 10px;
+
+            color: #172033;
+
+            font-size: 19px;
+
+            font-weight: 850;
+
+            margin: 0;
+        }
+
+        .section-title-icon {
+            width: 36px;
+            height: 36px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 10px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: 16px;
+        }
+
+
+        /* =========================================
+           STAT CARDS
+        ========================================== */
+
+        .stat-card {
+            position: relative;
+
+            overflow: hidden;
+
+            height: 100%;
+
+            padding: 21px;
+
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            border:
+                1px solid #e6ebf2;
+
+            border-radius: 19px;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.055);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+
+            animation:
+                fadeUp 0.7s ease both;
+        }
+
+        .stat-card::after {
+            content: "";
+
+            position: absolute;
+
+            width: 85px;
+            height: 85px;
+
+            border-radius: 50%;
+
+            right: -35px;
+            top: -35px;
+
+            background:
+                rgba(37, 99, 235, 0.045);
+        }
+
+        .stat-card:hover {
+            transform:
+                translateY(-6px);
+
+            border-color:
+                #cbdafe;
+
+            box-shadow:
+                0 18px 40px rgba(15, 23, 42, 0.10);
+        }
+
+        .stat-icon {
+            width: 45px;
+            height: 45px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 13px;
+
+            margin-bottom: 14px;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            font-size: 19px;
+
+            transition: 0.3s ease;
+        }
+
+        .stat-card:hover .stat-icon {
+            transform:
+                rotate(-5deg)
+                scale(1.08);
+        }
+
+        .stat-number {
+            color: #172033;
+
+            font-size: 29px;
+
+            font-weight: 850;
+
+            letter-spacing: -0.8px;
+
+            margin-bottom: 3px;
+        }
+
+        .stat-title {
+            color: #718096;
+
+            font-size: 12px;
+
+            font-weight: 650;
+        }
+
+
+        /* Different stat colors */
+
+        .stat-total .stat-icon {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .stat-applied .stat-icon {
+            background: #eef2ff;
+            color: #4f46e5;
+        }
+
+        .stat-shortlisted .stat-icon {
+            background: #fffbeb;
+            color: #d97706;
+        }
+
+        .stat-selected .stat-icon {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .stat-rejected .stat-icon {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           QUICK ACTION CARDS
+        ========================================== */
+
+        .feature-card {
+            position: relative;
+
+            height: 100%;
+
+            padding: 25px;
+
+            background:
+                rgba(255, 255, 255, 0.95);
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 20px;
+
+            box-shadow:
+                0 8px 28px rgba(15, 23, 42, 0.055);
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+
+            animation:
+                fadeUp 0.75s ease both;
+        }
+
+        .feature-card:hover {
+            transform:
+                translateY(-7px);
+
+            border-color:
+                #cbdafe;
+
+            box-shadow:
+                0 20px 42px rgba(15, 23, 42, 0.10);
+        }
+
+        .feature-icon {
+            width: 52px;
+            height: 52px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eff6ff,
+                    #dbeafe
+                );
+
+            color: #2563eb;
+
+            font-size: 22px;
+
+            margin-bottom: 17px;
+
+            transition: 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform:
+                translateY(-3px)
+                rotate(-5deg);
+        }
+
+        .feature-card h4 {
+            color: #172033;
+
+            font-size: 17px;
+
+            font-weight: 800;
+
+            margin-bottom: 8px;
+        }
+
+        .feature-card p {
+            min-height: 67px;
+
+            color: #718096;
+
+            font-size: 13px;
+
+            line-height: 1.65;
+
+            margin-bottom: 18px;
+        }
+
+
+        /* =========================================
+           BUTTONS
+        ========================================== */
+
+        .premium-btn {
+            border-radius: 10px;
+
+            padding:
+                9px 15px;
+
+            font-size: 12px;
+
+            font-weight: 750;
+
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.25s ease;
+        }
+
+        .premium-btn:hover {
+            transform:
+                translateY(-2px);
+
+            box-shadow:
+                0 8px 18px rgba(37, 99, 235, 0.16);
+        }
+
+        .saved-btn {
+            color: #92400e;
+
+            background: #fffbeb;
+
+            border-color: #fde68a;
+        }
+
+        .saved-btn:hover {
+            color: #78350f;
+
+            background: #fef3c7;
+        }
+
+        .button-group {
+            display: flex;
+
+            gap: 8px;
+
+            flex-wrap: wrap;
+        }
+
+
+        /* =========================================
+           APPLICATIONS CARD
+        ========================================== */
+
+        .applications-card {
+            background:
+                rgba(255, 255, 255, 0.96);
+
+            border:
+                1px solid #e5eaf1;
+
+            border-radius: 22px;
+
+            padding: 25px;
+
+            box-shadow:
+                0 8px 30px rgba(15, 23, 42, 0.055);
+
+            animation:
+                fadeUp 0.8s ease both;
+        }
+
+        .view-all-btn {
+            border-radius: 9px;
+
+            font-size: 12px;
+
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           APPLICATION ITEM
+        ========================================== */
+
+        .application-item {
+            position: relative;
+
+            overflow: hidden;
+
+            padding: 18px;
+
+            margin-bottom: 12px;
+
+            border:
+                1px solid #e7ecf2;
+
+            border-radius: 15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #ffffff,
+                    #f9fbfd
+                );
+
+            transition:
+                transform 0.3s ease,
+                box-shadow 0.3s ease,
+                border-color 0.3s ease;
+        }
+
+        .application-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .application-item:hover {
+            transform:
+                translateX(4px);
+
+            border-color:
+                #cbdafe;
+
+            box-shadow:
+                0 10px 25px rgba(15, 23, 42, 0.07);
+        }
+
+        .application-icon {
+            width: 43px;
+            height: 43px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            font-size: 17px;
+        }
+
+        .job-title {
+            color: #172033;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            margin-bottom: 4px;
+        }
+
+        .company-name {
+            color: #718096;
+
+            font-size: 12px;
+
+            font-weight: 600;
+        }
+
+        .application-info {
+            color: #718096;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+            margin-bottom: 4px;
+        }
+
+        .application-date {
+            color: #172033;
+
+            font-size: 12px;
+
+            font-weight: 750;
+        }
+
+
+        /* =========================================
+           STATUS BADGES
+        ========================================== */
+
+        .status-badge {
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 5px;
+
+            padding:
+                6px 10px;
+
+            border-radius: 50px;
+
+            font-size: 10px;
+
+            font-weight: 800;
+
+            white-space: nowrap;
+        }
+
+        .status-badge::before {
+            content: "";
+
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+        .status-applied {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .status-shortlisted {
+            background: #fffbeb;
+            color: #b45309;
+        }
+
+        .status-selected {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-rejected {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+
+        /* =========================================
+           EMPTY STATE
+        ========================================== */
+
+        .empty-state {
+            text-align: center;
+
+            padding:
+                55px 20px 45px;
+
+            color: #718096;
+        }
+
+        .empty-icon {
+            width: 75px;
+            height: 75px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            margin:
+                0 auto 17px;
+
+            border-radius: 22px;
+
+            background:
+                #eff6ff;
+
+            color:
+                #2563eb;
+
+            font-size: 29px;
+
+            animation:
+                emptyFloat 3s ease-in-out infinite;
+        }
+
+        @keyframes emptyFloat {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-7px);
+            }
+        }
+
+        .empty-state h5 {
+            color: #172033;
+
+            font-weight: 800;
+
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            max-width: 420px;
+
+            margin:
+                0 auto 18px;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================================
+           FADE UP
+        ========================================== */
+
+        @keyframes fadeUp {
+
+            from {
+                opacity: 0;
+
+                transform:
+                    translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+            }
+        }
+
+
+        /* =========================================
+           RESPONSIVE
+        ========================================== */
+
+        @media (max-width: 991px) {
+
+            .welcome-icon {
+                right: 30px;
+            }
+
+        }
+
+
+        @media (max-width: 767px) {
+
+            .dashboard-container {
+                padding:
+                    23px 15px 45px;
+            }
+
+            .welcome-card {
+                padding: 27px 22px;
+
+                border-radius: 21px;
+            }
+
+            .welcome-card h2 {
+                font-size: 27px;
+            }
+
+            .welcome-icon {
+                display: none;
+            }
+
+            .section-title {
+                font-size: 17px;
+            }
+
+            .stat-card {
+                padding: 18px;
+            }
+
+            .stat-number {
+                font-size: 25px;
+            }
+
+            .feature-card {
+                padding: 21px;
+            }
+
+            .applications-card {
+                padding: 18px;
+            }
+
+            .application-item {
+                padding: 16px;
+            }
+
+            .application-date {
+                margin-top: 5px;
+            }
+
+        }
+
+
+        @media (max-width: 575px) {
+
+            .navbar-brand {
+                font-size: 19px;
+            }
+
+            .brand-icon {
+                width: 36px;
+                height: 36px;
+            }
+
+            .nav-item-custom {
+                display: none;
+            }
+
+            .logout-btn {
+                padding:
+                    7px 11px;
+
+                font-size: 11px;
+            }
+
+            .welcome-label {
+                font-size: 10px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Background -->
+
+    <div class="background-orb orb-one"></div>
+    <div class="background-orb orb-two"></div>
+
+
+    <!-- =========================================
+         NAVBAR
+    ========================================== -->
+
+    <nav class="navbar navbar-dark main-navbar">
+
+        <div class="container-fluid px-3 px-md-4">
+
+            <a
+                href="{% url 'candidate_dashboard' %}"
+                class="navbar-brand d-flex align-items-center"
+            >
+
+                <span class="brand-icon">
+
+                    <i class="bi bi-briefcase-fill"></i>
+
+                </span>
+
+                JobPortal
+
+            </a>
+
+
+            <div class="d-flex align-items-center gap-1 gap-md-2">
+
+                <a
+                    href="{% url 'job_list' %}"
+                    class="nav-item-custom d-none d-sm-inline-flex"
+                >
+
+                    <i class="bi bi-search me-1"></i>
+
+                    Find Jobs
+
+                </a>
+
+
+                <a
+                    href="{% url 'my_applications' %}"
+                    class="nav-item-custom d-none d-md-inline-flex"
+                >
+
+                    <i class="bi bi-file-earmark-text me-1"></i>
+
+                    Applications
+
+                </a>
+
+
+                <a
+                    href="{% url 'saved_jobs' %}"
+                    class="nav-item-custom d-none d-md-inline-flex"
+                >
+
+                    <i class="bi bi-bookmark me-1"></i>
+
+                    Saved
+
+                </a>
+
+
+                <form
+                    method="POST"
+                    action="{% url 'logout' %}"
+                    class="d-inline"
+                >
+
+                    {% csrf_token %}
+
+                    <button
+                        type="submit"
+                        class="btn btn-outline-light logout-btn"
+                    >
+
+                        <i class="bi bi-box-arrow-right me-1"></i>
+
+                        Logout
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+
+    <!-- =========================================
+         DASHBOARD
+    ========================================== -->
+
+    <main class="dashboard-container">
+
+
+        <!-- =====================================
+             WELCOME
+        ====================================== -->
+
+        <section class="welcome-card">
+
+            <div class="welcome-content">
+
+                <span class="welcome-label">
+
+                    <i class="bi bi-stars"></i>
+
+                    Candidate Dashboard
+
+                </span>
+
+
+                <h2>
+
+                    Welcome, {{ user.username }} 👋
+
+                </h2>
+
+
+                <p>
+
+                    Find your dream job, manage your applications
+                    and track your career journey from one place.
+
+                </p>
+
+            </div>
+
+
+            <div class="welcome-icon">
+
+                <i class="bi bi-person-workspace"></i>
+
+            </div>
+
+        </section>
+
+
+        <!-- =====================================
+             APPLICATION OVERVIEW
+        ====================================== -->
+
+        <div class="section-heading">
+
+            <h3 class="section-title">
+
+                <span class="section-title-icon">
+
+                    <i class="bi bi-bar-chart-fill"></i>
+
+                </span>
+
+                Application Overview
+
+            </h3>
+
+        </div>
+
+
+        <div class="row g-3 mb-5">
+
+
+            <!-- TOTAL -->
+
+            <div class="col-6 col-lg">
+
+                <div class="stat-card stat-total">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-collection-fill"></i>
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ total_applications }}
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Total Applications
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLIED -->
+
+            <div class="col-6 col-lg">
+
+                <div class="stat-card stat-applied">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-send-fill"></i>
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ applied_applications }}
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Applied
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SHORTLISTED -->
+
+            <div class="col-6 col-lg">
+
+                <div class="stat-card stat-shortlisted">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-star-fill"></i>
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ shortlisted_applications }}
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Shortlisted
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED -->
+
+            <div class="col-6 col-lg">
+
+                <div class="stat-card stat-selected">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-check-circle-fill"></i>
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ selected_applications }}
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Selected
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- REJECTED -->
+
+            <div class="col-6 col-lg">
+
+                <div class="stat-card stat-rejected">
+
+                    <div class="stat-icon">
+
+                        <i class="bi bi-x-circle-fill"></i>
+
+                    </div>
+
+                    <div class="stat-number">
+
+                        {{ rejected_applications }}
+
+                    </div>
+
+                    <div class="stat-title">
+
+                        Rejected
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             QUICK ACTIONS
+        ====================================== -->
+
+        <div class="section-heading">
+
+            <h3 class="section-title">
+
+                <span class="section-title-icon">
+
+                    <i class="bi bi-lightning-charge-fill"></i>
+
+                </span>
+
+                Quick Actions
+
+            </h3>
+
+        </div>
+
+
+        <div class="row g-4 mb-5">
+
+
+            <!-- SEARCH JOBS -->
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        Search Jobs
+
+                    </h4>
+
+
+                    <p>
+
+                        Search and explore available jobs based
+                        on your skills, location and experience.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn btn-primary premium-btn"
+                    >
+
+                        <i class="bi bi-search me-1"></i>
+
+                        Find Jobs
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <!-- APPLICATIONS -->
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-file-earmark-text"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        My Applications
+
+                    </h4>
+
+
+                    <p>
+
+                        Track your applications and check
+                        your latest application status.
+
+                    </p>
+
+
+                    <div class="button-group">
+
+                        <a
+                            href="{% url 'my_applications' %}"
+                            class="btn btn-primary premium-btn"
+                        >
+
+                            <i class="bi bi-eye me-1"></i>
+
+                            View Applications
+
+                        </a>
+
+
+                        <a
+                            href="{% url 'saved_jobs' %}"
+                            class="btn saved-btn premium-btn"
+                        >
+
+                            <i class="bi bi-bookmark-fill me-1"></i>
+
+                            Saved Jobs
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- PROFILE -->
+
+            <div class="col-md-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-person-circle"></i>
+
+                    </div>
+
+
+                    <h4>
+
+                        My Profile
+
+                    </h4>
+
+
+                    <p>
+
+                        Update your personal information,
+                        skills, education and resume.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'profile' %}"
+                        class="btn btn-primary premium-btn"
+                    >
+
+                        <i class="bi bi-pencil-square me-1"></i>
+
+                        Manage Profile
+
+                    </a>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <!-- =====================================
+             RECENT APPLICATIONS
+        ====================================== -->
+
+        <section class="applications-card">
+
+
+            <div
+                class="d-flex justify-content-between
+                       align-items-center
+                       mb-4"
+            >
+
+                <h3 class="section-title mb-0">
+
+                    <span class="section-title-icon">
+
+                        <i class="bi bi-clock-history"></i>
+
+                    </span>
+
+                    Recent Applications
+
+                </h3>
+
+
+                <a
+                    href="{% url 'my_applications' %}"
+                    class="btn btn-outline-primary
+                           btn-sm view-all-btn"
+                >
+
+                    View All
+
+                    <i class="bi bi-arrow-right ms-1"></i>
+
+                </a>
+
+            </div>
+
+
+            {% if recent_applications %}
+
+
+                {% for application in recent_applications %}
+
+
+                    <div class="application-item">
+
+                        <div class="row align-items-center">
+
+
+                            <!-- JOB -->
+
+                            <div class="col-md-5">
+
+                                <div
+                                    class="d-flex
+                                           align-items-center
+                                           gap-3"
+                                >
+
+                                    <div class="application-icon">
+
+                                        <i class="bi bi-briefcase-fill"></i>
+
+                                    </div>
+
+
+                                    <div>
+
+                                        <div class="job-title">
+
+                                            {{ application.job.title }}
+
+                                        </div>
+
+
+                                        <div class="company-name">
+
+                                            <i class="bi bi-building me-1"></i>
+
+                                            {{ application.job.company_name }}
+
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- LOCATION -->
+
+                            <div class="col-md-3 mt-3 mt-md-0">
+
+                                <div class="application-info">
+
+                                    <i class="bi bi-geo-alt-fill me-1"></i>
+
+                                    {{ application.job.location }}
+
+                                </div>
+
+
+                                <div class="application-info">
+
+                                    <i class="bi bi-briefcase me-1"></i>
+
+                                    {{ application.job.get_job_type_display }}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- DATE -->
+
+                            <div class="col-md-2 mt-3 mt-md-0">
+
+                                <div class="application-info">
+
+                                    Applied
+
+                                </div>
+
+
+                                <div class="application-date">
+
+                                    <i class="bi bi-calendar3 me-1"></i>
+
+                                    {{ application.applied_at|date:"d M Y" }}
+
+                                </div>
+
+                            </div>
+
+
+                            <!-- STATUS -->
+
+                            <div
+                                class="col-md-2
+                                       mt-3 mt-md-0
+                                       text-md-end"
+                            >
+
+
+                                {% if application.status == "applied" %}
+
+                                    <span
+                                        class="status-badge
+                                               status-applied"
+                                    >
+
+                                        Applied
+
+                                    </span>
+
+
+                                {% elif application.status == "shortlisted" %}
+
+                                    <span
+                                        class="status-badge
+                                               status-shortlisted"
+                                    >
+
+                                        Shortlisted
+
+                                    </span>
+
+
+                                {% elif application.status == "selected" %}
+
+                                    <span
+                                        class="status-badge
+                                               status-selected"
+                                    >
+
+                                        Selected
+
+                                    </span>
+
+
+                                {% elif application.status == "rejected" %}
+
+                                    <span
+                                        class="status-badge
+                                               status-rejected"
+                                    >
+
+                                        Rejected
+
+                                    </span>
+
+
+                                {% else %}
+
+                                    <span
+                                        class="status-badge
+                                               status-applied"
+                                    >
+
+                                        {{ application.get_status_display }}
+
+                                    </span>
+
+                                {% endif %}
+
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                {% endfor %}
+
+
+            {% else %}
+
+
+                <!-- EMPTY -->
+
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+
+                        <i class="bi bi-inbox"></i>
+
+                    </div>
+
+
+                    <h5>
+
+                        No applications yet
+
+                    </h5>
+
+
+                    <p>
+
+                        You haven't applied for any jobs yet.
+                        Start exploring opportunities and build
+                        your career today.
+
+                    </p>
+
+
+                    <a
+                        href="{% url 'job_list' %}"
+                        class="btn btn-primary premium-btn"
+                    >
+
+                        <i class="bi bi-search me-1"></i>
+
+                        Browse Jobs
+
+                    </a>
+
+                </div>
+
+
+            {% endif %}
+
+
+        </section>
+
+
+    </main>
+
+
+    <!-- Bootstrap JS -->
+
+    <script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    ></script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,2484 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Create Account | JobPortal</title>
+
+
+    <!-- =========================
+         GOOGLE FONT
+    ========================== -->
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================
+         BOOTSTRAP ICONS
+    ========================== -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            min-height: 100vh;
+
+            font-family: "Inter", Arial, sans-serif;
+
+            color: #111827;
+
+            background:
+
+                radial-gradient(
+                    circle at 10% 10%,
+                    rgba(59, 130, 246, .25),
+                    transparent 30%
+                ),
+
+                radial-gradient(
+                    circle at 90% 20%,
+                    rgba(139, 92, 246, .20),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 50% 100%,
+                    rgba(37, 99, 235, .18),
+                    transparent 35%
+                ),
+
+                linear-gradient(
+                    135deg,
+                    #020617,
+                    #0f172a,
+                    #111827
+                );
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            padding: 35px 20px;
+
+            /*
+                IMPORTANT:
+                Page will scroll when content
+                becomes taller than screen.
+            */
+
+            overflow-x: hidden;
+
+            overflow-y: auto;
+
+            position: relative;
+
+        }
+
+
+        /* =====================================================
+           BACKGROUND PARTICLES
+        ===================================================== */
+
+        .particle {
+
+            position: fixed;
+
+            width: 5px;
+
+            height: 5px;
+
+            border-radius: 50%;
+
+            background: rgba(255,255,255,.35);
+
+            pointer-events: none;
+
+            animation: particleFloat linear infinite;
+
+        }
+
+
+        .particle:nth-child(1) {
+
+            left: 8%;
+
+            top: 20%;
+
+            animation-duration: 9s;
+
+        }
+
+
+        .particle:nth-child(2) {
+
+            left: 20%;
+
+            top: 70%;
+
+            animation-duration: 12s;
+
+            width: 4px;
+
+            height: 4px;
+
+        }
+
+
+        .particle:nth-child(3) {
+
+            left: 80%;
+
+            top: 30%;
+
+            animation-duration: 10s;
+
+        }
+
+
+        .particle:nth-child(4) {
+
+            left: 90%;
+
+            top: 75%;
+
+            animation-duration: 14s;
+
+            width: 6px;
+
+            height: 6px;
+
+        }
+
+
+        .particle:nth-child(5) {
+
+            left: 50%;
+
+            top: 10%;
+
+            animation-duration: 11s;
+
+        }
+
+
+        @keyframes particleFloat {
+
+            0% {
+
+                transform:
+                    translateY(0)
+                    translateX(0);
+
+                opacity: .2;
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-60px)
+                    translateX(25px);
+
+                opacity: .8;
+
+            }
+
+            100% {
+
+                transform:
+                    translateY(0)
+                    translateX(0);
+
+                opacity: .2;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LARGE BACKGROUND ORBS
+        ===================================================== */
+
+        .orb {
+
+            position: fixed;
+
+            border-radius: 50%;
+
+            pointer-events: none;
+
+            filter: blur(1px);
+
+            animation: orbFloat 8s ease-in-out infinite;
+
+        }
+
+
+        .orb-one {
+
+            width: 330px;
+
+            height: 330px;
+
+            top: -150px;
+
+            left: -120px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(37,99,235,.35),
+                    transparent 70%
+                );
+
+        }
+
+
+        .orb-two {
+
+            width: 400px;
+
+            height: 400px;
+
+            right: -180px;
+
+            bottom: -180px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(124,58,237,.30),
+                    transparent 70%
+                );
+
+            animation-delay: 2s;
+
+        }
+
+
+        .orb-three {
+
+            width: 180px;
+
+            height: 180px;
+
+            right: 20%;
+
+            top: 10%;
+
+            background:
+                radial-gradient(
+                    circle,
+                    rgba(14,165,233,.16),
+                    transparent 70%
+                );
+
+            animation-delay: 4s;
+
+        }
+
+
+        @keyframes orbFloat {
+
+            0%,
+            100% {
+
+                transform:
+                    translate3d(0,0,0)
+                    scale(1);
+
+            }
+
+            50% {
+
+                transform:
+                    translate3d(20px,-25px,0)
+                    scale(1.08);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MAIN CONTAINER
+        ===================================================== */
+
+        .register-wrapper {
+
+            width: 100%;
+
+            max-width: 1120px;
+
+            min-height: 680px;
+
+            display: grid;
+
+            grid-template-columns:
+                1fr
+                1.05fr;
+
+            background:
+                rgba(255,255,255,.97);
+
+            border:
+
+                1px solid
+                rgba(255,255,255,.25);
+
+            border-radius: 30px;
+
+            overflow: hidden;
+
+            position: relative;
+
+            z-index: 5;
+
+            box-shadow:
+
+                0 45px 100px
+                rgba(0,0,0,.42),
+
+                0 15px 40px
+                rgba(37,99,235,.18);
+
+            animation:
+                pageEnter .8s
+                cubic-bezier(.2,.8,.2,1);
+
+            transform-style: preserve-3d;
+
+        }
+
+
+        @keyframes pageEnter {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(40px)
+                    rotateX(4deg)
+                    scale(.97);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0)
+                    rotateX(0)
+                    scale(1);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           LEFT BRAND PANEL
+        ===================================================== */
+
+        .brand-panel {
+
+            position: relative;
+
+            min-height: 680px;
+
+            padding: 60px;
+
+            color: white;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+            overflow: hidden;
+
+            background:
+
+                radial-gradient(
+                    circle at 20% 15%,
+                    rgba(96,165,250,.32),
+                    transparent 28%
+                ),
+
+                radial-gradient(
+                    circle at 80% 85%,
+                    rgba(167,139,250,.28),
+                    transparent 30%
+                ),
+
+                linear-gradient(
+                    145deg,
+                    #1d4ed8,
+                    #312e81 75%
+                );
+
+        }
+
+
+        /* Decorative rings */
+
+        .ring {
+
+            position: absolute;
+
+            border-radius: 50%;
+
+            border:
+                1px solid
+                rgba(255,255,255,.14);
+
+            pointer-events: none;
+
+            animation:
+                ringRotate 16s linear infinite;
+
+        }
+
+
+        .ring-one {
+
+            width: 430px;
+
+            height: 430px;
+
+            right: -230px;
+
+            top: -150px;
+
+        }
+
+
+        .ring-two {
+
+            width: 300px;
+
+            height: 300px;
+
+            left: -180px;
+
+            bottom: -150px;
+
+            animation-direction: reverse;
+
+        }
+
+
+        @keyframes ringRotate {
+
+            from {
+
+                transform: rotate(0deg);
+
+            }
+
+            to {
+
+                transform: rotate(360deg);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           BRAND LOGO
+        ===================================================== */
+
+        .brand-logo {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+
+            margin-bottom: 40px;
+
+            position: relative;
+
+            z-index: 3;
+
+        }
+
+
+        .logo-icon {
+
+            width: 58px;
+
+            height: 58px;
+
+            border-radius: 17px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            font-size: 27px;
+
+            background:
+                rgba(255,255,255,.15);
+
+            border:
+                1px solid
+                rgba(255,255,255,.25);
+
+            box-shadow:
+                0 15px 30px
+                rgba(0,0,0,.15);
+
+            backdrop-filter: blur(12px);
+
+            animation:
+                logoFloat 4s ease-in-out infinite;
+
+        }
+
+
+        @keyframes logoFloat {
+
+            0%,
+            100% {
+
+                transform:
+                    translateY(0)
+                    rotate(0deg);
+
+            }
+
+            50% {
+
+                transform:
+                    translateY(-8px)
+                    rotate(2deg);
+
+            }
+
+        }
+
+
+        .brand-name {
+
+            font-size: 27px;
+
+            font-weight: 800;
+
+            letter-spacing: -.5px;
+
+        }
+
+
+        /* =====================================================
+           BRAND CONTENT
+        ===================================================== */
+
+        .brand-content {
+
+            position: relative;
+
+            z-index: 3;
+
+        }
+
+
+        .brand-content h1 {
+
+            font-size: 42px;
+
+            line-height: 1.12;
+
+            letter-spacing: -1.5px;
+
+            font-weight: 800;
+
+            margin-bottom: 22px;
+
+        }
+
+
+        .brand-content p {
+
+            max-width: 420px;
+
+            color:
+                rgba(255,255,255,.78);
+
+            line-height: 1.8;
+
+            font-size: 15px;
+
+            margin-bottom: 35px;
+
+        }
+
+
+        /* =====================================================
+           FEATURES
+        ===================================================== */
+
+        .feature {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            margin-bottom: 17px;
+
+            color:
+                rgba(255,255,255,.92);
+
+            font-size: 14px;
+
+            transition:
+                transform .25s ease;
+
+        }
+
+
+        .feature:hover {
+
+            transform:
+                translateX(8px);
+
+        }
+
+
+        .feature-icon {
+
+            width: 35px;
+
+            height: 35px;
+
+            border-radius: 10px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background:
+                rgba(255,255,255,.13);
+
+            border:
+                1px solid
+                rgba(255,255,255,.12);
+
+        }
+
+
+        /* =====================================================
+           RIGHT FORM PANEL
+        ===================================================== */
+
+        .form-panel {
+
+            padding: 55px 65px;
+
+            background: #ffffff;
+
+            display: flex;
+
+            flex-direction: column;
+
+            justify-content: center;
+
+        }
+
+
+        .form-heading {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .form-heading h2 {
+
+            font-size: 31px;
+
+            line-height: 1.2;
+
+            font-weight: 800;
+
+            letter-spacing: -.8px;
+
+            color: #0f172a;
+
+            margin-bottom: 8px;
+
+        }
+
+
+        .form-heading p {
+
+            color: #64748b;
+
+            font-size: 14px;
+
+            line-height: 1.6;
+
+        }
+
+
+        /* =====================================================
+           MESSAGE
+        ===================================================== */
+
+        .message {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 10px;
+
+            padding: 13px 15px;
+
+            border-radius: 12px;
+
+            margin-bottom: 18px;
+
+            background: #fff1f2;
+
+            color: #be123c;
+
+            border:
+                1px solid
+                #fecdd3;
+
+            font-size: 13px;
+
+            animation:
+                messageSlide .4s ease;
+
+        }
+
+
+        @keyframes messageSlide {
+
+            from {
+
+                opacity: 0;
+
+                transform:
+                    translateY(-8px);
+
+            }
+
+            to {
+
+                opacity: 1;
+
+                transform:
+                    translateY(0);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           FORM GROUP
+        ===================================================== */
+
+        .form-group {
+
+            margin-bottom: 16px;
+
+        }
+
+
+        label {
+
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #334155;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+        }
+
+
+        /* =====================================================
+           INPUT WRAPPER
+        ===================================================== */
+
+        .input-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .input-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #94a3b8;
+
+            font-size: 17px;
+
+            pointer-events: none;
+
+            transition:
+                color .25s ease;
+
+        }
+
+
+        input,
+        select {
+
+            width: 100%;
+
+            height: 49px;
+
+            border:
+                1px solid
+                #dbe3ed;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            color: #0f172a;
+
+            font-family: inherit;
+
+            font-size: 14px;
+
+            outline: none;
+
+            padding:
+                0 45px;
+
+            transition:
+
+                border-color .25s ease,
+
+                background .25s ease,
+
+                box-shadow .25s ease,
+
+                transform .25s ease;
+
+        }
+
+
+        input::placeholder {
+
+            color: #9aa9bc;
+
+        }
+
+
+        input:hover,
+        select:hover {
+
+            border-color:
+                #bfdbfe;
+
+            background: #ffffff;
+
+        }
+
+
+        input:focus,
+        select:focus {
+
+            border-color:
+                #2563eb;
+
+            background: #ffffff;
+
+            box-shadow:
+                0 0 0 4px
+                rgba(37,99,235,.10);
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .input-wrapper:focus-within
+        .input-icon {
+
+            color: #2563eb;
+
+        }
+
+
+        /* =====================================================
+           PASSWORD TOGGLE
+        ===================================================== */
+
+        .password-toggle {
+
+            position: absolute;
+
+            right: 13px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            border: none;
+
+            background: transparent;
+
+            color: #94a3b8;
+
+            cursor: pointer;
+
+            font-size: 17px;
+
+            padding: 4px;
+
+            transition:
+                color .2s ease,
+
+                transform .2s ease;
+
+        }
+
+
+        .password-toggle:hover {
+
+            color: #2563eb;
+
+            transform:
+                translateY(-50%)
+                scale(1.1);
+
+        }
+
+
+        /* =====================================================
+           ROLE SELECT
+        ===================================================== */
+
+        .role-wrapper {
+
+            position: relative;
+
+        }
+
+
+        .role-icon {
+
+            position: absolute;
+
+            left: 15px;
+
+            top: 50%;
+
+            transform:
+                translateY(-50%);
+
+            color: #94a3b8;
+
+            font-size: 17px;
+
+            pointer-events: none;
+
+            z-index: 2;
+
+        }
+
+
+        select {
+
+            padding-left: 45px;
+
+            cursor: pointer;
+
+        }
+
+
+        /* =====================================================
+           PASSWORD STRENGTH
+        ===================================================== */
+
+        .password-strength {
+
+            height: 4px;
+
+            width: 100%;
+
+            background: #e5e7eb;
+
+            border-radius: 20px;
+
+            margin-top: 7px;
+
+            overflow: hidden;
+
+        }
+
+
+        .strength-bar {
+
+            height: 100%;
+
+            width: 0%;
+
+            border-radius: 20px;
+
+            transition:
+                width .3s ease,
+
+                background .3s ease;
+
+        }
+
+
+        .strength-text {
+
+            display: block;
+
+            margin-top: 5px;
+
+            font-size: 11px;
+
+            color: #94a3b8;
+
+        }
+
+
+        /* =====================================================
+           PASSWORD MATCH
+        ===================================================== */
+
+        .match-message {
+
+            font-size: 11px;
+
+            margin-top: 5px;
+
+            min-height: 15px;
+
+        }
+
+
+        /* =====================================================
+           REGISTER BUTTON
+        ===================================================== */
+
+        .btn-register {
+
+            width: 100%;
+
+            height: 52px;
+
+            border: none;
+
+            border-radius: 13px;
+
+            color: white;
+
+            font-family: inherit;
+
+            font-size: 15px;
+
+            font-weight: 800;
+
+            cursor: pointer;
+
+            margin-top: 5px;
+
+            position: relative;
+
+            overflow: hidden;
+
+            background:
+
+                linear-gradient(
+                    135deg,
+                    #2563eb,
+                    #4f46e5
+                );
+
+            box-shadow:
+                0 12px 25px
+                rgba(37,99,235,.25);
+
+            transition:
+
+                transform .25s ease,
+
+                box-shadow .25s ease;
+
+        }
+
+
+        /* Shine animation */
+
+        .btn-register::before {
+
+            content: "";
+
+            position: absolute;
+
+            width: 80px;
+
+            height: 150px;
+
+            background:
+                rgba(255,255,255,.22);
+
+            transform:
+                rotate(25deg);
+
+            left: -120px;
+
+            top: -50px;
+
+            transition:
+                left .6s ease;
+
+        }
+
+
+        .btn-register:hover::before {
+
+            left: 110%;
+
+        }
+
+
+        .btn-register:hover {
+
+            transform:
+                translateY(-3px);
+
+            box-shadow:
+                0 17px 32px
+                rgba(37,99,235,.35);
+
+        }
+
+
+        .btn-register:active {
+
+            transform:
+                translateY(-1px);
+
+        }
+
+
+        .btn-register i {
+
+            margin-left: 7px;
+
+            transition:
+                transform .25s ease;
+
+        }
+
+
+        .btn-register:hover i {
+
+            transform:
+                translateX(5px);
+
+        }
+
+
+        /* =====================================================
+           LOGIN
+        ===================================================== */
+
+        .login-link {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+        }
+
+
+        .login-link a {
+
+            color: #2563eb;
+
+            font-weight: 800;
+
+            text-decoration: none;
+
+            margin-left: 4px;
+
+        }
+
+
+        .login-link a:hover {
+
+            text-decoration: underline;
+
+        }
+
+
+        /* =====================================================
+           SECURITY
+        ===================================================== */
+
+        .security-note {
+
+            text-align: center;
+
+            margin-top: 20px;
+
+            padding-top: 17px;
+
+            border-top:
+                1px solid
+                #edf1f5;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+        }
+
+
+        .security-note i {
+
+            color: #16a34a;
+
+            margin-right: 4px;
+
+        }
+
+
+        /* =====================================================
+           LOADING
+        ===================================================== */
+
+        .btn-register.loading {
+
+            pointer-events: none;
+
+            opacity: .85;
+
+        }
+
+
+        .spinner {
+
+            width: 17px;
+
+            height: 17px;
+
+            display: inline-block;
+
+            border:
+                2px solid
+                rgba(255,255,255,.4);
+
+            border-top-color: white;
+
+            border-radius: 50%;
+
+            animation:
+                spin .7s linear infinite;
+
+            vertical-align: middle;
+
+            margin-right: 8px;
+
+        }
+
+
+        @keyframes spin {
+
+            to {
+
+                transform:
+                    rotate(360deg);
+
+            }
+
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 950px) {
+
+            body {
+
+                align-items: flex-start;
+
+                padding:
+                    25px 15px;
+
+            }
+
+
+            .register-wrapper {
+
+                max-width: 650px;
+
+                grid-template-columns: 1fr;
+
+            }
+
+
+            .brand-panel {
+
+                min-height: 350px;
+
+                padding: 45px;
+
+            }
+
+
+            .brand-content h1 {
+
+                font-size: 34px;
+
+            }
+
+
+            .feature {
+
+                display: none;
+
+            }
+
+
+            .form-panel {
+
+                padding: 45px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 600px) {
+
+            body {
+
+                padding:
+                    12px;
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .register-wrapper {
+
+                border-radius:
+                    22px;
+
+                margin:
+                    10px 0 25px;
+
+            }
+
+
+            .brand-panel {
+
+                min-height:
+                    270px;
+
+                padding:
+                    30px 25px;
+
+            }
+
+
+            .brand-logo {
+
+                margin-bottom:
+                    25px;
+
+            }
+
+
+            .logo-icon {
+
+                width:
+                    48px;
+
+                height:
+                    48px;
+
+                font-size:
+                    22px;
+
+            }
+
+
+            .brand-name {
+
+                font-size:
+                    23px;
+
+            }
+
+
+            .brand-content h1 {
+
+                font-size:
+                    28px;
+
+                letter-spacing:
+                    -.7px;
+
+            }
+
+
+            .brand-content p {
+
+                font-size:
+                    13px;
+
+                line-height:
+                    1.7;
+
+                margin-bottom:
+                    0;
+
+            }
+
+
+            .form-panel {
+
+                padding:
+                    32px 25px;
+
+            }
+
+
+            .form-heading h2 {
+
+                font-size:
+                    25px;
+
+            }
+
+
+            .form-heading p {
+
+                font-size:
+                    13px;
+
+            }
+
+
+            input,
+            select {
+
+                height:
+                    48px;
+
+            }
+
+        }
+
+
+        /* =====================================================
+           VERY SMALL MOBILE
+        ===================================================== */
+
+        @media (max-width: 380px) {
+
+            .form-panel {
+
+                padding:
+                    28px 18px;
+
+            }
+
+
+            .brand-panel {
+
+                padding:
+                    28px 20px;
+
+            }
+
+
+            .brand-content h1 {
+
+                font-size:
+                    25px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         BACKGROUND EFFECTS
+    ========================== -->
+
+    <div class="orb orb-one"></div>
+
+    <div class="orb orb-two"></div>
+
+    <div class="orb orb-three"></div>
+
+
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+
+    <!-- =========================
+         MAIN REGISTER CARD
+    ========================== -->
+
+    <div class="register-wrapper">
+
+
+        <!-- =================================================
+             LEFT SIDE
+        ================================================== -->
+
+        <div class="brand-panel">
+
+
+            <div class="ring ring-one"></div>
+
+            <div class="ring ring-two"></div>
+
+
+            <!-- LOGO -->
+
+            <div class="brand-logo">
+
+                <div class="logo-icon">
+
+                    <i class="bi bi-briefcase-fill"></i>
+
+                </div>
+
+
+                <div class="brand-name">
+
+                    JobPortal
+
+                </div>
+
+            </div>
+
+
+            <!-- CONTENT -->
+
+            <div class="brand-content">
+
+
+                <h1>
+
+                    Start your journey.<br>
+
+                    Grow your career.
+
+                </h1>
+
+
+                <p>
+
+                    Create your JobPortal account and connect
+                    with opportunities that match your skills,
+                    experience and career goals.
+
+                </p>
+
+
+                <!-- FEATURE 1 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-person-check-fill"></i>
+
+                    </div>
+
+                    <span>
+
+                        Build your professional profile
+
+                    </span>
+
+                </div>
+
+
+                <!-- FEATURE 2 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-search"></i>
+
+                    </div>
+
+                    <span>
+
+                        Discover jobs matching your skills
+
+                    </span>
+
+                </div>
+
+
+                <!-- FEATURE 3 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-send-check-fill"></i>
+
+                    </div>
+
+                    <span>
+
+                        Apply and track applications
+
+                    </span>
+
+                </div>
+
+
+                <!-- FEATURE 4 -->
+
+                <div class="feature">
+
+                    <div class="feature-icon">
+
+                        <i class="bi bi-graph-up-arrow"></i>
+
+                    </div>
+
+                    <span>
+
+                        Grow your professional career
+
+                    </span>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+
+        <!-- =================================================
+             RIGHT SIDE
+        ================================================== -->
+
+        <div class="form-panel">
+
+
+            <!-- HEADER -->
+
+            <div class="form-heading">
+
+                <h2>
+
+                    Create your account 🚀
+
+                </h2>
+
+
+                <p>
+
+                    Join JobPortal and take the next step
+                    in your career.
+
+                </p>
+
+            </div>
+
+
+            <!-- DJANGO MESSAGES -->
+
+            {% if messages %}
+
+                {% for message in messages %}
+
+                    <div class="message">
+
+                        <i class="bi bi-exclamation-circle-fill"></i>
+
+                        <span>
+
+                            {{ message }}
+
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+
+            <!-- =========================
+                 FORM
+            ========================== -->
+
+            <form
+                method="POST"
+                id="registerForm"
+            >
+
+                {% csrf_token %}
+
+
+                <!-- USERNAME -->
+
+                <div class="form-group">
+
+                    <label for="username">
+
+                        Username
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i
+                            class="bi bi-person input-icon"
+                        ></i>
+
+
+                        <input
+                            type="text"
+                            id="username"
+                            name="username"
+                            placeholder="Enter username"
+                            autocomplete="username"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div class="form-group">
+
+                    <label for="email">
+
+                        Email Address
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i
+                            class="bi bi-envelope input-icon"
+                        ></i>
+
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="Enter email address"
+                            autocomplete="email"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <!-- PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="password">
+
+                        Password
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i
+                            class="bi bi-lock input-icon"
+                        ></i>
+
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Create a strong password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="togglePassword"
+                            aria-label="Show password"
+                        >
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <!-- PASSWORD STRENGTH -->
+
+                    <div class="password-strength">
+
+                        <div
+                            class="strength-bar"
+                            id="strengthBar"
+                        ></div>
+
+                    </div>
+
+
+                    <span
+                        class="strength-text"
+                        id="strengthText"
+                    >
+                        Password strength
+                    </span>
+
+                </div>
+
+
+                <!-- CONFIRM PASSWORD -->
+
+                <div class="form-group">
+
+                    <label for="confirm_password">
+
+                        Confirm Password
+
+                    </label>
+
+
+                    <div class="input-wrapper">
+
+                        <i
+                            class="bi bi-shield-lock input-icon"
+                        ></i>
+
+
+                        <input
+                            type="password"
+                            id="confirm_password"
+                            name="confirm_password"
+                            placeholder="Confirm your password"
+                            autocomplete="new-password"
+                            required
+                        >
+
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            id="toggleConfirmPassword"
+                            aria-label="Show confirm password"
+                        >
+
+                            <i class="bi bi-eye"></i>
+
+                        </button>
+
+                    </div>
+
+
+                    <div
+                        class="match-message"
+                        id="matchMessage"
+                    ></div>
+
+                </div>
+
+
+                <!-- ROLE -->
+
+                <div class="form-group">
+
+                    <label for="role">
+
+                        Register As
+
+                    </label>
+
+
+                    <div class="role-wrapper">
+
+                        <i
+                            class="bi bi-person-badge role-icon"
+                        ></i>
+
+
+                        <select
+                            name="role"
+                            id="role"
+                            required
+                        >
+
+                            <option
+                                value="candidate"
+                            >
+                                Candidate / Job Seeker
+                            </option>
+
+
+                            <option
+                                value="recruiter"
+                            >
+                                Recruiter / Employer
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <!-- SUBMIT BUTTON -->
+
+                <button
+                    type="submit"
+                    class="btn-register"
+                    id="registerButton"
+                >
+
+                    <span id="buttonText">
+
+                        Create Account
+
+                        <i
+                            class="bi bi-arrow-right"
+                        ></i>
+
+                    </span>
+
+                </button>
+
+
+            </form>
+
+
+            <!-- LOGIN -->
+
+            <div class="login-link">
+
+                Already have an account?
+
+                <a href="{% url 'login' %}">
+
+                    Login
+
+                </a>
+
+            </div>
+
+
+            <!-- SECURITY -->
+
+            <div class="security-note">
+
+                <i
+                    class="bi bi-shield-check"
+                ></i>
+
+                Your account information is securely protected.
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script>
+
+
+        /* =================================================
+           PASSWORD SHOW / HIDE
+        ================================================= */
+
+        function setupPasswordToggle(
+            inputId,
+            buttonId
+        ) {
+
+            const input =
+                document.getElementById(inputId);
+
+            const button =
+                document.getElementById(buttonId);
+
+
+            button.addEventListener(
+                "click",
+                function () {
+
+
+                    if (
+                        input.type === "password"
+                    ) {
+
+                        input.type = "text";
+
+                        this.innerHTML =
+                            '<i class="bi bi-eye-slash"></i>';
+
+                        this.setAttribute(
+                            "aria-label",
+                            "Hide password"
+                        );
+
+                    }
+
+                    else {
+
+                        input.type = "password";
+
+                        this.innerHTML =
+                            '<i class="bi bi-eye"></i>';
+
+                        this.setAttribute(
+                            "aria-label",
+                            "Show password"
+                        );
+
+                    }
+
+                }
+            );
+
+        }
+
+
+        setupPasswordToggle(
+            "password",
+            "togglePassword"
+        );
+
+
+        setupPasswordToggle(
+            "confirm_password",
+            "toggleConfirmPassword"
+        );
+
+
+        /* =================================================
+           PASSWORD STRENGTH
+        ================================================= */
+
+        const password =
+            document.getElementById(
+                "password"
+            );
+
+
+        const strengthBar =
+            document.getElementById(
+                "strengthBar"
+            );
+
+
+        const strengthText =
+            document.getElementById(
+                "strengthText"
+            );
+
+
+        password.addEventListener(
+            "input",
+            function () {
+
+                const value =
+                    this.value;
+
+
+                let strength = 0;
+
+
+                if (
+                    value.length >= 6
+                ) {
+
+                    strength++;
+
+                }
+
+
+                if (
+                    value.length >= 10
+                ) {
+
+                    strength++;
+
+                }
+
+
+                if (
+                    /[A-Z]/.test(value)
+                ) {
+
+                    strength++;
+
+                }
+
+
+                if (
+                    /[0-9]/.test(value)
+                ) {
+
+                    strength++;
+
+                }
+
+
+                if (
+                    /[^A-Za-z0-9]/.test(value)
+                ) {
+
+                    strength++;
+
+                }
+
+
+                if (!value) {
+
+                    strengthBar.style.width =
+                        "0%";
+
+                    strengthText.textContent =
+                        "Password strength";
+
+                    return;
+
+                }
+
+
+                if (strength <= 2) {
+
+                    strengthBar.style.width =
+                        "35%";
+
+                    strengthBar.style.background =
+                        "#ef4444";
+
+                    strengthText.textContent =
+                        "Weak password";
+
+                    strengthText.style.color =
+                        "#ef4444";
+
+                }
+
+                else if (strength <= 3) {
+
+                    strengthBar.style.width =
+                        "65%";
+
+                    strengthBar.style.background =
+                        "#f59e0b";
+
+                    strengthText.textContent =
+                        "Medium password";
+
+                    strengthText.style.color =
+                        "#f59e0b";
+
+                }
+
+                else {
+
+                    strengthBar.style.width =
+                        "100%";
+
+                    strengthBar.style.background =
+                        "#22c55e";
+
+                    strengthText.textContent =
+                        "Strong password";
+
+                    strengthText.style.color =
+                        "#16a34a";
+
+                }
+
+            }
+        );
+
+
+        /* =================================================
+           CONFIRM PASSWORD MATCH
+        ================================================= */
+
+        const confirmPassword =
+            document.getElementById(
+                "confirm_password"
+            );
+
+
+        const matchMessage =
+            document.getElementById(
+                "matchMessage"
+            );
+
+
+        function checkPasswordMatch() {
+
+            const passwordValue =
+                password.value;
+
+            const confirmValue =
+                confirmPassword.value;
+
+
+            if (!confirmValue) {
+
+                matchMessage.textContent =
+                    "";
+
+                return;
+
+            }
+
+
+            if (
+                passwordValue === confirmValue
+            ) {
+
+                matchMessage.textContent =
+                    "✓ Passwords match";
+
+                matchMessage.style.color =
+                    "#16a34a";
+
+            }
+
+            else {
+
+                matchMessage.textContent =
+                    "✕ Passwords do not match";
+
+                matchMessage.style.color =
+                    "#dc2626";
+
+            }
+
+        }
+
+
+        confirmPassword.addEventListener(
+            "input",
+            checkPasswordMatch
+        );
+
+
+        password.addEventListener(
+            "input",
+            checkPasswordMatch
+        );
+
+
+        /* =================================================
+           FORM SUBMIT
+        ================================================= */
+
+        const registerForm =
+            document.getElementById(
+                "registerForm"
+            );
+
+
+        const registerButton =
+            document.getElementById(
+                "registerButton"
+            );
+
+
+        const buttonText =
+            document.getElementById(
+                "buttonText"
+            );
+
+
+        registerForm.addEventListener(
+            "submit",
+            function (event) {
+
+
+                const passwordValue =
+                    password.value;
+
+
+                const confirmValue =
+                    confirmPassword.value;
+
+
+                /* Password mismatch */
+
+                if (
+                    passwordValue !==
+                    confirmValue
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Passwords do not match."
+                    );
+
+                    confirmPassword.focus();
+
+                    return;
+
+                }
+
+
+                /* Password minimum */
+
+                if (
+                    passwordValue.length < 6
+                ) {
+
+                    event.preventDefault();
+
+                    alert(
+                        "Password must contain at least 6 characters."
+                    );
+
+                    password.focus();
+
+                    return;
+
+                }
+
+
+                /* Loading animation */
+
+                registerButton.classList.add(
+                    "loading"
+                );
+
+
+                buttonText.innerHTML = `
+
+                    <span class="spinner"></span>
+
+                    Creating Account...
+
+                `;
+
+            }
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>

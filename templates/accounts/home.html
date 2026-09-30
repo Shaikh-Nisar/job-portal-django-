@@ -1,0 +1,1315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>JobPortal | Find Your Dream Job</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f8ff;
+            color: #172033;
+            overflow-x: hidden;
+        }
+
+        /* =========================
+           NAVBAR
+        ========================= */
+
+        .navbar-custom {
+            background: rgba(7, 18, 43, 0.94);
+            backdrop-filter: blur(15px);
+            padding: 16px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .brand {
+            color: white !important;
+            font-size: 25px;
+            font-weight: 800;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .brand i {
+            color: #55a7ff;
+            margin-right: 8px;
+        }
+
+        .nav-link-custom {
+            color: #dbe7ff !important;
+            text-decoration: none;
+            margin: 0 8px;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+
+        .nav-link-custom:hover {
+            color: #65b0ff !important;
+        }
+
+        .login-btn {
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 9px 18px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: white;
+            color: #0b1b41;
+        }
+
+        .register-btn {
+            background: linear-gradient(135deg, #2676ff, #604cff);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            margin-left: 8px;
+            font-weight: 600;
+            box-shadow: 0 8px 20px rgba(45,105,255,0.3);
+            transition: 0.3s;
+        }
+
+        .register-btn:hover {
+            transform: translateY(-2px);
+            color: white;
+            box-shadow: 0 12px 28px rgba(45,105,255,0.45);
+        }
+
+        /* =========================
+           HERO
+        ========================= */
+
+        .hero {
+            min-height: 760px;
+            padding-top: 150px;
+            padding-bottom: 80px;
+            position: relative;
+            overflow: hidden;
+            background:
+                radial-gradient(circle at 10% 20%, rgba(51,110,255,0.35), transparent 30%),
+                radial-gradient(circle at 90% 10%, rgba(118,74,255,0.3), transparent 30%),
+                linear-gradient(135deg, #07132f, #0b2150 50%, #111a44);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 5;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 16px;
+            border-radius: 30px;
+            background: rgba(255,255,255,0.10);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #dce9ff;
+            font-size: 14px;
+            margin-bottom: 25px;
+            animation: fadeUp 0.8s ease;
+        }
+
+        .hero h1 {
+            color: white;
+            font-size: clamp(45px, 6vw, 75px);
+            line-height: 1.02;
+            font-weight: 800;
+            letter-spacing: -3px;
+            max-width: 850px;
+            animation: fadeUp 1s ease;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(90deg, #55b7ff, #8c6cff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-text {
+            color: #b8c8e7;
+            font-size: 19px;
+            line-height: 1.7;
+            max-width: 680px;
+            margin-top: 25px;
+            animation: fadeUp 1.2s ease;
+        }
+
+        .hero-buttons {
+            margin-top: 35px;
+            animation: fadeUp 1.4s ease;
+        }
+
+        .primary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            background: linear-gradient(135deg, #2676ff, #694cff);
+            box-shadow: 0 15px 35px rgba(42,100,255,0.35);
+            transition: 0.35s;
+        }
+
+        .primary-btn:hover {
+            color: white;
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 45px rgba(42,100,255,0.5);
+        }
+
+        .secondary-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 9px;
+            padding: 14px 24px;
+            border-radius: 12px;
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.25);
+            margin-left: 10px;
+            transition: 0.35s;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* Floating shapes */
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(2px);
+            opacity: 0.35;
+            animation: floatOrb 7s ease-in-out infinite;
+        }
+
+        .orb-one {
+            width: 180px;
+            height: 180px;
+            background: #2875ff;
+            right: 10%;
+            top: 25%;
+        }
+
+        .orb-two {
+            width: 100px;
+            height: 100px;
+            background: #9c58ff;
+            right: 28%;
+            bottom: 18%;
+            animation-delay: 2s;
+        }
+
+        .orb-three {
+            width: 70px;
+            height: 70px;
+            background: #4bd8ff;
+            left: 8%;
+            bottom: 12%;
+            animation-delay: 1s;
+        }
+
+        /* =========================
+           SEARCH BOX
+        ========================= */
+
+        .search-wrapper {
+            position: relative;
+            z-index: 10;
+            margin-top: -70px;
+        }
+
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 25px 70px rgba(22,52,110,0.18);
+            border: 1px solid #e5ebf7;
+        }
+
+        .search-input {
+            border: none;
+            outline: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            background: #f7f9fd;
+            border-radius: 11px;
+        }
+
+        .search-input:focus {
+            box-shadow: 0 0 0 3px rgba(39,116,255,0.12);
+        }
+
+        .search-btn {
+            width: 100%;
+            height: 52px;
+            border: none;
+            border-radius: 11px;
+            background: linear-gradient(135deg, #2676ff, #654eff);
+            color: white;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(39,105,255,0.3);
+        }
+
+        /* =========================
+           STATS
+        ========================= */
+
+        .stats-section {
+            padding: 75px 0 30px;
+        }
+
+        .stat-box {
+            text-align: center;
+            padding: 25px;
+        }
+
+        .stat-number {
+            font-size: 38px;
+            font-weight: 800;
+            color: #1764e8;
+        }
+
+        .stat-label {
+            color: #6d7890;
+            margin-top: 5px;
+        }
+
+        /* =========================
+           SECTION
+        ========================= */
+
+        .section {
+            padding: 85px 0;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 40px;
+            font-weight: 800;
+            color: #101b34;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: #6c7890;
+            max-width: 650px;
+            margin: 0 auto 45px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FEATURE CARDS
+        ========================= */
+
+        .feature-card {
+            height: 100%;
+            padding: 32px;
+            background: white;
+            border-radius: 20px;
+            border: 1px solid #e7ecf6;
+            box-shadow: 0 10px 30px rgba(24,52,100,0.06);
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .feature-card::before {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: rgba(42,111,255,0.08);
+            border-radius: 50%;
+            right: -30px;
+            top: -30px;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px) rotateX(2deg);
+            box-shadow: 0 25px 50px rgba(24,52,100,0.14);
+        }
+
+        .feature-icon {
+            width: 62px;
+            height: 62px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #e8f1ff, #f0eaff);
+            color: #276eff;
+            font-size: 28px;
+            margin-bottom: 22px;
+        }
+
+        .feature-card h4 {
+            font-weight: 750;
+            margin-bottom: 12px;
+        }
+
+        .feature-card p {
+            color: #718098;
+            line-height: 1.7;
+            margin-bottom: 0;
+        }
+
+        /* =========================
+           JOB SECTION
+        ========================= */
+
+        .job-card {
+            background: white;
+            border: 1px solid #e6ebf5;
+            border-radius: 18px;
+            padding: 25px;
+            height: 100%;
+            transition: 0.35s;
+        }
+
+        .job-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 20px 45px rgba(24,52,100,0.12);
+        }
+
+        .company-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 13px;
+            background: linear-gradient(135deg, #2676ff, #684cff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 21px;
+        }
+
+        .job-title {
+            font-size: 20px;
+            font-weight: 750;
+            margin: 0;
+        }
+
+        .job-company {
+            color: #718098;
+            margin-top: 5px;
+        }
+
+        .job-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 20px 0;
+        }
+
+        .job-meta span {
+            background: #f1f5fb;
+            color: #52617a;
+            padding: 7px 10px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .view-jobs-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            color: #216cf4;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* =========================
+           ROLE CARDS
+        ========================= */
+
+        .role-card {
+            padding: 45px 35px;
+            border-radius: 25px;
+            height: 100%;
+            color: white;
+            position: relative;
+            overflow: hidden;
+            transition: 0.4s;
+        }
+
+        .role-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .candidate-card {
+            background: linear-gradient(135deg, #1767e8, #5c45ed);
+        }
+
+        .recruiter-card {
+            background: linear-gradient(135deg, #0c1936, #193866);
+        }
+
+        .role-card h3 {
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .role-card p {
+            color: #d7e4ff;
+            line-height: 1.7;
+        }
+
+        .role-card ul {
+            padding-left: 0;
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .role-card li {
+            margin: 12px 0;
+        }
+
+        .role-card li i {
+            margin-right: 8px;
+            color: #7fd1ff;
+        }
+
+        .role-btn {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 12px 20px;
+            background: white;
+            color: #1767e8;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        /* =========================
+           CTA
+        ========================= */
+
+        .cta {
+            margin: 40px 0 80px;
+            border-radius: 28px;
+            padding: 70px 30px;
+            text-align: center;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(82,166,255,0.25), transparent 25%),
+                linear-gradient(135deg, #081735, #172d63);
+            color: white;
+            overflow: hidden;
+        }
+
+        .cta h2 {
+            font-size: 42px;
+            font-weight: 800;
+        }
+
+        .cta p {
+            color: #c3d1ed;
+            max-width: 650px;
+            margin: 15px auto 30px;
+            line-height: 1.7;
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #071329;
+            color: #aebbd3;
+            padding: 55px 0 25px;
+        }
+
+        .footer-brand {
+            color: white;
+            font-size: 25px;
+            font-weight: 800;
+        }
+
+        .footer-text {
+            line-height: 1.7;
+            max-width: 400px;
+            margin-top: 15px;
+        }
+
+        .footer-links {
+            list-style: none;
+            padding: 0;
+        }
+
+        .footer-links li {
+            margin: 10px 0;
+        }
+
+        .footer-links a {
+            color: #aebbd3;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: white;
+        }
+
+        .copyright {
+            border-top: 1px solid rgba(255,255,255,0.08);
+            margin-top: 35px;
+            padding-top: 20px;
+            text-align: center;
+            font-size: 14px;
+        }
+
+        /* =========================
+           ANIMATIONS
+        ========================= */
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes floatOrb {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+
+            50% {
+                transform: translateY(-25px) translateX(15px);
+            }
+        }
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 991px) {
+
+            .hero {
+                min-height: 700px;
+            }
+
+            .nav-link-custom {
+                display: inline-block;
+                margin: 8px 0;
+            }
+
+            .register-btn {
+                display: inline-block;
+                margin: 8px 0;
+            }
+
+            .login-btn {
+                display: inline-block;
+                margin-top: 8px;
+            }
+        }
+
+        @media (max-width: 767px) {
+
+            .hero {
+                padding-top: 125px;
+                min-height: 650px;
+            }
+
+            .hero h1 {
+                font-size: 43px;
+                letter-spacing: -1.5px;
+            }
+
+            .hero-text {
+                font-size: 16px;
+            }
+
+            .hero-buttons a {
+                display: flex;
+                justify-content: center;
+                margin: 10px 0;
+            }
+
+            .secondary-btn {
+                margin-left: 0;
+            }
+
+            .search-wrapper {
+                margin-top: -40px;
+            }
+
+            .section {
+                padding: 60px 0;
+            }
+
+            .section-title {
+                font-size: 31px;
+            }
+
+            .cta h2 {
+                font-size: 31px;
+            }
+
+            .stat-number {
+                font-size: 30px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- =========================
+     NAVBAR
+========================= -->
+
+<nav class="navbar navbar-expand-lg navbar-custom">
+    <div class="container">
+
+        <a href="{% url 'home' %}" class="brand">
+            <i class="bi bi-briefcase-fill"></i>
+            JobPortal
+        </a>
+
+        <button
+            class="navbar-toggler bg-light"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+        >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarMenu">
+
+            <div class="ms-auto d-flex align-items-center flex-wrap">
+
+                <a href="{% url 'job_list' %}" class="nav-link-custom">
+                    Find Jobs
+                </a>
+
+                <a href="#features" class="nav-link-custom">
+                    Features
+                </a>
+
+                <a href="#about" class="nav-link-custom">
+                    About
+                </a>
+
+                <a href="{% url 'login' %}" class="login-btn">
+                    Login
+                </a>
+
+                <a href="{% url 'register' %}" class="register-btn">
+                    Get Started
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</nav>
+
+
+<!-- =========================
+     HERO
+========================= -->
+
+<section class="hero">
+
+    <div class="orb orb-one"></div>
+    <div class="orb orb-two"></div>
+    <div class="orb orb-three"></div>
+
+    <div class="container hero-content">
+
+        <div class="hero-badge">
+            <i class="bi bi-stars"></i>
+            Smart Job Search Platform
+        </div>
+
+        <h1>
+            Find the job that
+            <span>moves your career</span>
+            forward.
+        </h1>
+
+        <p class="hero-text">
+            Discover opportunities, connect with companies,
+            apply for jobs and manage your complete career journey
+            from one powerful platform.
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="{% url 'job_list' %}" class="primary-btn">
+                <i class="bi bi-search"></i>
+                Explore Jobs
+            </a>
+
+            <a href="{% url 'register' %}" class="secondary-btn">
+                <i class="bi bi-person-plus"></i>
+                Create Free Account
+            </a>
+
+        </div>
+
+    </div>
+</section>
+
+
+<!-- =========================
+     SEARCH
+========================= -->
+
+<section class="search-wrapper">
+
+    <div class="container">
+
+        <div class="search-box">
+
+            <form action="{% url 'job_list' %}" method="GET">
+
+                <div class="row g-3 align-items-center">
+
+                    <div class="col-lg-5">
+                        <input
+                            type="text"
+                            name="q"
+                            class="search-input"
+                            placeholder="Job title, skill or keyword"
+                        >
+                    </div>
+
+                    <div class="col-lg-4">
+                        <input
+                            type="text"
+                            name="location"
+                            class="search-input"
+                            placeholder="Location"
+                        >
+                    </div>
+
+                    <div class="col-lg-3">
+                        <button type="submit" class="search-btn">
+                            <i class="bi bi-search"></i>
+                            Search Jobs
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     STATS
+========================= -->
+
+<section class="stats-section">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-6 col-md-3">
+                <div class="stat-box">
+                    <div class="stat-number">100+</div>
+                    <div class="stat-label">Job Opportunities</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="stat-box">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Companies</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="stat-box">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Applications</div>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3">
+                <div class="stat-box">
+                    <div class="stat-number">24/7</div>
+                    <div class="stat-label">Access</div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FEATURES
+========================= -->
+
+<section class="section" id="features">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Everything you need
+        </h2>
+
+        <p class="section-subtitle">
+            JobPortal provides powerful tools for candidates and
+            recruiters to make hiring simple, fast and organized.
+        </p>
+
+        <div class="row g-4">
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-search"></i>
+                    </div>
+
+                    <h4>Smart Job Search</h4>
+
+                    <p>
+                        Search jobs using keywords, location,
+                        experience, job type and other filters.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-file-earmark-person"></i>
+                    </div>
+
+                    <h4>Candidate Profile</h4>
+
+                    <p>
+                        Build your professional profile,
+                        add skills, education and upload your resume.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-send-check"></i>
+                    </div>
+
+                    <h4>Easy Applications</h4>
+
+                    <p>
+                        Apply for suitable jobs and track
+                        your application status from one dashboard.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-bookmark-star"></i>
+                    </div>
+
+                    <h4>Save Jobs</h4>
+
+                    <p>
+                        Save interesting jobs and come back
+                        later when you are ready to apply.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-building"></i>
+                    </div>
+
+                    <h4>Recruiter Tools</h4>
+
+                    <p>
+                        Recruiters can create jobs, manage applicants
+                        and update application statuses.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-6 col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        <i class="bi bi-bar-chart-line"></i>
+                    </div>
+
+                    <h4>Analytics Dashboard</h4>
+
+                    <p>
+                        Monitor jobs, applications, candidates
+                        and recruitment activity using dashboards.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CANDIDATE / RECRUITER
+========================= -->
+
+<section class="section" id="about">
+
+    <div class="container">
+
+        <h2 class="section-title">
+            Built for everyone
+        </h2>
+
+        <p class="section-subtitle">
+            Whether you are looking for your next opportunity
+            or hiring your next team member.
+        </p>
+
+        <div class="row g-4">
+
+            <div class="col-lg-6">
+
+                <div class="role-card candidate-card">
+
+                    <i class="bi bi-person-workspace fs-1"></i>
+
+                    <h3 class="mt-4">
+                        For Candidates
+                    </h3>
+
+                    <p>
+                        Discover relevant opportunities and manage
+                        your entire job search from one place.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Search and filter jobs
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Build professional profile
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Upload resume
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Apply and track applications
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Save interesting jobs
+                        </li>
+
+                    </ul>
+
+                    <a href="{% url 'job_list' %}" class="role-btn">
+                        Find Jobs
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-lg-6">
+
+                <div class="role-card recruiter-card">
+
+                    <i class="bi bi-buildings fs-1"></i>
+
+                    <h3 class="mt-4">
+                        For Recruiters
+                    </h3>
+
+                    <p>
+                        Manage your hiring process and connect
+                        with suitable candidates efficiently.
+                    </p>
+
+                    <ul>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Create job postings
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Manage your jobs
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            View applicants
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Review candidate profiles
+                        </li>
+
+                        <li>
+                            <i class="bi bi-check-circle-fill"></i>
+                            Update application status
+                        </li>
+
+                    </ul>
+
+                    <a href="{% url 'register' %}" class="role-btn">
+                        Start Recruiting
+                        <i class="bi bi-arrow-right"></i>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CTA
+========================= -->
+
+<section class="container">
+
+    <div class="cta">
+
+        <h2>
+            Ready to take the next step?
+        </h2>
+
+        <p>
+            Create your free JobPortal account and start exploring
+            opportunities or building your recruitment pipeline.
+        </p>
+
+        <a href="{% url 'register' %}" class="primary-btn">
+            <i class="bi bi-rocket-takeoff"></i>
+            Get Started
+        </a>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     FOOTER
+========================= -->
+
+<footer>
+
+    <div class="container">
+
+        <div class="row g-5">
+
+            <div class="col-lg-6">
+
+                <div class="footer-brand">
+                    <i class="bi bi-briefcase-fill"></i>
+                    JobPortal
+                </div>
+
+                <p class="footer-text">
+                    A modern recruitment management platform
+                    built with Python, Django, MySQL, HTML,
+                    CSS and JavaScript.
+                </p>
+
+            </div>
+
+
+            <div class="col-6 col-lg-3">
+
+                <h5 class="text-white mb-3">
+                    Platform
+                </h5>
+
+                <ul class="footer-links">
+
+                    <li>
+                        <a href="{% url 'job_list' %}">
+                            Find Jobs
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'login' %}">
+                            Login
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'register' %}">
+                            Register
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+
+            <div class="col-6 col-lg-3">
+
+                <h5 class="text-white mb-3">
+                    Quick Links
+                </h5>
+
+                <ul class="footer-links">
+
+                    <li>
+                        <a href="#features">
+                            Features
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="#about">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{% url 'home' %}">
+                            Home
+                        </a>
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </div>
+
+
+        <div class="copyright">
+            © 2026 JobPortal. All rights reserved.
+        </div>
+
+    </div>
+
+</footer>
+
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js">
+</script>
+
+</body>
+</html>

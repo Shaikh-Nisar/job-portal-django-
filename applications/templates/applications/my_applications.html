@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Applications | Job Portal</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Inter", "Segoe UI", Arial, sans-serif;
+            background:
+                radial-gradient(circle at 5% 10%, rgba(37, 99, 235, 0.10), transparent 28%),
+                radial-gradient(circle at 95% 20%, rgba(124, 58, 237, 0.10), transparent 28%),
+                linear-gradient(135deg, #f8fafc, #eef2ff);
+            min-height: 100vh;
+            color: #172033;
+        }
+
+        /* ================= NAVBAR ================= */
+
+        .topbar {
+            background: linear-gradient(135deg, #0f172a, #172554, #1e3a8a);
+            padding: 14px 0;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.20);
+        }
+
+        .brand {
+            color: white !important;
+            text-decoration: none;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 0.3px;
+        }
+
+        .brand i {
+            color: #60a5fa;
+            margin-right: 8px;
+        }
+
+        .nav-btn {
+            border-radius: 10px;
+            padding: 8px 15px;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.3s;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ================= PAGE ================= */
+
+        .page-wrapper {
+            max-width: 1250px;
+            margin: 45px auto;
+            padding: 0 20px 50px;
+        }
+
+        .page-header {
+            margin-bottom: 28px;
+        }
+
+        .page-header h1 {
+            font-size: 32px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 7px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            margin: 0;
+            font-size: 15px;
+        }
+
+        .header-icon {
+            width: 48px;
+            height: 48px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2563eb, #4f46e5);
+            color: white;
+            border-radius: 14px;
+            margin-right: 12px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        /* ================= ALERT ================= */
+
+        .alert {
+            border: none;
+            border-radius: 14px;
+            box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+        }
+
+        /* ================= STAT CARDS ================= */
+
+        .stat-card {
+            border: 1px solid rgba(255,255,255,0.8);
+            border-radius: 18px;
+            background: rgba(255,255,255,0.86);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 30px rgba(15,23,42,0.08);
+            transition: 0.3s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: rgba(37,99,235,0.06);
+            right: -25px;
+            top: -25px;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 18px 35px rgba(15,23,42,0.12);
+        }
+
+        .stat-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .icon-blue {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .icon-purple {
+            background: #f5f3ff;
+            color: #7c3aed;
+        }
+
+        .icon-green {
+            background: #ecfdf5;
+            color: #059669;
+        }
+
+        .icon-orange {
+            background: #fff7ed;
+            color: #ea580c;
+        }
+
+        .stat-title {
+            font-size: 12px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: 800;
+            color: #0f172a;
+            margin-top: 6px;
+        }
+
+        /* ================= APPLICATION CARD ================= */
+
+        .application-card {
+            border: 1px solid rgba(255,255,255,0.85);
+            border-radius: 20px;
+            background: rgba(255,255,255,0.90);
+            backdrop-filter: blur(14px);
+            box-shadow: 0 12px 35px rgba(15,23,42,0.08);
+            transition: all 0.35s ease;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .application-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 22px 45px rgba(15,23,42,0.14);
+        }
+
+        .application-card::before {
+            content: "";
+            position: absolute;
+            height: 4px;
+            left: 0;
+            right: 0;
+            top: 0;
+            background: linear-gradient(90deg, #2563eb, #7c3aed);
+        }
+
+        .job-icon {
+            width: 52px;
+            height: 52px;
+            min-width: 52px;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #eff6ff, #eef2ff);
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+        }
+
+        .job-title {
+            color: #0f172a;
+            font-size: 20px;
+            font-weight: 800;
+            margin: 0;
+        }
+
+        .company-name {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        /* ================= JOB META ================= */
+
+        .meta-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .meta-item {
+            background: #f8fafc;
+            border-radius: 11px;
+            padding: 11px 12px;
+            border: 1px solid #edf1f5;
+        }
+
+        .meta-item i {
+            color: #2563eb;
+            margin-right: 5px;
+        }
+
+        .meta-label {
+            display: block;
+            color: #94a3b8;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.4px;
+            margin-bottom: 3px;
+        }
+
+        .meta-value {
+            color: #334155;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* ================= STATUS ================= */
+
+        .status-box {
+            background: #f8fafc;
+            border: 1px solid #edf1f5;
+            border-radius: 14px;
+            padding: 15px;
+            margin-bottom: 17px;
+        }
+
+        .status-heading {
+            color: #64748b;
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            margin-bottom: 9px;
+        }
+
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 8px 13px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 800;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .status-applied {
+            background: #eff6ff;
+            color: #2563eb;
+        }
+
+        .status-shortlisted {
+            background: #fff7ed;
+            color: #c2410c;
+        }
+
+        .status-selected {
+            background: #ecfdf5;
+            color: #047857;
+        }
+
+        .status-rejected {
+            background: #fef2f2;
+            color: #dc2626;
+        }
+
+        /* ================= COVER LETTER ================= */
+
+        .cover-box {
+            background: #fafafa;
+            border-left: 3px solid #cbd5e1;
+            padding: 12px 15px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 18px;
+        }
+
+        .cover-title {
+            font-size: 12px;
+            font-weight: 800;
+            color: #334155;
+        }
+
+        .cover-text {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.6;
+            margin: 5px 0 0;
+        }
+
+        /* ================= BUTTONS ================= */
+
+        .action-btn {
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            transition: 0.25s;
+        }
+
+        .action-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* ================= EMPTY ================= */
+
+        .empty-box {
+            background: rgba(255,255,255,0.90);
+            border-radius: 22px;
+            padding: 75px 30px;
+            text-align: center;
+            box-shadow: 0 15px 40px rgba(15,23,42,0.08);
+        }
+
+        .empty-icon {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            margin: 0 auto 22px;
+            background: linear-gradient(135deg, #eff6ff, #eef2ff);
+            color: #2563eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+        }
+
+        .empty-box h3 {
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .empty-box p {
+            color: #64748b;
+        }
+
+        .browse-btn {
+            border-radius: 11px;
+            padding: 11px 20px;
+            font-weight: 700;
+        }
+
+        /* ================= ANIMATION ================= */
+
+        .fade-up {
+            animation: fadeUp 0.55s ease both;
+        }
+
+        @keyframes fadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(18px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .application-card:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .application-card:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        .application-card:nth-child(4) {
+            animation-delay: 0.24s;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 767px) {
+
+            .page-wrapper {
+                margin-top: 30px;
+                padding: 0 15px 35px;
+            }
+
+            .page-header h1 {
+                font-size: 26px;
+            }
+
+            .meta-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .job-title {
+                font-size: 18px;
+            }
+
+            .topbar .container-fluid {
+                padding-left: 15px !important;
+                padding-right: 15px !important;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- ================= NAVBAR ================= -->
+
+<nav class="navbar navbar-dark topbar">
+
+    <div class="container-fluid px-4">
+
+        <a
+            class="brand"
+            href="{% url 'candidate_dashboard' %}"
+        >
+            <i class="bi bi-briefcase-fill"></i>
+            Job Portal
+        </a>
+
+        <div>
+
+            <a
+                href="{% url 'job_list' %}"
+                class="btn btn-primary nav-btn me-2"
+            >
+                <i class="bi bi-search me-1"></i>
+                Find Jobs
+            </a>
+
+            <a
+                href="{% url 'logout' %}"
+                class="btn btn-danger nav-btn"
+            >
+                <i class="bi bi-box-arrow-right me-1"></i>
+                Logout
+            </a>
+
+        </div>
+
+    </div>
+
+</nav>
+
+
+<!-- ================= MAIN ================= -->
+
+<div class="page-wrapper">
+
+    <!-- HEADER -->
+
+    <div class="page-header fade-up">
+
+        <div class="d-flex align-items-center">
+
+            <div class="header-icon">
+                <i class="bi bi-file-earmark-text-fill"></i>
+            </div>
+
+            <div>
+
+                <h1>My Applications</h1>
+
+                <p>
+                    Track your job applications and monitor their latest status.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= MESSAGES ================= -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div class="alert alert-info alert-dismissible fade show mb-4">
+
+                <i class="bi bi-info-circle-fill me-2"></i>
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                ></button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    {% if applications %}
+
+        <!-- ================= STATISTICS ================= -->
+
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="stat-icon icon-blue">
+                            <i class="bi bi-files"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Total Applications
+                        </div>
+
+                        <div class="stat-value">
+                            {{ applications|length }}
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="stat-icon icon-purple">
+                            <i class="bi bi-send-check-fill"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Applications
+                        </div>
+
+                        <div class="stat-value">
+                            Submitted
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="stat-icon icon-green">
+                            <i class="bi bi-activity"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Tracking
+                        </div>
+
+                        <div class="stat-value">
+                            Live Status
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="col-md-3 col-6">
+
+                <div class="stat-card h-100">
+
+                    <div class="card-body p-4">
+
+                        <div class="stat-icon icon-orange">
+                            <i class="bi bi-clock-history"></i>
+                        </div>
+
+                        <div class="stat-title">
+                            Updates
+                        </div>
+
+                        <div class="stat-value">
+                            Real Time
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= APPLICATION LIST ================= -->
+
+        <div class="row g-4">
+
+            {% for application in applications %}
+
+            <div class="col-lg-6">
+
+                <div class="application-card h-100 fade-up">
+
+                    <div class="card-body p-4">
+
+                        <!-- JOB HEADER -->
+
+                        <div class="d-flex align-items-center gap-3">
+
+                            <div class="job-icon">
+                                <i class="bi bi-briefcase-fill"></i>
+                            </div>
+
+                            <div>
+
+                                <h4 class="job-title">
+                                    {{ application.job.title }}
+                                </h4>
+
+                                <div class="company-name">
+
+                                    <i class="bi bi-building me-1"></i>
+
+                                    {{ application.job.company_name }}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- JOB META -->
+
+                        <div class="meta-grid">
+
+                            <div class="meta-item">
+
+                                <span class="meta-label">
+                                    Location
+                                </span>
+
+                                <span class="meta-value">
+
+                                    <i class="bi bi-geo-alt-fill"></i>
+
+                                    {{ application.job.location }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-label">
+                                    Job Type
+                                </span>
+
+                                <span class="meta-value">
+
+                                    <i class="bi bi-briefcase"></i>
+
+                                    {{ application.job.get_job_type_display }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-label">
+                                    Applied On
+                                </span>
+
+                                <span class="meta-value">
+
+                                    <i class="bi bi-calendar3"></i>
+
+                                    {{ application.applied_at|date:"d M Y, h:i A" }}
+
+                                </span>
+
+                            </div>
+
+
+                            <div class="meta-item">
+
+                                <span class="meta-label">
+                                    Last Updated
+                                </span>
+
+                                <span class="meta-value">
+
+                                    <i class="bi bi-arrow-repeat"></i>
+
+                                    {{ application.updated_at|date:"d M Y, h:i A" }}
+
+                                </span>
+
+                            </div>
+
+                        </div>
+
+
+                        <!-- STATUS -->
+
+                        <div class="status-box">
+
+                            <div class="status-heading">
+                                Current Application Status
+                            </div>
+
+
+                            {% if application.status == "applied" %}
+
+                                <span class="status-badge status-applied">
+
+                                    <span class="status-dot"></span>
+
+                                    Applied
+
+                                </span>
+
+                            {% elif application.status == "shortlisted" %}
+
+                                <span class="status-badge status-shortlisted">
+
+                                    <span class="status-dot"></span>
+
+                                    Shortlisted
+
+                                </span>
+
+                            {% elif application.status == "selected" %}
+
+                                <span class="status-badge status-selected">
+
+                                    <span class="status-dot"></span>
+
+                                    Selected
+
+                                </span>
+
+                            {% elif application.status == "rejected" %}
+
+                                <span class="status-badge status-rejected">
+
+                                    <span class="status-dot"></span>
+
+                                    Rejected
+
+                                </span>
+
+                            {% endif %}
+
+                        </div>
+
+
+                        <!-- COVER LETTER -->
+
+                        {% if application.cover_letter %}
+
+                            <div class="cover-box">
+
+                                <div class="cover-title">
+
+                                    <i class="bi bi-chat-left-text-fill me-1"></i>
+
+                                    Cover Letter
+
+                                </div>
+
+                                <p class="cover-text">
+
+                                    {{ application.cover_letter|truncatechars:180 }}
+
+                                </p>
+
+                            </div>
+
+                        {% endif %}
+
+
+                        <!-- ACTIONS -->
+
+                        <div class="d-flex gap-2 flex-wrap">
+
+                            <a
+                                href="{% url 'job_detail' application.job.id %}"
+                                class="btn btn-outline-primary action-btn"
+                            >
+                                <i class="bi bi-eye-fill me-1"></i>
+                                View Job
+                            </a>
+
+
+                            {% if application.resume %}
+
+                                <a
+                                    href="{{ application.resume.url }}"
+                                    target="_blank"
+                                    class="btn btn-outline-success action-btn"
+                                >
+                                    <i class="bi bi-file-earmark-pdf-fill me-1"></i>
+                                    View Resume
+                                </a>
+
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+
+    {% else %}
+
+        <!-- ================= EMPTY STATE ================= -->
+
+        <div class="empty-box fade-up">
+
+            <div class="empty-icon">
+
+                <i class="bi bi-file-earmark-x-fill"></i>
+
+            </div>
+
+            <h3>
+                No Applications Yet
+            </h3>
+
+            <p class="mt-2 mb-4">
+                You haven't applied for any jobs yet.
+                Start exploring available opportunities.
+            </p>
+
+            <a
+                href="{% url 'job_list' %}"
+                class="btn btn-primary browse-btn"
+            >
+                <i class="bi bi-search me-2"></i>
+                Browse Jobs
+            </a>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+</body>
+
+</html>

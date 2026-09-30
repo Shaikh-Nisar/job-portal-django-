@@ -1,0 +1,3755 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Analytics Dashboard | Job Portal</title>
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background:
+                radial-gradient(
+                    circle at top left,
+                    rgba(76, 91, 255, 0.18),
+                    transparent 30%
+                ),
+                radial-gradient(
+                    circle at bottom right,
+                    rgba(126, 87, 255, 0.16),
+                    transparent 30%
+                ),
+                #07111f;
+            color: #eef4ff;
+            min-height: 100vh;
+        }
+
+        .dashboard {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* ================= HEADER ================= */
+
+        .topbar {
+            height: 76px;
+            padding: 0 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            background: rgba(7,17,31,0.82);
+            backdrop-filter: blur(18px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #5968ff, #8c55ff);
+            box-shadow: 0 10px 30px rgba(89,104,255,0.35);
+            font-size: 20px;
+        }
+
+        .brand h1 {
+            font-size: 19px;
+            font-weight: 700;
+        }
+
+        .brand span {
+            display: block;
+            margin-top: 4px;
+            font-size: 11px;
+            color: #8d9bb4;
+        }
+
+        .top-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .top-btn {
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: .25s;
+            text-decoration: none;
+        }
+
+        .top-btn:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            padding: 25px;
+            max-width: 1800px;
+            margin: auto;
+        }
+
+        /* ================= FILTERS ================= */
+
+        .filter-panel {
+            background: rgba(17,31,51,0.82);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 20px;
+            margin-bottom: 22px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.18);
+        }
+
+        .filter-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .filter-header h2 {
+            font-size: 16px;
+        }
+
+        .filter-header span {
+            font-size: 12px;
+            color: #8190a9;
+        }
+
+        .filters {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 12px;
+        }
+
+        .filter-group label {
+            display: block;
+            font-size: 11px;
+            color: #8e9bb1;
+            margin-bottom: 7px;
+        }
+
+        .filter-group input,
+        .filter-group select {
+            width: 100%;
+            height: 42px;
+            padding: 0 12px;
+            border-radius: 9px;
+            border: 1px solid rgba(255,255,255,0.09);
+            background: #0b1728;
+            color: #edf3ff;
+            outline: none;
+        }
+
+        .filter-group input:focus,
+        .filter-group select:focus {
+            border-color: #6170ff;
+            box-shadow: 0 0 0 3px rgba(97,112,255,0.12);
+        }
+
+        .filter-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .btn {
+            height: 42px;
+            padding: 0 20px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: .25s;
+        }
+
+        .btn-primary {
+            color: white;
+            background: linear-gradient(135deg, #5365ff, #824eff);
+            box-shadow: 0 8px 25px rgba(83,101,255,0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(83,101,255,0.38);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.06);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        /* ================= KPI ================= */
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 17px;
+            margin-bottom: 20px;
+        }
+
+        .kpi {
+            position: relative;
+            overflow: hidden;
+            padding: 20px;
+            border-radius: 17px;
+            background: linear-gradient(
+                145deg,
+                rgba(20,37,61,0.95),
+                rgba(10,22,39,0.95)
+            );
+            border: 1px solid rgba(255,255,255,0.08);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+            transition: .3s;
+        }
+
+        .kpi:hover {
+            transform: translateY(-4px);
+            border-color: rgba(112,124,255,0.35);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.28);
+        }
+
+        .kpi.clickable-kpi {
+            cursor: pointer;
+        }
+
+        .kpi.clickable-kpi:hover {
+            border-color: rgba(112,124,255,0.65);
+            box-shadow:
+                0 20px 45px rgba(0,0,0,0.28),
+                0 0 25px rgba(89,104,255,0.12);
+        }
+
+        .kpi::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background: rgba(95,107,255,0.13);
+            right: -40px;
+            top: -40px;
+        }
+
+        .kpi-label {
+            color: #8d9bb3;
+            font-size: 12px;
+            margin-bottom: 9px;
+        }
+
+        .kpi-value {
+            font-size: 29px;
+            font-weight: 700;
+        }
+
+        .kpi-sub {
+            margin-top: 7px;
+            color: #72819b;
+            font-size: 11px;
+        }
+
+        .kpi-click-hint {
+            margin-top: 9px;
+            color: #6978ff;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        /* ================= CHART GRID ================= */
+
+        .chart-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 18px;
+            margin-bottom: 18px;
+        }
+
+        .chart-grid.equal {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .card {
+            background: rgba(14,28,47,0.9);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 17px;
+            padding: 19px;
+            box-shadow: 0 15px 45px rgba(0,0,0,0.18);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 17px;
+        }
+
+        .card-header h3 {
+            font-size: 15px;
+        }
+
+        .card-header span {
+            font-size: 11px;
+            color: #71819b;
+        }
+
+        .chart-box {
+            height: 300px;
+            position: relative;
+        }
+
+        .chart-box.small {
+            height: 280px;
+        }
+
+        .chart-hint {
+            margin-top: 8px;
+            color: #66758d;
+            font-size: 10px;
+            text-align: right;
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-card {
+            margin-bottom: 18px;
+            overflow: hidden;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px 12px;
+            color: #71809a;
+            font-size: 11px;
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+        }
+
+        td {
+            padding: 14px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            font-size: 12px;
+            color: #dce5f4;
+        }
+
+        tbody tr {
+            transition: .2s;
+        }
+
+        tbody tr:hover {
+            background: rgba(255,255,255,0.035);
+        }
+
+        .job-row {
+            cursor: pointer;
+        }
+
+        .job-row:hover {
+            background: rgba(89,104,255,0.08);
+        }
+
+        .job-title {
+            font-weight: 600;
+            color: white;
+        }
+
+        .muted {
+            color: #7e8ca3;
+            margin-top: 3px;
+            font-size: 10px;
+        }
+
+        /* ================= BADGES ================= */
+
+        .badge {
+            display: inline-flex;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .badge-active {
+            background: rgba(49,205,129,0.12);
+            color: #49dc94;
+        }
+
+        .badge-inactive {
+            background: rgba(255,92,110,0.12);
+            color: #ff7281;
+        }
+
+        .badge-applied {
+            background: rgba(91,119,255,0.14);
+            color: #7890ff;
+        }
+
+        .badge-shortlisted {
+            background: rgba(164,91,255,0.14);
+            color: #b17aff;
+        }
+
+        .badge-selected {
+            background: rgba(41,201,133,0.14);
+            color: #47dc99;
+        }
+
+        .badge-rejected {
+            background: rgba(255,83,102,0.14);
+            color: #ff7380;
+        }
+
+        /* ================= ACTIVITY ================= */
+
+        .activity-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .activity {
+            display: flex;
+            gap: 13px;
+            padding: 13px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .activity:hover {
+            padding-left: 6px;
+        }
+
+        .activity:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            min-width: 35px;
+            width: 35px;
+            height: 35px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(88,103,255,0.12);
+        }
+
+        .activity-title {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .activity-message {
+            font-size: 11px;
+            color: #7d8ba3;
+            margin-top: 4px;
+        }
+
+        .activity-time {
+            font-size: 10px;
+            color: #59677e;
+            margin-top: 4px;
+        }
+
+        /* ================= LOADING ================= */
+
+        .loading {
+            position: fixed;
+            inset: 0;
+            background: rgba(3,10,20,0.78);
+            backdrop-filter: blur(5px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .loader-box {
+            padding: 25px 35px;
+            background: #102038;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 15px;
+            text-align: center;
+        }
+
+        .spinner {
+            width: 35px;
+            height: 35px;
+            border: 3px solid rgba(255,255,255,0.15);
+            border-top-color: #6978ff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ================= ERROR ================= */
+
+        .error-box {
+            display: none;
+            background: rgba(255,70,90,0.1);
+            border: 1px solid rgba(255,70,90,0.2);
+            color: #ff7b89;
+            padding: 13px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 12px;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.72);
+            backdrop-filter: blur(8px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-box {
+            width: 100%;
+            max-width: 520px;
+            background: #102038;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 18px;
+            padding: 25px;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h3 {
+            font-size: 17px;
+        }
+
+        .modal-close {
+            border: none;
+            background: rgba(255,255,255,0.06);
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .modal-content {
+            color: #aebbd0;
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .company-stat {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .company-stat-box {
+            padding: 15px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+        }
+
+        .company-stat-box small {
+            display: block;
+            color: #71809a;
+            font-size: 10px;
+            margin-bottom: 6px;
+        }
+
+        .company-stat-box strong {
+            font-size: 20px;
+            color: white;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1200px) {
+
+            .filters {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .kpi-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 900px) {
+
+            .chart-grid,
+            .chart-grid.equal {
+                grid-template-columns: 1fr;
+            }
+
+            .main {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 650px) {
+
+            .topbar {
+                padding: 0 14px;
+            }
+
+            .brand span {
+                display: none;
+            }
+
+            .top-btn span {
+                display: none;
+            }
+
+            .filters {
+                grid-template-columns: 1fr;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filter-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+
+            .chart-box {
+                height: 260px;
+            }
+
+            .company-stat {
+                grid-template-columns: 1fr;
+            }
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="dashboard">
+
+    <!-- ================= HEADER ================= -->
+
+    <header class="topbar">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                📊
+            </div>
+
+            <div>
+
+                <h1>
+                    Job Portal Analytics
+                </h1>
+
+                <span>
+                    Live Recruitment Intelligence Dashboard
+                </span>
+
+            </div>
+
+        </div>
+
+        <div class="top-actions">
+
+            <button
+                class="top-btn"
+                onclick="loadDashboard()"
+            >
+                🔄
+                <span>
+                    Refresh Data
+                </span>
+            </button>
+
+            <a
+                href="{% url 'admin_dashboard' %}"
+                class="top-btn"
+            >
+                ←
+                <span>
+                    Admin Dashboard
+                </span>
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ================= MAIN ================= -->
+
+    <main class="main">
+
+        <!-- ERROR -->
+
+        <div
+            id="errorBox"
+            class="error-box"
+        ></div>
+
+
+        <!-- ================= FILTERS ================= -->
+
+        <section class="filter-panel">
+
+            <div class="filter-header">
+
+                <div>
+
+                    <h2>
+                        🔍 Analytics Filters
+                    </h2>
+
+                </div>
+
+                <span id="lastUpdated">
+                    Waiting for data...
+                </span>
+
+            </div>
+
+
+            <div class="filters">
+
+                <div class="filter-group">
+
+                    <label>
+                        Date From
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateFrom"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Date To
+                    </label>
+
+                    <input
+                        type="date"
+                        id="dateTo"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Location
+                    </label>
+
+                    <select id="location">
+
+                        <option value="">
+                            All Locations
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Job Type
+                    </label>
+
+                    <select id="jobType">
+
+                        <option value="">
+                            All Job Types
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Experience
+                    </label>
+
+                    <select id="experience">
+
+                        <option value="">
+                            All Experience
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Status
+                    </label>
+
+                    <select id="status">
+
+                        <option value="">
+                            All Status
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Minimum Salary
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salaryMin"
+                        placeholder="e.g. 30000"
+                    >
+
+                </div>
+
+
+                <div class="filter-group">
+
+                    <label>
+                        Maximum Salary
+                    </label>
+
+                    <input
+                        type="number"
+                        id="salaryMax"
+                        placeholder="e.g. 100000"
+                    >
+
+                </div>
+
+            </div>
+
+
+            <div class="filter-actions">
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="resetFilters()"
+                >
+                    Reset Filters
+                </button>
+
+                <button
+                    class="btn btn-primary"
+                    onclick="loadDashboard()"
+                >
+                    Apply Filters
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= KPI ================= -->
+
+        <section class="kpi-grid">
+
+
+            <!-- TOTAL JOBS -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openJobsPage()"
+                title="View all jobs"
+            >
+
+                <div class="kpi-label">
+                    TOTAL JOBS
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="totalJobs"
+                >
+                    0
+                </div>
+
+                <div
+                    class="kpi-sub"
+                    id="activeJobsText"
+                >
+                    0 active jobs
+                </div>
+
+                <div class="kpi-click-hint">
+                    Click to view jobs →
+                </div>
+
+            </div>
+
+
+            <!-- TOTAL APPLICATIONS -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openApplicationsPage()"
+                title="View all applications"
+            >
+
+                <div class="kpi-label">
+                    TOTAL APPLICATIONS
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="totalApplications"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+
+                    <span id="applicationsPerJob">
+                        0
+                    </span>
+
+                    applications / job
+
+                </div>
+
+                <div class="kpi-click-hint">
+                    Click to view applications →
+                </div>
+
+            </div>
+
+
+            <!-- CANDIDATES -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openCandidatesPage()"
+                title="View candidates"
+            >
+
+                <div class="kpi-label">
+                    TOTAL CANDIDATES
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="totalCandidates"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Registered candidates
+                </div>
+
+                <div class="kpi-click-hint">
+                    Click to view candidates →
+                </div>
+
+            </div>
+
+
+            <!-- RECRUITERS -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openRecruitersPage()"
+                title="View recruiters"
+            >
+
+                <div class="kpi-label">
+                    TOTAL RECRUITERS
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="totalRecruiters"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Registered recruiters
+                </div>
+
+                <div class="kpi-click-hint">
+                    Click to view recruiters →
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= SECOND KPI ================= -->
+
+        <section class="kpi-grid">
+
+
+            <!-- APPLIED -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openStatusApplications('applied')"
+            >
+
+                <div class="kpi-label">
+                    APPLIED
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="applied"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Applications received
+                </div>
+
+                <div class="kpi-click-hint">
+                    View applied applications →
+                </div>
+
+            </div>
+
+
+            <!-- SHORTLISTED -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openStatusApplications('shortlisted')"
+            >
+
+                <div class="kpi-label">
+                    SHORTLISTED
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="shortlisted"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Candidates shortlisted
+                </div>
+
+                <div class="kpi-click-hint">
+                    View shortlisted →
+                </div>
+
+            </div>
+
+
+            <!-- SELECTED -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openStatusApplications('selected')"
+            >
+
+                <div class="kpi-label">
+                    SELECTED
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="selected"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Candidates selected
+                </div>
+
+                <div class="kpi-click-hint">
+                    View selected →
+                </div>
+
+            </div>
+
+
+            <!-- REJECTED -->
+
+            <div
+                class="kpi clickable-kpi"
+                onclick="openStatusApplications('rejected')"
+            >
+
+                <div class="kpi-label">
+                    REJECTED
+                </div>
+
+                <div
+                    class="kpi-value"
+                    id="rejected"
+                >
+                    0
+                </div>
+
+                <div class="kpi-sub">
+                    Applications rejected
+                </div>
+
+                <div class="kpi-click-hint">
+                    View rejected →
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= TREND + STATUS ================= -->
+
+        <section class="chart-grid">
+
+
+            <!-- TREND -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        📈 Application Trend
+                    </h3>
+
+                    <span>
+                        Live database data
+                    </span>
+
+                </div>
+
+                <div class="chart-box">
+
+                    <canvas id="trendChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click a date to filter dashboard
+                </div>
+
+            </div>
+
+
+            <!-- STATUS -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        🍩 Application Status
+                    </h3>
+
+                    <span>
+                        Current distribution
+                    </span>
+
+                </div>
+
+                <div class="chart-box small">
+
+                    <canvas id="statusChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click a status to filter
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= JOB TYPE + LOCATION ================= -->
+
+        <section class="chart-grid equal">
+
+
+            <!-- JOB TYPE -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        💼 Jobs by Type
+                    </h3>
+
+                    <span>
+                        Jobs vs Applications
+                    </span>
+
+                </div>
+
+                <div class="chart-box">
+
+                    <canvas id="jobTypeChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click a job type to filter
+                </div>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        📍 Applications by Location
+                    </h3>
+
+                    <span>
+                        Top locations
+                    </span>
+
+                </div>
+
+                <div class="chart-box">
+
+                    <canvas id="locationChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click a location to filter
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= EXPERIENCE + COMPANIES ================= -->
+
+        <section class="chart-grid equal">
+
+
+            <!-- EXPERIENCE -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        🎓 Experience Analysis
+                    </h3>
+
+                    <span>
+                        Jobs vs Applications
+                    </span>
+
+                </div>
+
+                <div class="chart-box">
+
+                    <canvas id="experienceChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click experience to filter
+                </div>
+
+            </div>
+
+
+            <!-- COMPANIES -->
+
+            <div class="card">
+
+                <div class="card-header">
+
+                    <h3>
+                        🏢 Top Companies
+                    </h3>
+
+                    <span>
+                        Top 10
+                    </span>
+
+                </div>
+
+                <div class="chart-box">
+
+                    <canvas id="companyChart"></canvas>
+
+                </div>
+
+                <div class="chart-hint">
+                    Click a company for details
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= JOB PERFORMANCE ================= -->
+
+        <section class="card table-card">
+
+            <div class="card-header">
+
+                <h3>
+                    🚀 Job Performance
+                </h3>
+
+                <span>
+                    Top performing jobs
+                </span>
+
+            </div>
+
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                JOB
+                            </th>
+
+                            <th>
+                                COMPANY
+                            </th>
+
+                            <th>
+                                LOCATION
+                            </th>
+
+                            <th>
+                                TYPE
+                            </th>
+
+                            <th>
+                                APPLICATIONS
+                            </th>
+
+                            <th>
+                                SHORTLISTED
+                            </th>
+
+                            <th>
+                                SELECTED
+                            </th>
+
+                            <th>
+                                STATUS
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody id="jobPerformanceBody">
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- ================= RECENT ACTIVITY ================= -->
+
+        <section class="card">
+
+            <div class="card-header">
+
+                <h3>
+                    ⚡ Recent Activity
+                </h3>
+
+                <span>
+                    Latest recruitment events
+                </span>
+
+            </div>
+
+            <div
+                id="activityList"
+                class="activity-list"
+            >
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+<!-- ================= LOADING ================= -->
+
+<div
+    id="loading"
+    class="loading"
+>
+
+    <div class="loader-box">
+
+        <div class="spinner"></div>
+
+        <div>
+            Loading live analytics...
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ================= COMPANY MODAL ================= -->
+
+<div
+    id="companyModal"
+    class="modal-overlay"
+    onclick="closeCompanyModal(event)"
+>
+
+    <div
+        class="modal-box"
+        onclick="event.stopPropagation()"
+    >
+
+        <div class="modal-header">
+
+            <h3 id="modalCompanyName">
+                Company Details
+            </h3>
+
+            <button
+                class="modal-close"
+                onclick="closeCompanyModal()"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="modalCompanyContent"
+            class="modal-content"
+        >
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+    /* =========================================================
+       GLOBAL CHART REFERENCES
+    ========================================================= */
+
+    let trendChart = null;
+    let statusChart = null;
+    let jobTypeChart = null;
+    let locationChart = null;
+    let experienceChart = null;
+    let companyChart = null;
+
+
+    /* =========================================================
+       GLOBAL DATA
+    ========================================================= */
+
+    let dashboardData = null;
+
+
+    /* =========================================================
+       API URL
+    ========================================================= */
+
+    const API_URL =
+        "{% url 'analytics_dashboard_api' %}";
+
+
+    /* =========================================================
+       ADMIN PAGE URLS
+    ========================================================= */
+
+    const ADMIN_JOBS_URL =
+        "{% url 'admin_jobs' %}";
+
+    const ADMIN_APPLICATIONS_URL =
+        "{% url 'admin_applications' %}";
+
+    const ADMIN_USERS_URL =
+        "{% url 'admin_users' %}";
+
+
+    /* =========================================================
+       LOADING
+    ========================================================= */
+
+    function showLoading(show) {
+
+        const loading =
+            document.getElementById("loading");
+
+        if (show) {
+
+            loading.classList.add("show");
+
+        } else {
+
+            loading.classList.remove("show");
+
+        }
+
+    }
+
+
+    /* =========================================================
+       ERROR
+    ========================================================= */
+
+    function showError(message) {
+
+        const errorBox =
+            document.getElementById("errorBox");
+
+        errorBox.textContent =
+            message;
+
+        errorBox.style.display =
+            "block";
+
+    }
+
+
+    function hideError() {
+
+        document.getElementById("errorBox")
+            .style.display = "none";
+
+    }
+
+
+    /* =========================================================
+       NUMBER FORMAT
+    ========================================================= */
+
+    function formatNumber(value) {
+
+        return Number(value || 0)
+            .toLocaleString("en-IN");
+
+    }
+
+
+    /* =========================================================
+       DATE FORMAT
+    ========================================================= */
+
+    function formatDate(dateString) {
+
+        if (!dateString) {
+            return "";
+        }
+
+        const date =
+            new Date(dateString);
+
+        return date.toLocaleDateString(
+            "en-IN",
+            {
+                day: "2-digit",
+                month: "short",
+                year: "numeric"
+            }
+        );
+
+    }
+
+
+    /* =========================================================
+       STATUS BADGE
+    ========================================================= */
+
+    function statusBadge(status) {
+
+        const statusText =
+            String(status || "")
+                .toLowerCase();
+
+        let className =
+            "badge-applied";
+
+        if (statusText === "shortlisted") {
+
+            className =
+                "badge-shortlisted";
+
+        }
+
+        if (statusText === "selected") {
+
+            className =
+                "badge-selected";
+
+        }
+
+        if (statusText === "rejected") {
+
+            className =
+                "badge-rejected";
+
+        }
+
+        if (statusText === "active") {
+
+            className =
+                "badge-active";
+
+        }
+
+        if (statusText === "inactive") {
+
+            className =
+                "badge-inactive";
+
+        }
+
+        return `
+            <span class="badge ${className}">
+                ${escapeHtml(status)}
+            </span>
+        `;
+
+    }
+
+
+    /* =========================================================
+       BUILD QUERY STRING
+    ========================================================= */
+
+    function buildQueryString() {
+
+        const params =
+            new URLSearchParams();
+
+        const dateFrom =
+            document.getElementById("dateFrom").value;
+
+        const dateTo =
+            document.getElementById("dateTo").value;
+
+        const location =
+            document.getElementById("location").value;
+
+        const jobType =
+            document.getElementById("jobType").value;
+
+        const experience =
+            document.getElementById("experience").value;
+
+        const status =
+            document.getElementById("status").value;
+
+        const salaryMin =
+            document.getElementById("salaryMin").value;
+
+        const salaryMax =
+            document.getElementById("salaryMax").value;
+
+
+        if (dateFrom) {
+            params.set("date_from", dateFrom);
+        }
+
+        if (dateTo) {
+            params.set("date_to", dateTo);
+        }
+
+        if (location) {
+            params.set("location", location);
+        }
+
+        if (jobType) {
+            params.set("job_type", jobType);
+        }
+
+        if (experience) {
+            params.set("experience", experience);
+        }
+
+        if (status) {
+            params.set("status", status);
+        }
+
+        if (salaryMin) {
+            params.set("salary_min", salaryMin);
+        }
+
+        if (salaryMax) {
+            params.set("salary_max", salaryMax);
+        }
+
+        return params.toString();
+
+    }
+
+
+    /* =========================================================
+       LOAD DASHBOARD
+    ========================================================= */
+
+    async function loadDashboard() {
+
+        showLoading(true);
+
+        hideError();
+
+        try {
+
+            const query =
+                buildQueryString();
+
+            const url =
+                query
+                    ? `${API_URL}?${query}`
+                    : API_URL;
+
+
+            const response =
+                await fetch(
+                    url,
+                    {
+                        method: "GET",
+                        headers: {
+                            "Accept":
+                                "application/json"
+                        }
+                    }
+                );
+
+
+            if (!response.ok) {
+
+                throw new Error(
+                    `API Error: ${response.status}`
+                );
+
+            }
+
+
+            const data =
+                await response.json();
+
+
+            if (!data.success) {
+
+                throw new Error(
+                    data.message ||
+                    "Unable to load analytics."
+                );
+
+            }
+
+
+            dashboardData =
+                data;
+
+
+            updateDashboard(data);
+
+        }
+
+        catch (error) {
+
+            console.error(error);
+
+            showError(
+                "Unable to load analytics data. " +
+                error.message
+            );
+
+        }
+
+        finally {
+
+            showLoading(false);
+
+        }
+
+    }
+
+
+    /* =========================================================
+       UPDATE COMPLETE DASHBOARD
+    ========================================================= */
+
+    function updateDashboard(data) {
+
+        updateKPIs(data.kpis);
+
+        updateFilterOptions(
+            data.filter_options
+        );
+
+        renderTrendChart(
+            data.application_trend || []
+        );
+
+        renderStatusChart(
+            data.status_analysis || {}
+        );
+
+        renderJobTypeChart(
+            data.job_type_analysis || []
+        );
+
+        renderLocationChart(
+            data.location_analysis || []
+        );
+
+        renderExperienceChart(
+            data.experience_analysis || []
+        );
+
+        renderCompanyChart(
+            data.top_companies || []
+        );
+
+        renderJobPerformance(
+            data.job_performance || []
+        );
+
+        renderRecentActivity(
+            data.recent_activity || []
+        );
+
+
+        document.getElementById(
+            "lastUpdated"
+        ).textContent =
+            "Updated: " +
+            new Date(
+                data.generated_at
+            ).toLocaleString("en-IN");
+
+    }
+
+
+    /* =========================================================
+       UPDATE KPIs
+    ========================================================= */
+
+    function updateKPIs(kpis) {
+
+        document.getElementById(
+            "totalJobs"
+        ).textContent =
+            formatNumber(
+                kpis.total_jobs
+            );
+
+
+        document.getElementById(
+            "activeJobsText"
+        ).textContent =
+            `${formatNumber(
+                kpis.active_jobs
+            )} active jobs`;
+
+
+        document.getElementById(
+            "totalApplications"
+        ).textContent =
+            formatNumber(
+                kpis.total_applications
+            );
+
+
+        document.getElementById(
+            "applicationsPerJob"
+        ).textContent =
+            kpis.applications_per_job;
+
+
+        document.getElementById(
+            "totalCandidates"
+        ).textContent =
+            formatNumber(
+                kpis.total_candidates
+            );
+
+
+        document.getElementById(
+            "totalRecruiters"
+        ).textContent =
+            formatNumber(
+                kpis.total_recruiters
+            );
+
+
+        document.getElementById(
+            "applied"
+        ).textContent =
+            formatNumber(
+                kpis.applied
+            );
+
+
+        document.getElementById(
+            "shortlisted"
+        ).textContent =
+            formatNumber(
+                kpis.shortlisted
+            );
+
+
+        document.getElementById(
+            "selected"
+        ).textContent =
+            formatNumber(
+                kpis.selected
+            );
+
+
+        document.getElementById(
+            "rejected"
+        ).textContent =
+            formatNumber(
+                kpis.rejected
+            );
+
+    }
+
+
+    /* =========================================================
+       FILTER OPTIONS
+    ========================================================= */
+
+    function updateFilterOptions(options) {
+
+        populateSelect(
+            "location",
+            options.locations || [],
+            "All Locations"
+        );
+
+
+        populateSelect(
+            "experience",
+            options.experiences || [],
+            "All Experience"
+        );
+
+
+        populateJobTypes(
+            options.job_types || []
+        );
+
+
+        populateStatuses(
+            options.statuses || []
+        );
+
+    }
+
+
+    function populateSelect(
+        elementId,
+        values,
+        defaultText
+    ) {
+
+        const select =
+            document.getElementById(
+                elementId
+            );
+
+        const currentValue =
+            select.value;
+
+
+        select.innerHTML =
+            `<option value="">
+                ${defaultText}
+            </option>`;
+
+
+        values.forEach(value => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                value;
+
+            option.textContent =
+                value;
+
+            select.appendChild(
+                option
+            );
+
+        });
+
+
+        if (
+            values.includes(
+                currentValue
+            )
+        ) {
+
+            select.value =
+                currentValue;
+
+        }
+
+    }
+
+
+    function populateJobTypes(types) {
+
+        const select =
+            document.getElementById(
+                "jobType"
+            );
+
+        const currentValue =
+            select.value;
+
+
+        select.innerHTML =
+            `<option value="">
+                All Job Types
+            </option>`;
+
+
+        types.forEach(item => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                item.value;
+
+            option.textContent =
+                item.label;
+
+            select.appendChild(
+                option
+            );
+
+        });
+
+
+        if (
+            types.some(
+                item =>
+                    item.value ===
+                    currentValue
+            )
+        ) {
+
+            select.value =
+                currentValue;
+
+        }
+
+    }
+
+
+    function populateStatuses(statuses) {
+
+        const select =
+            document.getElementById(
+                "status"
+            );
+
+        const currentValue =
+            select.value;
+
+
+        select.innerHTML =
+            `<option value="">
+                All Status
+            </option>`;
+
+
+        statuses.forEach(item => {
+
+            const option =
+                document.createElement(
+                    "option"
+                );
+
+            option.value =
+                item.value;
+
+            option.textContent =
+                item.label;
+
+            select.appendChild(
+                option
+            );
+
+        });
+
+
+        if (
+            statuses.some(
+                item =>
+                    item.value ===
+                    currentValue
+            )
+        ) {
+
+            select.value =
+                currentValue;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       CHART FONT
+    ========================================================= */
+
+    const chartFont = {
+        family: "Arial"
+    };
+
+
+    /* =========================================================
+       APPLICATION TREND
+    ========================================================= */
+
+    function renderTrendChart(rows) {
+
+        const labels =
+            rows.map(
+                row =>
+                    formatDate(
+                        row.date
+                    )
+            );
+
+
+        const datasets = [
+
+            {
+                label: "Applied",
+
+                data:
+                    rows.map(
+                        row =>
+                            row.applied
+                    ),
+
+                borderColor: "#5d78ff",
+
+                backgroundColor:
+                    "rgba(93,120,255,0.08)",
+
+                tension: 0.4,
+
+                fill: true
+            },
+
+            {
+                label: "Shortlisted",
+
+                data:
+                    rows.map(
+                        row =>
+                            row.shortlisted
+                    ),
+
+                borderColor: "#a766ff",
+
+                backgroundColor:
+                    "rgba(167,102,255,0.05)",
+
+                tension: 0.4,
+
+                fill: true
+            },
+
+            {
+                label: "Selected",
+
+                data:
+                    rows.map(
+                        row =>
+                            row.selected
+                    ),
+
+                borderColor: "#42d796",
+
+                backgroundColor:
+                    "rgba(66,215,150,0.05)",
+
+                tension: 0.4,
+
+                fill: true
+            },
+
+            {
+                label: "Rejected",
+
+                data:
+                    rows.map(
+                        row =>
+                            row.rejected
+                    ),
+
+                borderColor: "#ff6577",
+
+                backgroundColor:
+                    "rgba(255,101,119,0.05)",
+
+                tension: 0.4,
+
+                fill: true
+            }
+
+        ];
+
+
+        destroyChart(trendChart);
+
+
+        trendChart =
+            new Chart(
+                document.getElementById(
+                    "trendChart"
+                ),
+                {
+                    type: "line",
+
+                    data: {
+                        labels,
+                        datasets
+                    },
+
+                    options: {
+
+                        ...chartOptions(),
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const selectedRow =
+                                    rows[index];
+
+                                if (
+                                    !selectedRow ||
+                                    !selectedRow.date
+                                ) {
+                                    return;
+                                }
+
+                                document.getElementById(
+                                    "dateFrom"
+                                ).value =
+                                    selectedRow.date;
+
+                                document.getElementById(
+                                    "dateTo"
+                                ).value =
+                                    selectedRow.date;
+
+                                loadDashboard();
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       STATUS CHART
+    ========================================================= */
+
+    function renderStatusChart(status) {
+
+        destroyChart(statusChart);
+
+
+        const values = [
+
+            status.applied || 0,
+
+            status.shortlisted || 0,
+
+            status.selected || 0,
+
+            status.rejected || 0
+
+        ];
+
+
+        statusChart =
+            new Chart(
+                document.getElementById(
+                    "statusChart"
+                ),
+                {
+
+                    type: "doughnut",
+
+                    data: {
+
+                        labels: [
+                            "Applied",
+                            "Shortlisted",
+                            "Selected",
+                            "Rejected"
+                        ],
+
+                        datasets: [
+
+                            {
+                                data: values,
+
+                                backgroundColor: [
+                                    "#5d78ff",
+                                    "#a766ff",
+                                    "#42d796",
+                                    "#ff6577"
+                                ],
+
+                                borderWidth: 0
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        responsive: true,
+
+                        maintainAspectRatio:
+                            false,
+
+                        plugins: {
+
+                            legend: {
+
+                                position:
+                                    "bottom",
+
+                                labels: {
+
+                                    color:
+                                        "#aebbd0",
+
+                                    font:
+                                        chartFont
+                                }
+
+                            }
+
+                        },
+
+                        cutout: "68%",
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const statusValues = [
+                                    "applied",
+                                    "shortlisted",
+                                    "selected",
+                                    "rejected"
+                                ];
+
+                                document.getElementById(
+                                    "status"
+                                ).value =
+                                    statusValues[
+                                        index
+                                    ];
+
+                                loadDashboard();
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       JOB TYPE CHART
+    ========================================================= */
+
+    function renderJobTypeChart(rows) {
+
+        destroyChart(jobTypeChart);
+
+
+        jobTypeChart =
+            new Chart(
+                document.getElementById(
+                    "jobTypeChart"
+                ),
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels:
+                            rows.map(
+                                row =>
+                                    row.label
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label: "Jobs",
+
+                                data:
+                                    rows.map(
+                                        row =>
+                                            row.jobs
+                                    ),
+
+                                backgroundColor:
+                                    "#5d78ff",
+
+                                borderRadius: 7
+
+                            },
+
+                            {
+
+                                label:
+                                    "Applications",
+
+                                data:
+                                    rows.map(
+                                        row =>
+                                            row.applications
+                                    ),
+
+                                backgroundColor:
+                                    "#42d796",
+
+                                borderRadius: 7
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        ...chartOptions(),
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const row =
+                                    rows[index];
+
+                                if (!row) {
+                                    return;
+                                }
+
+                                document.getElementById(
+                                    "jobType"
+                                ).value =
+                                    row.value ||
+                                    "";
+
+                                loadDashboard();
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       LOCATION CHART
+    ========================================================= */
+
+    function renderLocationChart(rows) {
+
+        const sorted =
+            [...rows]
+                .sort(
+                    (a, b) =>
+                        b.applications -
+                        a.applications
+                )
+                .slice(0, 10);
+
+
+        destroyChart(locationChart);
+
+
+        locationChart =
+            new Chart(
+                document.getElementById(
+                    "locationChart"
+                ),
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels:
+                            sorted.map(
+                                row =>
+                                    row.location
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Applications",
+
+                                data:
+                                    sorted.map(
+                                        row =>
+                                            row.applications
+                                    ),
+
+                                backgroundColor:
+                                    "#8a65ff",
+
+                                borderRadius: 7
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        ...chartOptions(),
+
+                        indexAxis: "y",
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const row =
+                                    sorted[index];
+
+                                if (!row) {
+                                    return;
+                                }
+
+                                document.getElementById(
+                                    "location"
+                                ).value =
+                                    row.location;
+
+                                loadDashboard();
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       EXPERIENCE CHART
+    ========================================================= */
+
+    function renderExperienceChart(rows) {
+
+        destroyChart(experienceChart);
+
+
+        experienceChart =
+            new Chart(
+                document.getElementById(
+                    "experienceChart"
+                ),
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels:
+                            rows.map(
+                                row =>
+                                    row.experience
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label: "Jobs",
+
+                                data:
+                                    rows.map(
+                                        row =>
+                                            row.jobs
+                                    ),
+
+                                backgroundColor:
+                                    "#5d78ff",
+
+                                borderRadius: 7
+
+                            },
+
+                            {
+
+                                label:
+                                    "Applications",
+
+                                data:
+                                    rows.map(
+                                        row =>
+                                            row.applications
+                                    ),
+
+                                backgroundColor:
+                                    "#a766ff",
+
+                                borderRadius: 7
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        ...chartOptions(),
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const row =
+                                    rows[index];
+
+                                if (!row) {
+                                    return;
+                                }
+
+                                document.getElementById(
+                                    "experience"
+                                ).value =
+                                    row.experience;
+
+                                loadDashboard();
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       COMPANY CHART
+    ========================================================= */
+
+    function renderCompanyChart(rows) {
+
+        const sorted =
+            [...rows]
+                .sort(
+                    (a, b) =>
+                        b.applications -
+                        a.applications
+                )
+                .slice(0, 10);
+
+
+        destroyChart(companyChart);
+
+
+        companyChart =
+            new Chart(
+                document.getElementById(
+                    "companyChart"
+                ),
+                {
+
+                    type: "bar",
+
+                    data: {
+
+                        labels:
+                            sorted.map(
+                                row =>
+                                    row.company
+                            ),
+
+                        datasets: [
+
+                            {
+
+                                label:
+                                    "Applications",
+
+                                data:
+                                    sorted.map(
+                                        row =>
+                                            row.applications
+                                    ),
+
+                                backgroundColor:
+                                    "#42d796",
+
+                                borderRadius: 7
+
+                            }
+
+                        ]
+
+                    },
+
+                    options: {
+
+                        ...chartOptions(),
+
+                        indexAxis: "y",
+
+                        onClick:
+                            function(
+                                event,
+                                elements
+                            ) {
+
+                                if (
+                                    !elements.length
+                                ) {
+                                    return;
+                                }
+
+                                const index =
+                                    elements[0].index;
+
+                                const row =
+                                    sorted[index];
+
+                                if (!row) {
+                                    return;
+                                }
+
+                                openCompanyModal(
+                                    row
+                                );
+
+                            }
+
+                    }
+
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       COMMON CHART OPTIONS
+    ========================================================= */
+
+    function chartOptions() {
+
+        return {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            interaction: {
+
+                intersect: false,
+
+                mode: "index"
+
+            },
+
+            plugins: {
+
+                legend: {
+
+                    position: "bottom",
+
+                    labels: {
+
+                        color:
+                            "#aebbd0",
+
+                        font:
+                            chartFont,
+
+                        boxWidth: 10,
+
+                        padding: 15
+
+                    }
+
+                },
+
+                tooltip: {
+
+                    backgroundColor:
+                        "#0b1728",
+
+                    titleColor:
+                        "#ffffff",
+
+                    bodyColor:
+                        "#b7c4d9",
+
+                    borderColor:
+                        "rgba(255,255,255,0.08)",
+
+                    borderWidth: 1
+
+                }
+
+            },
+
+            scales: {
+
+                x: {
+
+                    grid: {
+
+                        color:
+                            "rgba(255,255,255,0.05)"
+
+                    },
+
+                    ticks: {
+
+                        color:
+                            "#71809a",
+
+                        font: {
+                            size: 10
+                        }
+
+                    }
+
+                },
+
+                y: {
+
+                    beginAtZero: true,
+
+                    grid: {
+
+                        color:
+                            "rgba(255,255,255,0.05)"
+
+                    },
+
+                    ticks: {
+
+                        color:
+                            "#71809a",
+
+                        font: {
+                            size: 10
+                        }
+
+                    }
+
+                }
+
+            }
+
+        };
+
+    }
+
+
+    /* =========================================================
+       DESTROY OLD CHART
+    ========================================================= */
+
+    function destroyChart(chart) {
+
+        if (chart) {
+
+            chart.destroy();
+
+        }
+
+    }
+
+
+    /* =========================================================
+       JOB PERFORMANCE TABLE
+    ========================================================= */
+
+    function renderJobPerformance(rows) {
+
+        const body =
+            document.getElementById(
+                "jobPerformanceBody"
+            );
+
+
+        if (!rows.length) {
+
+            body.innerHTML = `
+
+                <tr>
+
+                    <td
+                        colspan="8"
+                        style="
+                            text-align:center;
+                            color:#71809a;
+                            padding:30px;
+                        "
+                    >
+
+                        No job performance
+                        data found.
+
+                    </td>
+
+                </tr>
+
+            `;
+
+            return;
+
+        }
+
+
+        body.innerHTML =
+
+            rows.map(job => {
+
+                const jobId =
+                    Number(job.id);
+
+
+                return `
+
+                    <tr
+                        class="job-row"
+                        onclick="openJobDetail(${jobId})"
+                        title="Open job details"
+                    >
+
+                        <td>
+
+                            <div class="job-title">
+
+                                ${escapeHtml(
+                                    job.title
+                                )}
+
+                            </div>
+
+                            <div class="muted">
+
+                                Job ID:
+                                ${jobId}
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                job.company
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${escapeHtml(
+                                job.location
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${formatJobType(
+                                job.job_type
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            <strong>
+
+                                ${formatNumber(
+                                    job.applications
+                                )}
+
+                            </strong>
+
+                        </td>
+
+
+                        <td>
+
+                            ${formatNumber(
+                                job.shortlisted
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${formatNumber(
+                                job.selected
+                            )}
+
+                        </td>
+
+
+                        <td>
+
+                            ${statusBadge(
+                                job.status
+                            )}
+
+                        </td>
+
+                    </tr>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =========================================================
+       RECENT ACTIVITY
+    ========================================================= */
+
+    function renderRecentActivity(rows) {
+
+        const container =
+            document.getElementById(
+                "activityList"
+            );
+
+
+        if (!rows.length) {
+
+            container.innerHTML = `
+
+                <div
+                    style="
+                        color:#71809a;
+                        padding:25px 0;
+                        font-size:12px;
+                    "
+                >
+
+                    No recent activity.
+
+                </div>
+
+            `;
+
+            return;
+
+        }
+
+
+        container.innerHTML =
+
+            rows.map(item => {
+
+                let icon = "📄";
+
+
+                if (
+                    item.type === "job"
+                ) {
+
+                    icon = "💼";
+
+                }
+
+
+                if (
+                    item.status ===
+                    "selected"
+                ) {
+
+                    icon = "🎯";
+
+                }
+
+
+                if (
+                    item.status ===
+                    "shortlisted"
+                ) {
+
+                    icon = "⭐";
+
+                }
+
+
+                if (
+                    item.status ===
+                    "rejected"
+                ) {
+
+                    icon = "❌";
+
+                }
+
+
+                return `
+
+                    <div
+                        class="activity"
+                        onclick="handleActivityClick(${item.id || 0}, '${item.type || ""}')"
+                    >
+
+                        <div
+                            class="activity-icon"
+                        >
+                            ${icon}
+                        </div>
+
+
+                        <div>
+
+                            <div
+                                class="activity-title"
+                            >
+
+                                ${escapeHtml(
+                                    item.title
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="activity-message"
+                            >
+
+                                ${escapeHtml(
+                                    item.message
+                                )}
+
+                            </div>
+
+
+                            <div
+                                class="activity-time"
+                            >
+
+                                ${formatDateTime(
+                                    item.timestamp
+                                )}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    /* =========================================================
+       FORMAT JOB TYPE
+    ========================================================= */
+
+    function formatJobType(type) {
+
+        const map = {
+
+            full_time:
+                "Full Time",
+
+            part_time:
+                "Part Time",
+
+            internship:
+                "Internship",
+
+            contract:
+                "Contract"
+
+        };
+
+        return (
+            map[type] ||
+            type ||
+            "-"
+        );
+
+    }
+
+
+    /* =========================================================
+       FORMAT DATETIME
+    ========================================================= */
+
+    function formatDateTime(value) {
+
+        if (!value) {
+
+            return "";
+
+        }
+
+        return new Date(value)
+            .toLocaleString(
+                "en-IN",
+                {
+                    day: "2-digit",
+                    month: "short",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit"
+                }
+            );
+
+    }
+
+
+    /* =========================================================
+       HTML ESCAPE
+    ========================================================= */
+
+    function escapeHtml(value) {
+
+        const div =
+            document.createElement(
+                "div"
+            );
+
+        div.textContent =
+            value ?? "";
+
+        return div.innerHTML;
+
+    }
+
+
+    /* =========================================================
+       RESET FILTERS
+    ========================================================= */
+
+    function resetFilters() {
+
+        document.getElementById(
+            "dateFrom"
+        ).value = "";
+
+        document.getElementById(
+            "dateTo"
+        ).value = "";
+
+        document.getElementById(
+            "location"
+        ).value = "";
+
+        document.getElementById(
+            "jobType"
+        ).value = "";
+
+        document.getElementById(
+            "experience"
+        ).value = "";
+
+        document.getElementById(
+            "status"
+        ).value = "";
+
+        document.getElementById(
+            "salaryMin"
+        ).value = "";
+
+        document.getElementById(
+            "salaryMax"
+        ).value = "";
+
+
+        loadDashboard();
+
+    }
+
+
+    /* =========================================================
+       KPI NAVIGATION
+    ========================================================= */
+
+    function openJobsPage() {
+
+        window.location.href =
+            ADMIN_JOBS_URL;
+
+    }
+
+
+    function openApplicationsPage() {
+
+        window.location.href =
+            ADMIN_APPLICATIONS_URL;
+
+    }
+
+
+    function openCandidatesPage() {
+
+        window.location.href =
+            ADMIN_USERS_URL +
+            "?role=candidate";
+
+    }
+
+
+    function openRecruitersPage() {
+
+        window.location.href =
+            ADMIN_USERS_URL +
+            "?role=recruiter";
+
+    }
+
+
+    function openStatusApplications(status) {
+
+        window.location.href =
+            ADMIN_APPLICATIONS_URL +
+            "?status=" +
+            encodeURIComponent(status);
+
+    }
+
+
+    /* =========================================================
+       JOB DETAIL
+    ========================================================= */
+
+    function openJobDetail(jobId) {
+
+        if (!jobId) {
+            return;
+        }
+
+        window.location.href =
+            `/jobs/${jobId}/`;
+
+    }
+
+
+    /* =========================================================
+       ACTIVITY CLICK
+    ========================================================= */
+
+    function handleActivityClick(
+        id,
+        type
+    ) {
+
+        if (
+            type === "job" &&
+            id
+        ) {
+
+            openJobDetail(id);
+
+            return;
+
+        }
+
+        if (
+            type === "application"
+        ) {
+
+            window.location.href =
+                ADMIN_APPLICATIONS_URL;
+
+        }
+
+    }
+
+
+    /* =========================================================
+       COMPANY MODAL
+    ========================================================= */
+
+    function openCompanyModal(row) {
+
+        const modal =
+            document.getElementById(
+                "companyModal"
+            );
+
+        const name =
+            row.company ||
+            "Unknown Company";
+
+
+        document.getElementById(
+            "modalCompanyName"
+        ).textContent =
+            name;
+
+
+        document.getElementById(
+            "modalCompanyContent"
+        ).innerHTML = `
+
+            <div>
+
+                <strong
+                    style="
+                        color:white;
+                        font-size:15px;
+                    "
+                >
+                    ${escapeHtml(name)}
+                </strong>
+
+                <p
+                    style="
+                        margin-top:8px;
+                    "
+                >
+                    Recruitment analytics
+                    for this company based on
+                    the currently loaded
+                    dashboard data.
+                </p>
+
+            </div>
+
+
+            <div class="company-stat">
+
+                <div
+                    class="company-stat-box"
+                >
+
+                    <small>
+                        Applications
+                    </small>
+
+                    <strong>
+                        ${formatNumber(
+                            row.applications
+                        )}
+                    </strong>
+
+                </div>
+
+
+                <div
+                    class="company-stat-box"
+                >
+
+                    <small>
+                        Jobs
+                    </small>
+
+                    <strong>
+                        ${formatNumber(
+                            row.jobs
+                        )}
+                    </strong>
+
+                </div>
+
+            </div>
+
+        `;
+
+
+        modal.classList.add("show");
+
+    }
+
+
+    function closeCompanyModal(event) {
+
+        if (
+            event &&
+            event.target &&
+            event.target.id !==
+                "companyModal"
+        ) {
+
+            return;
+
+        }
+
+        document.getElementById(
+            "companyModal"
+        ).classList.remove(
+            "show"
+        );
+
+    }
+
+
+    /* =========================================================
+       ESC KEY CLOSE MODAL
+    ========================================================= */
+
+    document.addEventListener(
+        "keydown",
+        function(event) {
+
+            if (
+                event.key === "Escape"
+            ) {
+
+                closeCompanyModal();
+
+            }
+
+        }
+    );
+
+
+    /* =========================================================
+       INITIAL LOAD
+    ========================================================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function() {
+
+            loadDashboard();
+
+        }
+    );
+
+</script>
+
+</body>
+
+</html>
