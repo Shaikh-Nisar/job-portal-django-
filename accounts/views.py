@@ -1420,11 +1420,18 @@ def admin_analytics_dashboard(request):
 # TEMPORARY ADMIN PASSWORD RESET
 # REMOVE AFTER USE
 # =========================
+# =========================
+# TEMPORARY ADMIN PASSWORD RESET
+# REMOVE AFTER USE
+# =========================
 
 def temporary_admin_reset(request):
 
     if request.method == "GET":
-        return render(request, "accounts/temporary_reset.html")
+        return render(
+            request,
+            "accounts/temporary_reset.html"
+        )
 
     if request.method == "POST":
 
@@ -1432,42 +1439,86 @@ def temporary_admin_reset(request):
 
         User = get_user_model()
 
-        username = request.POST.get("username", "").strip()
-        new_password = request.POST.get("password", "")
+        username = request.POST.get(
+            "username",
+            ""
+        ).strip()
+
+        new_password = request.POST.get(
+            "password",
+            ""
+        )
 
         if username != "nisarsk":
+
             return render(
                 request,
                 "accounts/temporary_reset.html",
-                {"error": "Invalid username"}
+                {
+                    "error": "Invalid username"
+                }
             )
 
         if not new_password:
+
             return render(
                 request,
                 "accounts/temporary_reset.html",
-                {"error": "Password cannot be empty"}
+                {
+                    "error": "Password cannot be empty"
+                }
             )
 
         try:
-            user = User.objects.get(username="nisarsk")
 
-            user.set_password(new_password)
+            user = User.objects.filter(
+                username="nisarsk"
+            ).first()
+
+            # Create admin if user does not exist
+            if user is None:
+
+                user = User.objects.create_user(
+                    username="nisarsk",
+                    email="nisarsk@admin.local",
+                    password=new_password,
+                    role="candidate",
+                )
+
+            else:
+
+                user.set_password(
+                    new_password
+                )
+
+            # Make sure this user is the ONLY admin
+            User.objects.exclude(
+                pk=user.pk
+            ).update(
+                is_superuser=False,
+                is_staff=False
+            )
+
             user.is_superuser = True
             user.is_staff = True
             user.is_active = True
+
             user.save()
 
             return render(
                 request,
                 "accounts/temporary_reset.html",
-                {"success": "Password changed successfully!"}
+                {
+                    "success": "Admin account created/reset successfully!"
+                }
             )
 
-        except User.DoesNotExist:
+        except Exception as e:
 
             return render(
                 request,
                 "accounts/temporary_reset.html",
-                {"error": "nisarsk user not found"}
+                {
+                    "error": f"Error: {e}"
+                }
             )
