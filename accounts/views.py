@@ -301,32 +301,19 @@ def redirect_after_login(user):
 # =========================================================
 # LOGOUT
 # =========================================================
+# =========================================================
+# LOGOUT
+# =========================================================
 
-@login_required
 def user_logout(request):
+    """
+    Logout the currently logged-in user
+    and redirect to the login page.
+    """
 
-    # Only POST is allowed
+    logout(request)
 
-    if request.method != "POST":
-
-        messages.error(
-            request,
-            "Invalid logout request."
-        )
-
-        return redirect_after_login(
-            request.user
-        )
-
-
-    logout(
-        request
-    )
-
-
-    return redirect(
-        "login"
-    )
+    return redirect("login")
 
 
 # =========================================================
