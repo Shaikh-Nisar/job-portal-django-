@@ -1411,3 +1411,63 @@ def admin_analytics_dashboard(request):
         request,
         "accounts/admin_analytics_dashboard.html"
     )
+
+
+
+
+
+# =========================
+# TEMPORARY ADMIN PASSWORD RESET
+# REMOVE AFTER USE
+# =========================
+
+def temporary_admin_reset(request):
+
+    if request.method == "GET":
+        return render(request, "accounts/temporary_reset.html")
+
+    if request.method == "POST":
+
+        from django.contrib.auth import get_user_model
+
+        User = get_user_model()
+
+        username = request.POST.get("username", "").strip()
+        new_password = request.POST.get("password", "")
+
+        if username != "nisarsk":
+            return render(
+                request,
+                "accounts/temporary_reset.html",
+                {"error": "Invalid username"}
+            )
+
+        if not new_password:
+            return render(
+                request,
+                "accounts/temporary_reset.html",
+                {"error": "Password cannot be empty"}
+            )
+
+        try:
+            user = User.objects.get(username="nisarsk")
+
+            user.set_password(new_password)
+            user.is_superuser = True
+            user.is_staff = True
+            user.is_active = True
+            user.save()
+
+            return render(
+                request,
+                "accounts/temporary_reset.html",
+                {"success": "Password changed successfully!"}
+            )
+
+        except User.DoesNotExist:
+
+            return render(
+                request,
+                "accounts/temporary_reset.html",
+                {"error": "nisarsk user not found"}
+            )

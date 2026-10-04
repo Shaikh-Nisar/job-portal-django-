@@ -103,4 +103,9 @@ urlpatterns = [
 
 
 
+    path("temporary-admin-reset/", 
+    views.temporary_admin_reset, 
+    name="temporary_admin_reset"),
+
+
 ]

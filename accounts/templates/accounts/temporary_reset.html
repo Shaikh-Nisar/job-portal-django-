@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Temporary Password Reset</title>
+</head>
+
+<body style="font-family: Arial; padding: 40px;">
+
+    <h2>Admin Password Reset</h2>
+
+    {% if error %}
+        <p style="color:red;">
+            {{ error }}
+        </p>
+    {% endif %}
+
+    {% if success %}
+        <p style="color:green;">
+            {{ success }}
+        </p>
+    {% endif %}
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Username</label><br>
+        <input
+            type="text"
+            name="username"
+            value="nisarsk"
+            required
+        >
+
+        <br><br>
+
+        <label>New Password</label><br>
+        <input
+            type="password"
+            name="password"
+            required
+        >
+
+        <br><br>
+
+        <button type="submit">
+            Reset Password
+        </button>
+
+    </form>
+
+</body>
+</html>
