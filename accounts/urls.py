@@ -108,4 +108,17 @@ urlpatterns = [
     name="temporary_admin_reset"),
 
 
+    # Recruiter Applications Received
+    path(
+        "recruiter/applications/",
+        views.recruiter_applications,
+        name="recruiter_applications",
+    ),
+    path(
+        "recruiter/applications/<int:application_id>/status/",
+        views.update_application_status,
+        name="update_application_status",
+    ),
+
+
 ]

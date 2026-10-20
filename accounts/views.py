@@ -1,3 +1,4 @@
+from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -9,7 +10,6 @@ from django.shortcuts import redirect, render, get_object_or_404
 from os.path import splitext
 
 from .models import User, CompanyProfile
-
 from jobs.models import Job
 from applications.models import Application
 
@@ -19,6 +19,7 @@ from applications.models import Application
 # =========================================================
 
 def register(request):
+
 
     if request.method == "POST":
 
@@ -42,11 +43,7 @@ def register(request):
             ""
         )
 
-        role = request.POST.get(
-            "role",
-            "candidate"
-        )
-
+        role = "candidate"
 
         # -------------------------------------------------
         # Required fields
@@ -304,15 +301,8 @@ def redirect_after_login(user):
 # =========================================================
 # LOGOUT
 # =========================================================
-
 def user_logout(request):
-    """
-    Logout the currently logged-in user
-    and redirect to the login page.
-    """
-
     logout(request)
-
     return redirect("login")
 
 
@@ -391,118 +381,103 @@ def candidate_dashboard(request):
 
 @login_required
 def recruiter_dashboard(request):
-
-    # Only recruiters
-
-    if request.user.role != "recruiter":
-
+    if (
+        request.user.username != "sknisar"
+        or request.user.role != "recruiter"
+    ):
         messages.error(
             request,
-            "Only recruiters can access recruiter dashboard."
+            "Only the authorized recruiter can access recruiter dashboard."
         )
-
-        return redirect(
-            "candidate_dashboard"
-        )
-
-
-    # -------------------------------------------------
-    # Recruiter's jobs
-    # -------------------------------------------------
+        return redirect("candidate_dashboard")
 
     recruiter_jobs = Job.objects.filter(
         recruiter=request.user
     ).annotate(
-        application_count=Count(
-            "applications"
-        )
+        application_count=Count("applications")
     )
 
-
-    # -------------------------------------------------
-    # Job statistics
-    # -------------------------------------------------
-
     total_jobs = recruiter_jobs.count()
-
-
-    active_jobs = recruiter_jobs.filter(
-        is_active=True
-    ).count()
-
-
-    # -------------------------------------------------
-    # Recruiter's applications
-    # -------------------------------------------------
+    active_jobs = recruiter_jobs.filter(is_active=True).count()
 
     recruiter_applications = Application.objects.filter(
         job__recruiter=request.user
     )
 
-
     total_applications = recruiter_applications.count()
-
-
     applied_applications = recruiter_applications.filter(
         status="applied"
     ).count()
-
-
     shortlisted_applications = recruiter_applications.filter(
         status="shortlisted"
     ).count()
-
-
     rejected_applications = recruiter_applications.filter(
         status="rejected"
     ).count()
-
-
     selected_applications = recruiter_applications.filter(
         status="selected"
     ).count()
 
-
-    # -------------------------------------------------
-    # Optimized job-wise application count
-    # -------------------------------------------------
-
-    job_statistics = recruiter_jobs
-
-
     context = {
-
-        "total_jobs":
-            total_jobs,
-
-        "active_jobs":
-            active_jobs,
-
-        "total_applications":
-            total_applications,
-
-        "applied_applications":
-            applied_applications,
-
-        "shortlisted_applications":
-            shortlisted_applications,
-
-        "rejected_applications":
-            rejected_applications,
-
-        "selected_applications":
-            selected_applications,
-
-        "job_statistics":
-            job_statistics,
+        "total_jobs": total_jobs,
+        "active_jobs": active_jobs,
+        "total_applications": total_applications,
+        "applied_applications": applied_applications,
+        "shortlisted_applications": shortlisted_applications,
+        "rejected_applications": rejected_applications,
+        "selected_applications": selected_applications,
+        "job_statistics": recruiter_jobs,
+        "recruiter_applications": recruiter_applications,
     }
-
 
     return render(
         request,
         "accounts/recruiter_dashboard.html",
         context
     )
+
+
+
+
+
+
+@login_required
+@require_POST
+def update_application_status(request, application_id):
+    if (
+        request.user.username != "sknisar"
+        or request.user.role != "recruiter"
+    ):
+        messages.error(request, "You are not authorized to do this.")
+        return redirect("login")
+
+    application = get_object_or_404(
+        Application,
+        pk=application_id,
+        job__recruiter=request.user
+    )
+
+    new_status = request.POST.get("status")
+
+    allowed_statuses = {
+        "shortlisted",
+        "rejected",
+        "selected",
+        "applied",
+    }
+
+    if new_status not in allowed_statuses:
+        messages.error(request, "Invalid application status.")
+    else:
+        application.status = new_status
+        application.save(update_fields=["status", "updated_at"])
+        messages.success(
+            request,
+            f"Application status updated to {application.get_status_display()}."
+        )
+
+    return redirect("recruiter_applications")
+
 
 
 # =========================================================
@@ -771,164 +746,88 @@ def profile(request):
 
 @login_required
 def company_profile(request):
-
-    # Only recruiters
-
-    if request.user.role != "recruiter":
-
+    if (
+        request.user.username != "sknisar"
+        or request.user.role != "recruiter"
+    ):
         messages.error(
             request,
-            "Only recruiters can access company profile."
+            "Only the authorized recruiter can access company profile."
         )
-
-        return redirect(
-            "candidate_dashboard"
-        )
-
-
-    # -------------------------------------------------
-    # Get or create company profile
-    # -------------------------------------------------
+        return redirect("candidate_dashboard")
 
     company, created = CompanyProfile.objects.get_or_create(
         recruiter=request.user
     )
 
-
     if request.method == "POST":
-
         company.company_name = request.POST.get(
-            "company_name",
-            ""
+            "company_name", ""
         ).strip()
-
-
         company.company_email = request.POST.get(
-            "company_email",
-            ""
+            "company_email", ""
         ).strip()
-
-
         company.company_phone = request.POST.get(
-            "company_phone",
-            ""
+            "company_phone", ""
         ).strip()
-
-
         company.website = request.POST.get(
-            "website",
-            ""
+            "website", ""
         ).strip()
-
-
         company.industry = request.POST.get(
-            "industry",
-            ""
+            "industry", ""
         ).strip()
-
-
         company.company_size = request.POST.get(
-            "company_size",
-            ""
+            "company_size", ""
         ).strip()
-
-
         company.location = request.POST.get(
-            "location",
-            ""
+            "location", ""
         ).strip()
-
-
         company.description = request.POST.get(
-            "description",
-            ""
+            "description", ""
         ).strip()
 
-
-        # -------------------------------------------------
-        # Company logo validation
-        # -------------------------------------------------
-
-        company_logo = request.FILES.get(
-            "company_logo"
-        )
-
+        company_logo = request.FILES.get("company_logo")
 
         if company_logo:
+            allowed_extensions = {
+                ".jpg", ".jpeg", ".png", ".webp"
+            }
+            extension = splitext(company_logo.name)[1].lower()
 
-            allowed_logo_extensions = [
-                ".jpg",
-                ".jpeg",
-                ".png",
-                ".webp",
-            ]
-
-
-            logo_extension = splitext(
-                company_logo.name
-            )[1].lower()
-
-
-            if logo_extension not in allowed_logo_extensions:
-
+            if extension not in allowed_extensions:
                 messages.error(
                     request,
-                    (
-                        "Invalid company logo format. "
-                        "Please upload JPG, JPEG, PNG or WEBP."
-                    )
+                    "Invalid company logo format. Use JPG, JPEG, PNG or WEBP."
                 )
-
                 return render(
                     request,
                     "accounts/company_profile.html",
-                    {
-                        "company": company
-                    }
+                    {"company": company}
                 )
 
-
-            max_logo_size = 2 * 1024 * 1024
-
-
-            if company_logo.size > max_logo_size:
-
+            if company_logo.size > 2 * 1024 * 1024:
                 messages.error(
                     request,
                     "Company logo size must not exceed 2 MB."
                 )
-
                 return render(
                     request,
                     "accounts/company_profile.html",
-                    {
-                        "company": company
-                    }
+                    {"company": company}
                 )
-
 
             company.company_logo = company_logo
 
-
-        # -------------------------------------------------
-        # Save company profile
-        # -------------------------------------------------
-
         company.save()
-
-
         messages.success(
             request,
             "Company profile updated successfully!"
         )
 
-
     return render(
         request,
         "accounts/company_profile.html",
-        {
-            "company": company
-        }
+        {"company": company}
     )
 
 
@@ -1416,14 +1315,24 @@ def admin_analytics_dashboard(request):
 
 
 
-# =========================
-# TEMPORARY ADMIN PASSWORD RESET
-# REMOVE AFTER USE
-# =========================
-# =========================
-# TEMPORARY ADMIN PASSWORD RESET
-# REMOVE AFTER USE
-# =========================
+
+
+
+@login_required
+def recruiter_applications(request):
+    if request.user.role != "recruiter":
+        return redirect("candidate_dashboard")
+
+    applications = Application.objects.filter(
+        job__recruiter=request.user
+    ).select_related("candidate", "job").order_by("-applied_at")
+
+    return render(
+        request,
+        "accounts/recruiter_applications.html",
+        {"applications": applications}
+    )
+
 
 def temporary_admin_reset(request):
 
